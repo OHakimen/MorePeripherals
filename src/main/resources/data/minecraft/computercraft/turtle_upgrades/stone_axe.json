@@ -1,0 +1,5 @@
+{
+  "type": "computercraft:tool",
+  "item": "minecraft:stone_axe",
+  "damageMultiplier": 4.0
+}

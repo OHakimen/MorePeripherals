@@ -1,0 +1,5 @@
+{
+  "type": "computercraft:tool",
+  "item": "minecraft:iron_axe",
+  "damageMultiplier": 5.0
+}

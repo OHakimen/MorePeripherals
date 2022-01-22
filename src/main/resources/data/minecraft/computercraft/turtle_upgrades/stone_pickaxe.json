@@ -1,0 +1,5 @@
+{
+  "type": "computercraft:tool",
+  "item": "minecraft:stone_pickaxe",
+  "breakable" : "minecraft:needs_stone_tool"
+}

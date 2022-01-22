@@ -1,0 +1,5 @@
+{
+  "type": "computercraft:tool",
+  "item": "minecraft:wooden_hoe",
+  "breakable": "computercraft:turtle_hoe_harvestable"
+}
