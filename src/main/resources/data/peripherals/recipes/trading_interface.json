@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#x#",
+    "x@x",
+    "#x#"
+  ],
+  "key": {
+    "#": {
+      "tag": "forge:stone"
+    },
+    "@": {
+      "item": "minecraft:redstone"
+    },
+    "x": {
+      "item": "minecraft:emerald"
+    }
+  },
+  "result": {
+    "item": "peripherals:trading_interface"
+  }
+}

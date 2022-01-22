@@ -1,0 +1,8 @@
+{
+  "itemGroup.peripherals": "Peripherals",
+  "block.peripherals.trading_interface" : "Trading Interface",
+  "block.peripherals.xp_collector" : "Experience Collector",
+  "block.peripherals.xp_bottler" : "Experience Bottler",
+  "block.peripherals.enchanting_interface" : "Enchanting Interface",
+  "block.peripherals.loom_interface" : "Loom Interface"
+}
