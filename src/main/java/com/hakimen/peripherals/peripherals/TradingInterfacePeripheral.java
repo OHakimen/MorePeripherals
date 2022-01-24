@@ -93,6 +93,7 @@ public class TradingInterfacePeripheral implements IPeripheral {
     @LuaFunction
     public final boolean trade(IComputerAccess computer,String from,String to,int trade) throws LuaException {
         if(tileEntity.villager == null) throw new LuaException("villager not in range");
+        if(trade-1 < 0 || trade-1 > tileEntity.villager.getOffers().stream().toList().size()) throw new LuaException("trade index out of range");
         MerchantOffer offer = tileEntity.villager.getOffers().stream().toList().get(trade-1);
 
         IPeripheral inputLocation = computer.getAvailablePeripheral(from);

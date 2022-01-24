@@ -58,6 +58,7 @@ public class EnchantingTablePeripheral implements IPeripheral {
         IPeripheral input = computer.getAvailablePeripheral(from);
         if (input == null) throw new LuaException("the input " + from + " was not found");
         IItemHandler inputHandler = extractHandler(input.getTarget());
+        if(slot < 0 || slot > inputHandler.getSlots()) throw new LuaException("slot out of range");
         if (tileEntity.enchantTable == null) {
             throw new LuaException("there is no enchanting table near the interface");
         }
@@ -90,6 +91,7 @@ public class EnchantingTablePeripheral implements IPeripheral {
         IPeripheral input = computer.getAvailablePeripheral(from);
         if (input == null) throw new LuaException("the input " + from + " was not found");
         IItemHandler inputHandler = extractHandler(input.getTarget());
+        if(slot < 0 || slot > inputHandler.getSlots()) throw new LuaException("slot out of range");
 
         IPeripheral resourcesInput = computer.getAvailablePeripheral(resources);
         if (resourcesInput == null) throw new LuaException("the resources input " + resources + " was not found");
@@ -155,6 +157,7 @@ public class EnchantingTablePeripheral implements IPeripheral {
         IPeripheral input = computer.getAvailablePeripheral(from);
         if (input == null) throw new LuaException("the input " + from + " was not found");
         IItemHandler inputHandler = extractHandler(input.getTarget());
+        if(slot < 0 || slot > inputHandler.getSlots()) throw new LuaException("slot out of range");
 
         IPeripheral collectorInput;
         XPCollectorPeripheral collectorPeripheral;

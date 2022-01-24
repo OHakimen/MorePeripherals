@@ -27,6 +27,9 @@ public class BlockEntityRegister {
     public static final RegistryObject<BlockEntityType<LoomInterfaceEntity>> loomInterfaceEntity = BLOCK_ENTITY.register("loom_interface_entity",
             () -> BlockEntityType.Builder.of(LoomInterfaceEntity::new,BlockRegister.loomInterface.get()).build(null));
 
+    public static final RegistryObject<BlockEntityType<GrinderEntity>> grinderEntity = BLOCK_ENTITY.register("grinder_entity",
+            () -> BlockEntityType.Builder.of(GrinderEntity::new,BlockRegister.loomInterface.get()).build(null));
+
 
     public static void register(IEventBus bus){
         BLOCK_ENTITY.register(bus);

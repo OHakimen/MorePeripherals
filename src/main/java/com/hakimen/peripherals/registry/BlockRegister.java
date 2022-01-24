@@ -51,6 +51,13 @@ public class BlockRegister {
         return new BlockItem(loomInterface.get(),new Item.Properties().tab(Peripherals.tab));
     });
 
+    public static final RegistryObject<GrinderBlock> grinder = BLOCKS.register("grinder",
+            GrinderBlock::new);
+
+    public static final RegistryObject<Item> grinderItem = ItemRegister.ITEMS.register("grinder",()->{
+        return new BlockItem(grinder.get(),new Item.Properties().tab(Peripherals.tab));
+    });
+
 
     public static void register(IEventBus bus){
         BLOCKS.register(bus);

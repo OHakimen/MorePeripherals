@@ -12,7 +12,7 @@ buildscript {
 apply plugin: 'net.minecraftforge.gradle'
 
 group = 'com.hakimen'
-version = '1.0v'
+version = '1.1v'
 
 java {
     archivesBaseName = 'peripherals'

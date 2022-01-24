@@ -60,9 +60,13 @@ public class LoomInterfacePeripheral implements IPeripheral {
             throw new LuaException("there is no loom near the interface");
         }
 
+
         IPeripheral inputPeripheral = computer.getAvailablePeripheral(from);
         if (inputPeripheral == null) throw new LuaException("the input " + from + " was not found");
         var input = extractHandler(inputPeripheral.getTarget());
+
+        if(slotBanner < 0 || slotBanner > input.getSlots()) throw new LuaException("banner slot out of range");
+        if(slotDye < 0 || slotDye > input.getSlots()) throw new LuaException("dye slot out of range");
 
         var banner = input.getStackInSlot(slotBanner);
         var dye = input.getStackInSlot(slotDye);
@@ -111,7 +115,7 @@ public class LoomInterfacePeripheral implements IPeripheral {
         IPeripheral inputPeripheral = computer.getAvailablePeripheral(from);
         if (inputPeripheral == null) throw new LuaException("the input " + from + " was not found");
         var input = extractHandler(inputPeripheral.getTarget());
-
+        if(slot < 0 || slot > input.getSlots()) throw new LuaException("slot out of range");
         var banner = input.getStackInSlot(slot);
         if(!(banner.getItem() instanceof BannerItem)){
             throw new LuaException("not a banner");
