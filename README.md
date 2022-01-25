@@ -8,7 +8,7 @@ The mod adds :
 - XP Bottler : Bottles the XP stored in the collector
 - Enchanting Interface : Autoenchantin
 - Loom Interface : Creating and Removing Patterns from Banners
-- Grinder : Automated Mob Hitting
+- Grinder : Automated Mob Killing (apply sword enchants)
 
 
-Permits all vanilla tools (Picks, Axes, Hoes, Shovels, Swords) by the turtle
+Permits all vanilla tools (Picks, Axes, Hoes, Shovels, Swords) to be used by an turtle
