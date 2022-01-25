@@ -10,10 +10,15 @@ import dan200.computercraft.shared.Registry;
 import dan200.computercraft.shared.turtle.blocks.ITurtleTile;
 import dan200.computercraft.shared.turtle.items.ITurtleItem;
 import dan200.computercraft.shared.turtle.upgrades.CraftingTablePeripheral;
+import net.minecraft.client.gui.screens.inventory.EnchantmentNames;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.trading.Merchant;
 import net.minecraft.world.item.trading.MerchantOffer;
 import net.minecraft.world.level.block.EnderChestBlock;
@@ -66,23 +71,48 @@ public class TradingInterfacePeripheral implements IPeripheral {
 
 
     @LuaFunction
-    public final List<Map<String,Map<String,Integer>>> getTrades() throws LuaException{
+    public final List<Map<String,Map<String,Map<String,?>>>> getTrades() throws LuaException{
         if(tileEntity.villager == null) throw new LuaException("villager not in range");
-        List<Map<String,Map<String,Integer>>> offerList = new ArrayList<>();
+        List<Map<String,Map<String,Map<String,?>>>> offerList = new ArrayList<>();
         List<MerchantOffer> offers = tileEntity.villager.getOffers().stream().toList();
         offers.forEach(offer -> {
-            var map = new HashMap<String,Map<String,Integer>>();
-            var itemSet = new HashMap<String,Integer>();
-            var itemSet2 = new HashMap<String,Integer>();
-            var itemSet3 = new HashMap<String,Integer>();
+            var map = new HashMap<String,Map<String,Map<String,?>>>();
+            var itemSet = new HashMap<String,Map<String,?>>();
+            var itemSet2 = new HashMap<String,Map<String,?>>();
+            var itemSet3 = new HashMap<String,Map<String,?>>();
 
-            itemSet.put(offer.getBaseCostA().getItem().getRegistryName().toString(),offer.getBaseCostA().getCount());
+            var itemSetDetails = new HashMap<String,Object>();
+            var enchantsCostA = EnchantmentHelper.getEnchantments(offer.getBaseCostA());
+            var enchantsCostAList = new ArrayList<String>();
+            enchantsCostA.forEach((e,i)->{
+                enchantsCostAList.add(e.getRegistryName()+" "+i);
+            });
+            itemSetDetails.put("enchants",enchantsCostAList);
+            itemSetDetails.put("count",offer.getBaseCostA().getCount());
+            itemSet.put(offer.getBaseCostA().getItem().getRegistryName().toString(),itemSetDetails);
             map.put("costA",itemSet);
 
-            itemSet2.put(offer.getCostB().getItem().getRegistryName().toString(),offer.getCostB().getCount());
+            var itemSetDetails2 = new HashMap<String,Object>();
+            var enchantsCostB = EnchantmentHelper.getEnchantments(offer.getCostB());
+            var enchantsCostBList = new ArrayList<String>();
+            enchantsCostB.forEach((e,i)->{
+                enchantsCostBList.add(e.getRegistryName()+" "+i);
+            });
+            itemSetDetails2.put("enchants",enchantsCostBList);
+            itemSetDetails2.put("count",offer.getCostB().getCount());
+
+            itemSet2.put(offer.getCostB().getItem().getRegistryName().toString(),itemSetDetails2);
             map.put("costB",itemSet2);
 
-            itemSet3.put(offer.getResult().getItem().getRegistryName().toString(),offer.getResult().getCount());
+            var itemSetDetails3 = new HashMap<String,Object>();
+            var enchantsResults = EnchantmentHelper.getEnchantments(offer.getResult());
+            var enchantsResultsList = new ArrayList<String>();
+            enchantsResults.forEach((e,i)->{
+                enchantsResultsList.add(e.getRegistryName()+" "+i);
+            });
+            itemSetDetails3.put("enchants",enchantsResultsList);
+            itemSetDetails3.put("count",offer.getResult().getCount());
+            itemSet3.put(offer.getResult().getItem().getRegistryName().toString(),itemSetDetails3);
             map.put("result",itemSet3);
 
             offerList.add(map);
