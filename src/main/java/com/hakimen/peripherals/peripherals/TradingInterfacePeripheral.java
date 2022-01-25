@@ -81,37 +81,21 @@ public class TradingInterfacePeripheral implements IPeripheral {
             var itemSet2 = new HashMap<String,Map<String,?>>();
             var itemSet3 = new HashMap<String,Map<String,?>>();
 
-            var itemSetDetails = new HashMap<String,Object>();
-            var enchantsCostA = EnchantmentHelper.getEnchantments(offer.getBaseCostA());
-            var enchantsCostAList = new ArrayList<String>();
-            enchantsCostA.forEach((e,i)->{
-                enchantsCostAList.add(e.getRegistryName()+" "+i);
-            });
-            itemSetDetails.put("enchants",enchantsCostAList);
-            itemSetDetails.put("count",offer.getBaseCostA().getCount());
+            var itemSetDetails = getItemInfo(EnchantmentHelper.getEnchantments(
+                    offer.getBaseCostA()
+            ),offer.getBaseCostA().getCount());
             itemSet.put(offer.getBaseCostA().getItem().getRegistryName().toString(),itemSetDetails);
             map.put("costA",itemSet);
 
-            var itemSetDetails2 = new HashMap<String,Object>();
-            var enchantsCostB = EnchantmentHelper.getEnchantments(offer.getCostB());
-            var enchantsCostBList = new ArrayList<String>();
-            enchantsCostB.forEach((e,i)->{
-                enchantsCostBList.add(e.getRegistryName()+" "+i);
-            });
-            itemSetDetails2.put("enchants",enchantsCostBList);
-            itemSetDetails2.put("count",offer.getCostB().getCount());
-
+            var itemSetDetails2 = getItemInfo(EnchantmentHelper.getEnchantments(
+                    offer.getCostB()
+            ),offer.getCostB().getCount());
             itemSet2.put(offer.getCostB().getItem().getRegistryName().toString(),itemSetDetails2);
             map.put("costB",itemSet2);
 
-            var itemSetDetails3 = new HashMap<String,Object>();
-            var enchantsResults = EnchantmentHelper.getEnchantments(offer.getResult());
-            var enchantsResultsList = new ArrayList<String>();
-            enchantsResults.forEach((e,i)->{
-                enchantsResultsList.add(e.getRegistryName()+" "+i);
-            });
-            itemSetDetails3.put("enchants",enchantsResultsList);
-            itemSetDetails3.put("count",offer.getResult().getCount());
+            var itemSetDetails3 = getItemInfo(EnchantmentHelper.getEnchantments(
+                    offer.getResult()
+            ),offer.getResult().getCount());
             itemSet3.put(offer.getResult().getItem().getRegistryName().toString(),itemSetDetails3);
             map.put("result",itemSet3);
 
@@ -185,7 +169,16 @@ public class TradingInterfacePeripheral implements IPeripheral {
         tileEntity.villager.restock();
     }
 
-
+    private static HashMap<String,Object> getItemInfo(Map<Enchantment,Integer> enchants,int count){
+        var itemSetDetails = new HashMap<String,Object>();
+        var enchantList = new ArrayList<String>();
+        enchants.forEach((e,i)->{
+            enchantList.add(e.getRegistryName()+" "+i);
+        });
+        itemSetDetails.put("enchants",enchantList);
+        itemSetDetails.put("count",count);
+        return itemSetDetails;
+    }
     @javax.annotation.Nullable
     private static IItemHandler extractHandler( @javax.annotation.Nullable Object object )
     {

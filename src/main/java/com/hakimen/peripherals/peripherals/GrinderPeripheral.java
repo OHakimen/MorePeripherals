@@ -93,7 +93,7 @@ public class GrinderPeripheral implements IPeripheral {
     @LuaFunction
     public final void pullSword(IComputerAccess computer,String to) throws LuaException {
         IPeripheral input = computer.getAvailablePeripheral(to);
-        if (input == null) throw new LuaException("the input " + to + " was not found");
+        if (input == null) throw new LuaException("the output " + to + " was not found");
         IItemHandler inputHandler = extractHandler(input.getTarget());
 
         var stack = tileEntity.inventory.getStackInSlot(0).copy();
@@ -101,6 +101,7 @@ public class GrinderPeripheral implements IPeripheral {
         for (int i = 0; i < inputHandler.getSlots(); i++) {
             if(inputHandler.getStackInSlot(i).isEmpty()){
                 inputHandler.insertItem(i,stack,false);
+                tileEntity.inventory.extractItem(0,1,false);
                 sent = true;
                 break;
             }
