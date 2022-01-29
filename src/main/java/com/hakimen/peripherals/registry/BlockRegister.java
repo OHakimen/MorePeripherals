@@ -2,6 +2,8 @@ package com.hakimen.peripherals.registry;
 
 import com.hakimen.peripherals.Peripherals;
 import com.hakimen.peripherals.blocks.*;
+import com.hakimen.peripherals.peripherals.GrindstonePeripheral;
+import com.ibm.icu.impl.CalendarCache;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -9,6 +11,7 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
+import org.lwjgl.system.CallbackI;
 
 public class BlockRegister {
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS,
@@ -56,6 +59,13 @@ public class BlockRegister {
 
     public static final RegistryObject<Item> grinderItem = ItemRegister.ITEMS.register("grinder",()->{
         return new BlockItem(grinder.get(),new Item.Properties().tab(Peripherals.tab));
+    });
+
+    public static final RegistryObject<GrindstoneInterfaceBlock> grindstoneInterface = BLOCKS.register("grindstone_interface",
+            GrindstoneInterfaceBlock::new);
+
+    public static final RegistryObject<Item> grindstoneItem = ItemRegister.ITEMS.register("grindstone_interface",()->{
+        return new BlockItem(grindstoneInterface.get(),new Item.Properties().tab(Peripherals.tab));
     });
 
 
