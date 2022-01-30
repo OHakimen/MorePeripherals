@@ -2,6 +2,7 @@ package com.hakimen.peripherals.peripherals;
 
 import com.hakimen.peripherals.blocks.tile_entities.LoomInterfaceEntity;
 import com.hakimen.peripherals.blocks.tile_entities.TradingInterfaceEntity;
+import com.hakimen.peripherals.utils.Utils;
 import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.lua.LuaFunction;
 import dan200.computercraft.api.peripheral.IComputerAccess;
@@ -55,7 +56,9 @@ public class LoomInterfacePeripheral implements IPeripheral {
 
     @LuaFunction
     public void paintBanner(IComputerAccess computer, String from, int slotBanner, int slotDye, int pattern) throws LuaException {
-
+        if(!Utils.isFromMinecraft(computer,from)){
+            throw new LuaException("this method needs a vanilla inventory as input");
+        }
         if(tileEntity.loom == null){
             throw new LuaException("there is no loom near the interface");
         }

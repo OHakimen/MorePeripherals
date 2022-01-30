@@ -1,13 +1,11 @@
 package com.hakimen.peripherals.blocks.tile_entities;
 
-import com.hakimen.peripherals.peripherals.EnchantingTablePeripheral;
 import com.hakimen.peripherals.peripherals.GrindstonePeripheral;
 import com.hakimen.peripherals.registry.BlockEntityRegister;
 import dan200.computercraft.api.peripheral.IPeripheral;
 import dan200.computercraft.shared.Capabilities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.level.block.EnchantmentTableBlock;
 import net.minecraft.world.level.block.GrindstoneBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -21,7 +19,7 @@ public class GrindstoneInterfaceEntity extends BlockEntity {
     public LazyOptional<IPeripheral> peripheral = LazyOptional.of(() -> new GrindstonePeripheral(this));
 
     public GrindstoneInterfaceEntity(BlockPos pos, BlockState state) {
-        super(BlockEntityRegister.GrindstoneInterfaceEntity.get(), pos, state);
+        super(BlockEntityRegister.grindstoneInterfaceEntity.get(), pos, state);
     }
 
     public BlockState grindStone = null;

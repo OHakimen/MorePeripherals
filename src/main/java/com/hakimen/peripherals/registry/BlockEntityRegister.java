@@ -31,7 +31,7 @@ public class BlockEntityRegister {
     public static final RegistryObject<BlockEntityType<GrinderEntity>> grinderEntity = BLOCK_ENTITY.register("grinder_entity",
             () -> BlockEntityType.Builder.of(GrinderEntity::new,BlockRegister.loomInterface.get()).build(null));
 
-    public static final RegistryObject<BlockEntityType<GrindstoneInterfaceEntity>> GrindstoneInterfaceEntity =BLOCK_ENTITY.register("grindstone_entity",
+    public static final RegistryObject<BlockEntityType<GrindstoneInterfaceEntity>> grindstoneInterfaceEntity =BLOCK_ENTITY.register("grindstone_entity",
             () -> BlockEntityType.Builder.of(GrindstoneInterfaceEntity::new,BlockRegister.grindstoneInterface.get()).build(null));
 
 

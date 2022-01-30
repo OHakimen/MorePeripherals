@@ -48,7 +48,7 @@ public class GrindstonePeripheral implements IPeripheral {
     @NotNull
     @Override
     public String getType() {
-        return "enchanting_interface";
+        return "grindstone_interface";
     }
 
     @Override
@@ -110,7 +110,7 @@ public class GrindstonePeripheral implements IPeripheral {
 
     @LuaFunction
     public void disenchant(IComputerAccess computer, String from, int slot,Optional<String> collector) throws LuaException {
-
+        slot = slot+1;
         IPeripheral input = computer.getAvailablePeripheral(from);
         if (input == null) throw new LuaException("the input " + from + " was not found");
         IItemHandler inputHandler = extractHandler(input.getTarget());
@@ -123,7 +123,7 @@ public class GrindstonePeripheral implements IPeripheral {
             inputHandler.extractItem(slot,1,false);
             inputHandler.insertItem(slot,Items.BOOK.getDefaultInstance(),false);
         }else{
-            inputHandler.getStackInSlot(slot).removeTagKey("StoredEnchantments");
+            inputHandler.getStackInSlot(slot).removeTagKey("Enchantments");
         }
 
         if(collector.isPresent()) {

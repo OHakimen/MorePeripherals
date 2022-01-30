@@ -3,6 +3,7 @@ package com.hakimen.peripherals.peripherals;
 import com.hakimen.peripherals.Peripherals;
 import com.hakimen.peripherals.blocks.tile_entities.EnchantingTableInterfaceEntity;
 import com.hakimen.peripherals.utils.EnchantUtils;
+import com.hakimen.peripherals.utils.Utils;
 import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.lua.LuaFunction;
 import dan200.computercraft.api.peripheral.IComputerAccess;
@@ -82,7 +83,10 @@ public class EnchantingTablePeripheral implements IPeripheral {
     }
 
     @LuaFunction
-    public boolean enchant(IComputerAccess computer, String from, int slot,String resources) throws LuaException {
+    public boolean enchant(IComputerAccess computer, String from, int slot, String resources) throws LuaException {
+        if(!Utils.isFromMinecraft(computer,resources)){
+            throw new LuaException("this method needs a vanilla inventory as the resources input");
+        }
         if (tileEntity.enchantTable == null) {
             throw new LuaException("there is no enchanting table near the interface");
         }
@@ -149,33 +153,6 @@ public class EnchantingTablePeripheral implements IPeripheral {
 
         }
         return false;
-    }
-
-    @LuaFunction
-    public void disenchant(IComputerAccess computer, String from, int slot,Optional<String> collector) throws LuaException {
-
-        IPeripheral input = computer.getAvailablePeripheral(from);
-        if (input == null) throw new LuaException("the input " + from + " was not found");
-        IItemHandler inputHandler = extractHandler(input.getTarget());
-        if(slot < 0 || slot > inputHandler.getSlots()) throw new LuaException("slot out of range");
-
-        IPeripheral collectorInput;
-        XPCollectorPeripheral collectorPeripheral;
-
-        if(inputHandler.getStackInSlot(slot).is(Items.ENCHANTED_BOOK)){
-            inputHandler.extractItem(slot,1,false);
-            inputHandler.insertItem(slot,Items.BOOK.getDefaultInstance(),false);
-        }else{
-            inputHandler.getStackInSlot(slot).removeTagKey("StoredEnchantments");
-        }
-
-        if(collector.isPresent()) {
-            collectorInput = computer.getAvailablePeripheral(collector.get());
-            collectorPeripheral = (XPCollectorPeripheral) collectorInput;
-
-            collectorPeripheral.tileEntity.xpPoints += 8;
-        }
-
     }
 
     @javax.annotation.Nullable

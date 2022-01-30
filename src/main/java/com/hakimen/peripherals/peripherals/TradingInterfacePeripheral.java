@@ -1,6 +1,7 @@
 package com.hakimen.peripherals.peripherals;
 
 import com.hakimen.peripherals.blocks.tile_entities.TradingInterfaceEntity;
+import com.hakimen.peripherals.utils.Utils;
 import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.lua.LuaFunction;
 import dan200.computercraft.api.peripheral.IComputerAccess;
@@ -106,6 +107,9 @@ public class TradingInterfacePeripheral implements IPeripheral {
 
     @LuaFunction
     public final boolean trade(IComputerAccess computer,String from,String to,int trade) throws LuaException {
+        if(!Utils.isFromMinecraft(computer,from)){
+            throw new LuaException("this method needs a vanilla inventory as input");
+        }
         if(tileEntity.villager == null) throw new LuaException("villager not in range");
         if(trade-1 < 0 || trade-1 > tileEntity.villager.getOffers().stream().toList().size()) throw new LuaException("trade index out of range");
         MerchantOffer offer = tileEntity.villager.getOffers().stream().toList().get(trade-1);
