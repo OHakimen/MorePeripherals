@@ -114,7 +114,7 @@ public class GrindstonePeripheral implements IPeripheral {
         IPeripheral input = computer.getAvailablePeripheral(from);
         if (input == null) throw new LuaException("the input " + from + " was not found");
         IItemHandler inputHandler = extractHandler(input.getTarget());
-        if(slot < 0 || slot > inputHandler.getSlots()) throw new LuaException("slot out of range");
+        if(slot < 1 || slot > inputHandler.getSlots()) throw new LuaException("slot out of range");
 
         IPeripheral collectorInput;
         XPCollectorPeripheral collectorPeripheral;
