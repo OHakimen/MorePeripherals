@@ -76,7 +76,7 @@ public class EnchantingTablePeripheral implements IPeripheral {
                 throw new LuaException("this item is already enchanted");
             }
         } else {
-            throw new LuaException("this item is not enchatable");
+            throw new LuaException("this item can not be enchanted");
         }
         return enchants;
     }

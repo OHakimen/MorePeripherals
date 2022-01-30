@@ -2,6 +2,7 @@ package com.hakimen.peripherals.registry;
 
 import com.hakimen.peripherals.Peripherals;
 import com.hakimen.peripherals.blocks.tile_entities.*;
+import com.ibm.icu.impl.CalendarCache;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
@@ -29,6 +30,9 @@ public class BlockEntityRegister {
 
     public static final RegistryObject<BlockEntityType<GrinderEntity>> grinderEntity = BLOCK_ENTITY.register("grinder_entity",
             () -> BlockEntityType.Builder.of(GrinderEntity::new,BlockRegister.loomInterface.get()).build(null));
+
+    public static final RegistryObject<BlockEntityType<GrindstoneInterfaceEntity>> GrindstoneInterfaceEntity =BLOCK_ENTITY.register("grindstone_entity",
+            () -> BlockEntityType.Builder.of(GrindstoneInterfaceEntity::new,BlockRegister.grindstoneInterface.get()).build(null));
 
 
     public static void register(IEventBus bus){
