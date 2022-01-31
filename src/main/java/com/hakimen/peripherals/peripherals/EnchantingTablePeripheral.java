@@ -55,6 +55,9 @@ public class EnchantingTablePeripheral implements IPeripheral {
 
     @LuaFunction
     public List<String> getEnchantsFor(IComputerAccess computer, String from, int slot) throws LuaException {
+        if (tileEntity.enchantTable == null) {
+            throw new LuaException("there is no enchanting table near the interface");
+        }
         List<String> enchants = new ArrayList<>();
         IPeripheral input = computer.getAvailablePeripheral(from);
         if (input == null) throw new LuaException("the input " + from + " was not found");

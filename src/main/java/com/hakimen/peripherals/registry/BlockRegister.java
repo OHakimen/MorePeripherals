@@ -64,8 +64,15 @@ public class BlockRegister {
     public static final RegistryObject<GrindstoneInterfaceBlock> grindstoneInterface = BLOCKS.register("grindstone_interface",
             GrindstoneInterfaceBlock::new);
 
-    public static final RegistryObject<Item> grindstoneItem = ItemRegister.ITEMS.register("grindstone_interface",()->{
+    public static final RegistryObject<Item> grindstoneInterfaceItem = ItemRegister.ITEMS.register("grindstone_interface",()->{
         return new BlockItem(grindstoneInterface.get(),new Item.Properties().tab(Peripherals.tab));
+    });
+
+    public static final RegistryObject<BeehiveInterfaceBlock> beehiveInterface = BLOCKS.register("beehive_interface",
+            BeehiveInterfaceBlock::new);
+
+    public static final RegistryObject<Item> beehiveInterfaceItem = ItemRegister.ITEMS.register("beehive_interface",()->{
+        return new BlockItem(beehiveInterface.get(),new Item.Properties().tab(Peripherals.tab));
     });
 
 

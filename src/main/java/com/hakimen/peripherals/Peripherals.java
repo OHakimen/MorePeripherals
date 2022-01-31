@@ -1,23 +1,13 @@
 package com.hakimen.peripherals;
 
-import com.hakimen.peripherals.registry.BlockEntityRegister;
-import com.hakimen.peripherals.registry.BlockRegister;
-import com.hakimen.peripherals.registry.ContainerRegister;
-import com.hakimen.peripherals.registry.ItemRegister;
+import com.hakimen.peripherals.registry.*;
 import com.hakimen.peripherals.utils.EnchantUtils;
-import dan200.computercraft.api.ComputerCraftAPI;
-import dan200.computercraft.api.peripheral.IPeripheral;
-import dan200.computercraft.shared.Capabilities;
-import net.minecraft.world.Container;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
@@ -51,17 +41,8 @@ public class Peripherals {
         ItemRegister.register(bus);
         ContainerRegister.register(bus);
 
-        ComputerCraftAPI.registerPeripheralProvider(((world, blockPos, direction) -> {
-            BlockEntity te = world.getBlockEntity(blockPos);
-            if(te == null) {
-                return LazyOptional.empty();
-            }
-            LazyOptional<IPeripheral> capabilityLazyOptional = te.getCapability(Capabilities.CAPABILITY_PERIPHERAL);
-            if(capabilityLazyOptional.isPresent()){
-                return capabilityLazyOptional;
-            }
-            return LazyOptional.empty();
-        }));
+        ComputerCraftRegister.registerPeripheralProvider();
+        ComputerCraftRegister.registerTurtleUpgrades();
 
         bus.addListener(this::setup);
         bus.addListener(this::enqueueIMC);

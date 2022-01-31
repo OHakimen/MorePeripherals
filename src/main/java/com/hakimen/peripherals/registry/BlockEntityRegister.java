@@ -34,6 +34,9 @@ public class BlockEntityRegister {
     public static final RegistryObject<BlockEntityType<GrindstoneInterfaceEntity>> grindstoneInterfaceEntity =BLOCK_ENTITY.register("grindstone_entity",
             () -> BlockEntityType.Builder.of(GrindstoneInterfaceEntity::new,BlockRegister.grindstoneInterface.get()).build(null));
 
+    public static final RegistryObject<BlockEntityType<BeehiveInterfaceEntity>> beehiveInterfaceEntity = BLOCK_ENTITY.register("beehive_interface",
+            () -> BlockEntityType.Builder.of(BeehiveInterfaceEntity::new,BlockRegister.beehiveInterface.get()).build(null));
+
 
     public static void register(IEventBus bus){
         BLOCK_ENTITY.register(bus);
