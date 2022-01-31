@@ -9,6 +9,8 @@
   "block.peripherals.grinder" : "Grinder",
   "block.peripherals.grindstone_interface" : "Grindstone Interface",
   "block.peripherals.beehive_interface" : "Beehive Interface",
+  "block.peripherals.anvil_interface" : "Anvil Interface",
+
 
   "gui.peripherals.grinder.name": "Grinder",
 
