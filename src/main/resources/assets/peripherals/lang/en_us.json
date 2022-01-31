@@ -8,6 +8,7 @@
   "block.peripherals.loom_interface" : "Loom Interface",
   "block.peripherals.grinder" : "Grinder",
   "block.peripherals.grindstone_interface" : "Grindstone Interface",
+  "block.peripherals.anvil_interface" : "Anvil Interface",
 
   "gui.peripherals.grinder.name": "Grinder",
 

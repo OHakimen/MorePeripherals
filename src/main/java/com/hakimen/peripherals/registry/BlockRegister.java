@@ -67,6 +67,12 @@ public class BlockRegister {
     public static final RegistryObject<Item> grindstoneItem = ItemRegister.ITEMS.register("grindstone_interface",()->{
         return new BlockItem(grindstoneInterface.get(),new Item.Properties().tab(Peripherals.tab));
     });
+    public static final RegistryObject<AnvilInterfaceBlock> anvilInterface = BLOCKS.register("anvil_interface",
+            AnvilInterfaceBlock::new);
+
+    public static final RegistryObject<Item> anvilItem = ItemRegister.ITEMS.register("anvil_interface",()->{
+        return new BlockItem(anvilInterface.get(),new Item.Properties().tab(Peripherals.tab));
+    });
 
 
     public static void register(IEventBus bus){
