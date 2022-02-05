@@ -3,6 +3,7 @@ package com.hakimen.peripherals.peripherals;
 import com.hakimen.peripherals.blocks.tile_entities.EnchantingTableInterfaceEntity;
 import com.hakimen.peripherals.blocks.tile_entities.GrindstoneInterfaceEntity;
 import com.hakimen.peripherals.utils.EnchantUtils;
+import com.hakimen.peripherals.utils.Utils;
 import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.lua.LuaFunction;
 import dan200.computercraft.api.peripheral.IComputerAccess;
@@ -58,6 +59,15 @@ public class GrindstonePeripheral implements IPeripheral {
 
     @LuaFunction
     public boolean combine(IComputerAccess computer, String from, int fromSlot, String resource, int resourceSlot) throws LuaException {
+
+        if(!Utils.isFromMinecraft(computer,from)){
+            throw new LuaException("This method requires a vanilla inventory");
+        }
+        if(!Utils.isFromMinecraft(computer,resource)){
+            throw new LuaException("This method requires a vanilla inventory");
+        }
+
+
         if (tileEntity.grindStone == null) {
             throw new LuaException("there is no grindstone near the interface");
         }
@@ -109,7 +119,15 @@ public class GrindstonePeripheral implements IPeripheral {
     }
 
     @LuaFunction
-    public void disenchant(IComputerAccess computer, String from, int slot,Optional<String> collector) throws LuaException {
+    public void disenchant(IComputerAccess computer, String from, int slot, Optional<String> collector) throws LuaException {
+
+        if(!Utils.isFromMinecraft(computer,from)){
+            throw new LuaException("This method requires a vanilla inventory");
+        }
+
+        if (tileEntity.grindStone == null) {
+            throw new LuaException("there is no grindstone near the interface");
+        }
         slot = slot+1;
         IPeripheral input = computer.getAvailablePeripheral(from);
         if (input == null) throw new LuaException("the input " + from + " was not found");

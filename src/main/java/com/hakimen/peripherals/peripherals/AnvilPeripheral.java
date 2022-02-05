@@ -1,6 +1,7 @@
 package com.hakimen.peripherals.peripherals;
 
 import com.hakimen.peripherals.blocks.tile_entities.AnvilInterfaceEntity;
+import com.hakimen.peripherals.utils.Utils;
 import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.lua.LuaFunction;
 import dan200.computercraft.api.peripheral.IComputerAccess;
@@ -48,6 +49,15 @@ public class AnvilPeripheral implements IPeripheral {
 
     @LuaFunction
     public boolean combine(IComputerAccess computer, String from, int fromSlot, String resource, int resourceSlot, String xpSource) throws LuaException {
+
+        if(!Utils.isFromMinecraft(computer,from)){
+            throw new LuaException("This method requires a vanilla inventory");
+        }
+        if(!Utils.isFromMinecraft(computer,resource)){
+            throw new LuaException("This method requires a vanilla inventory");
+        }
+
+
         if (tileEntity.anvil == null) {
             throw new LuaException("there is no anvil near the interface");
         }
@@ -208,6 +218,14 @@ public class AnvilPeripheral implements IPeripheral {
 
     @LuaFunction
     public void rename(IComputerAccess computer, String from, int slot, String name) throws LuaException {
+
+        if(!Utils.isFromMinecraft(computer,from)){
+            throw new LuaException("This method requires a vanilla inventory");
+        }
+
+        if (tileEntity.anvil == null) {
+            throw new LuaException("there is no anvil near the interface");
+        }
 
         slot -= 1;
 
