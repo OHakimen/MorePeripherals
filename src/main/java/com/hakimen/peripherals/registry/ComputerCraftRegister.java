@@ -6,10 +6,11 @@ import dan200.computercraft.shared.Capabilities;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.util.LazyOptional;
 
+
 public class ComputerCraftRegister {
 
-    public static void registerTurtleUpgrades(){
 
+    public static void registerTurtleUpgrades(){
     }
 
 

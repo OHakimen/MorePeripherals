@@ -72,7 +72,7 @@ public class AnvilPeripheral implements IPeripheral {
 
         IPeripheral xpInput = computer.getAvailablePeripheral(xpSource);
         if (xpInput == null) throw new LuaException("the xp input " + xpSource + " was not found");
-        IItemHandler xpInputHandler = extractHandler(resourcesInput.getTarget());
+        IItemHandler xpInputHandler = extractHandler(xpInput.getTarget());
         var bottlesNeeded = 8;
         int xpSlot=-1;
         for (int m = 0; m < xpInputHandler.getSlots(); m++) {

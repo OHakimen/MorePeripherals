@@ -1,5 +1,5 @@
 {
   "type": "computercraft:tool",
   "item": "minecraft:golden_pickaxe",
-  "breakable" : "forge:needs_gold_tool"
+  "breakable" : "peripherals:gold_pick"
 }
