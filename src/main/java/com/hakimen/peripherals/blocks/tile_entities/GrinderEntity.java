@@ -47,11 +47,6 @@ public class GrinderEntity extends BlockEntity {
         super.saveAdditional(tag);
     }
 
-    @Override
-    public CompoundTag save(CompoundTag tag) {
-
-        return super.save(tag);
-    }
 
     public void tick(){
 

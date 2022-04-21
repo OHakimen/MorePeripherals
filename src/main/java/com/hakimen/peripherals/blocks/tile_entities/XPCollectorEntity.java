@@ -37,15 +37,8 @@ public class XPCollectorEntity extends BlockEntity {
 
     public int xpPoints;
 
-
-
     public XPCollectorEntity(BlockPos p_155229_, BlockState p_155230_) {
         super(BlockEntityRegister.xpCollectorEntity.get(), p_155229_, p_155230_);
-    }
-
-    @Override
-    public @NotNull CompoundTag save(CompoundTag tag) {
-        return super.save(tag);
     }
 
     @Override

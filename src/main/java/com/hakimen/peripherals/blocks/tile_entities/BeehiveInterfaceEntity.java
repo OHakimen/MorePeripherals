@@ -39,11 +39,6 @@ public class BeehiveInterfaceEntity extends BlockEntity {
         super.saveAdditional(tag);
     }
 
-    @Override
-    public CompoundTag save(CompoundTag tag) {
-        return super.save(tag);
-    }
-
     public void tick(){
         if(level.getBlockState(getBlockPos().above()).is(Blocks.BEEHIVE)){
             beehive = level.getBlockState(getBlockPos().above());

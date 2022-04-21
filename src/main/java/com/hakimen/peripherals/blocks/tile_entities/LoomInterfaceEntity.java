@@ -38,11 +38,6 @@ public class LoomInterfaceEntity extends BlockEntity {
         super.load(tag);
     }
 
-    @Override
-    public CompoundTag save(CompoundTag tag) {
-        return super.save(tag);
-    }
-
     public void tick(){
         if(level.getBlockState(getBlockPos().above()).getBlock() instanceof LoomBlock){
             loom = level.getBlockState(getBlockPos().above());

@@ -26,12 +26,6 @@ public class XPBottlerEntity extends BlockEntity {
     public void load(CompoundTag tag) {
         super.load(tag);
     }
-
-    @Override
-    public CompoundTag save(CompoundTag tag) {
-        return super.save(tag);
-    }
-
     public void tick(){
 
     }

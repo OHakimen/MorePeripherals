@@ -35,9 +35,9 @@ public class TradingInterfaceEntity extends BlockEntity {
     }
 
     @Override
-    public CompoundTag save(CompoundTag tag) {
+    protected void saveAdditional(CompoundTag tag) {
         tag.put("villagers", (Tag) villager);
-        return super.save(tag);
+        super.saveAdditional(tag);
     }
 
     public void tick(){

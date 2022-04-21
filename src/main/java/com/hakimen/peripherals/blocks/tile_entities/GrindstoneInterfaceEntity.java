@@ -34,11 +34,6 @@ public class GrindstoneInterfaceEntity extends BlockEntity {
         super.saveAdditional(tag);
     }
 
-    @Override
-    public CompoundTag save(CompoundTag tag) {
-        return super.save(tag);
-    }
-
     public void tick(){
         if(level.getBlockState(getBlockPos().above()).getBlock() instanceof GrindstoneBlock){
             grindStone = level.getBlockState(getBlockPos().above());
