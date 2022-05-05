@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#x#",
+    "X@X",
+    "#x#"
+  ],
+  "key": {
+    "#": {
+      "tag": "forge:stone"
+    },
+    "@": {
+      "item": "minecraft:glass_bottle"
+    },
+    "x": {
+      "item": "minecraft:redstone"
+    },
+    "X": {
+      "item": "minecraft:lapis_lazuli"
+    }
+  },
+  "result": {
+    "item": "peripherals:xp_bottler"
+  }
+}

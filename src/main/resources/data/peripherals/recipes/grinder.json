@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#x#",
+    "O@O",
+    "#B#"
+  ],
+  "key": {
+    "#": {
+      "tag": "forge:stone"
+    },
+    "@": {
+      "item": "minecraft:redstone"
+    },
+    "x": {
+      "item": "minecraft:diamond_sword"
+    },
+    "O": {
+      "item": "minecraft:rotten_flesh"
+    },
+    "B": {
+      "item": "minecraft:bone"
+    }
+
+  },
+  "result": {
+    "item": "peripherals:grinder"
+  }
+}

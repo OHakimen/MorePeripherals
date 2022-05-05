@@ -1,0 +1,10 @@
+{
+  "replace": "false",
+  "values": [
+    "#peripherals:mineable_by_any"
+  ],
+  "optional": [
+    "#forge:needs_wood_tool",
+    "#forge:needs_gold_tool"
+  ]
+}

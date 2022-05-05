@@ -1,0 +1,5 @@
+{
+  "type": "computercraft:tool",
+  "item": "minecraft:golden_pickaxe",
+  "breakable" : "peripherals:gold_pick"
+}

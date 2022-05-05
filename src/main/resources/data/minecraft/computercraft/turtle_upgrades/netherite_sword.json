@@ -1,0 +1,6 @@
+{
+  "type": "computercraft:tool",
+  "item": "minecraft:netherite_sword",
+  "damageMultiplier": 9.5,
+  "breakable": "computercraft:turtle_sword_harvestable"
+}

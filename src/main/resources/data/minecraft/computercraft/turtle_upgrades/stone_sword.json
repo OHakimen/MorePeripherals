@@ -1,0 +1,6 @@
+{
+  "type": "computercraft:tool",
+  "item": "minecraft:stone_sword",
+  "damageMultiplier": 5.5,
+  "breakable": "computercraft:turtle_sword_harvestable"
+}

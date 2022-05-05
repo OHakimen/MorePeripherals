@@ -1,0 +1,5 @@
+{
+  "type": "computercraft:tool",
+  "item": "minecraft:netherite_axe",
+  "damageMultiplier": 6.5
+}

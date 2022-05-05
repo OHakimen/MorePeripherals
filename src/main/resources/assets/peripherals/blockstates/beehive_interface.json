@@ -1,0 +1,5 @@
+{
+  "variants": {
+    "": {"model": "peripherals:block/beehive_interface"}
+  }
+}
