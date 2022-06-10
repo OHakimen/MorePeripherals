@@ -59,7 +59,6 @@ public class MorePeripherals {
     }
 
     private void processIMC(final InterModProcessEvent event) {
-
     }
 
 }

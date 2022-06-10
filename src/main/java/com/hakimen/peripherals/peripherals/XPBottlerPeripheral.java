@@ -79,8 +79,6 @@ public class XPBottlerPeripheral implements IPeripheral {
                     }
                 }
             }else{
-                collector.tileEntity.xpPoints-=8;
-                collector.tileEntity.setChanged();
                 throw new LuaException("no bottles found in input");
             }
         }

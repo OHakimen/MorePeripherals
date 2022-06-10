@@ -165,6 +165,13 @@ repositories {
             includeGroup 'org.squiddev'
         }
     }
+    maven {
+        url 'https://www.cursemaven.com'
+    }
+    maven {
+        name "tterrag maven"
+        url "https://maven.tterrag.com/"
+    }
 }
 
 dependencies {
@@ -186,6 +193,7 @@ dependencies {
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
 
     implementation fg.deobf("org.squiddev:cc-tweaked-1.18.2:1.100.4")
+
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 }
 
