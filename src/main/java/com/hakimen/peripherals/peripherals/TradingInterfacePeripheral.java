@@ -67,7 +67,7 @@ public class TradingInterfacePeripheral implements IPeripheral {
     public final String getProfession() throws LuaException{
 
         if(tileEntity.villager == null) throw new LuaException("villager not in range");
-        return tileEntity.villager.getVillagerData().getProfession().getName();
+        return tileEntity.villager.getVillagerData().getProfession().name();
     }
 
 
@@ -85,19 +85,19 @@ public class TradingInterfacePeripheral implements IPeripheral {
             var itemSetDetails = getItemInfo(EnchantmentHelper.getEnchantments(
                     offer.getBaseCostA()
             ),offer.getBaseCostA().getCount());
-            itemSet.put(offer.getBaseCostA().getItem().getRegistryName().toString(),itemSetDetails);
+            itemSet.put(offer.getBaseCostA().getItem().getDescriptionId(),itemSetDetails);
             map.put("costA",itemSet);
 
             var itemSetDetails2 = getItemInfo(EnchantmentHelper.getEnchantments(
                     offer.getCostB()
             ),offer.getCostB().getCount());
-            itemSet2.put(offer.getCostB().getItem().getRegistryName().toString(),itemSetDetails2);
+            itemSet2.put(offer.getCostB().getItem().getDescriptionId(),itemSetDetails2);
             map.put("costB",itemSet2);
 
             var itemSetDetails3 = getItemInfo(EnchantmentHelper.getEnchantments(
                     offer.getResult()
             ),offer.getResult().getCount());
-            itemSet3.put(offer.getResult().getItem().getRegistryName().toString(),itemSetDetails3);
+            itemSet3.put(offer.getResult().getItem().getDescriptionId(),itemSetDetails3);
             map.put("result",itemSet3);
 
             offerList.add(map);
@@ -177,7 +177,7 @@ public class TradingInterfacePeripheral implements IPeripheral {
         var itemSetDetails = new HashMap<String,Object>();
         var enchantList = new ArrayList<String>();
         enchants.forEach((e,i)->{
-            enchantList.add(e.getRegistryName()+" "+i);
+            enchantList.add(e.getDescriptionId()+" "+i);
         });
         itemSetDetails.put("enchants",enchantList);
         itemSetDetails.put("count",count);

@@ -5,7 +5,6 @@ import com.hakimen.peripherals.blocks.tile_entities.GrinderEntity;
 import com.hakimen.peripherals.containers.GrinderContainer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -49,7 +48,7 @@ public class GrinderBlock extends Block implements EntityBlock {
                 MenuProvider containerProvider = new MenuProvider() {
                     @Override
                     public Component getDisplayName() {
-                        return new TranslatableComponent("gui.peripherals.grinder.name");
+                        return Component.translatable("gui.peripherals.grinder.name");
                     }
 
                     @Override

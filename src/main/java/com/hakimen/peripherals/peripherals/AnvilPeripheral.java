@@ -6,7 +6,7 @@ import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.lua.LuaFunction;
 import dan200.computercraft.api.peripheral.IComputerAccess;
 import dan200.computercraft.api.peripheral.IPeripheral;
-import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.Container;
 import net.minecraft.world.inventory.AnvilMenu;
 import net.minecraft.world.item.EnchantedBookItem;
@@ -23,6 +23,7 @@ import net.minecraftforge.items.wrapper.InvWrapper;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.awt.*;
 import java.util.Map;
 
 public class AnvilPeripheral implements IPeripheral {
@@ -239,7 +240,7 @@ public class AnvilPeripheral implements IPeripheral {
             itemstack.resetHoverName();
             return;
         } else {
-            itemstack.setHoverName(new TextComponent(name));
+            itemstack.setHoverName(Component.literal(name));
         }
 
     }

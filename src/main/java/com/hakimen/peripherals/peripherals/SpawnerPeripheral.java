@@ -8,8 +8,7 @@ import dan200.computercraft.api.lua.LuaFunction;
 import dan200.computercraft.api.peripheral.IComputerAccess;
 import dan200.computercraft.api.peripheral.IPeripheral;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -95,7 +94,7 @@ public class SpawnerPeripheral implements IPeripheral {
             var stack = handler.getStackInSlot(slot);
             if(stack.getItem() instanceof MobDataCardItem){
                 stack.getOrCreateTag().putString("mob",saved.getCompound("SpawnData").getCompound("entity").getString("id"));
-                stack.setHoverName(new TranslatableComponent("item.peripherals.mob_data_card").append(" ("+stack.getOrCreateTag().getString("mob")+")"));
+                stack.setHoverName(Component.translatable("item.peripherals.mob_data_card").append(" ("+stack.getOrCreateTag().getString("mob")+")"));
                 var blockPos = entity.entity.getBlockPos();
 
                 entity.entity.getLevel().addFreshEntity(new ItemEntity(entity.entity.getLevel(),blockPos.getX(),blockPos.getY(),blockPos.getZ(),spawnerBlock));

@@ -1,7 +1,6 @@
 package com.hakimen.peripherals.peripherals;
 
 import com.hakimen.peripherals.blocks.tile_entities.LoomInterfaceEntity;
-import com.hakimen.peripherals.blocks.tile_entities.TradingInterfaceEntity;
 import com.hakimen.peripherals.utils.Utils;
 import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.lua.LuaFunction;
@@ -11,6 +10,7 @@ import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
+import net.minecraft.tags.BannerPatternTags;
 import net.minecraft.world.Container;
 import net.minecraft.world.inventory.LoomMenu;
 import net.minecraft.world.item.*;
@@ -33,6 +33,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static net.minecraft.core.Registry.BANNER_PATTERN;
 
 public class LoomInterfacePeripheral implements IPeripheral {
 
@@ -83,11 +85,11 @@ public class LoomInterfacePeripheral implements IPeripheral {
         if (dye.getCount() < banner.getCount()) {
            throw new LuaException("not enough dye");
         }
-        if(BannerPattern.values().length <= pattern || pattern < 0) {
+        if(pattern > BANNER_PATTERN.stream().toList().size() || pattern < 0) {
             throw new LuaException("invalid pattern");
         }
         var patternTag = new CompoundTag();
-        patternTag.put("Pattern", StringTag.valueOf(BannerPattern.values()[pattern].getHashname()));
+        patternTag.putString("Pattern", BANNER_PATTERN.stream().toList().get(pattern).getHashname());
         patternTag.putInt("Color", DyeColor.getColor(dye).getId());
         input.extractItem(slotDye,banner.getCount(),false);
         var ListPatterns = new ListTag();

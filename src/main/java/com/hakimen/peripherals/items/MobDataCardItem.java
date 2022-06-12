@@ -1,8 +1,6 @@
 package com.hakimen.peripherals.items;
 
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
@@ -30,11 +28,11 @@ public class MobDataCardItem extends Item {
     @Override
     public boolean onLeftClickEntity(ItemStack stack, Player player, Entity entity) {
         if(entity instanceof LivingEntity livingEntity && !(entity instanceof Player) ){
-            Random r = player.level.random;
+            Random r = new Random();
             if (r.nextFloat() > 0.9f) {
                 stack.resetHoverName();
-                stack.getOrCreateTag().putString("mob", livingEntity.getType().getRegistryName().toString());
-                stack.setHoverName(new TranslatableComponent("item.peripherals.mob_data_card").append(" ("+livingEntity.getType().getRegistryName().toString()+")"));
+                stack.getOrCreateTag().putString("mob", livingEntity.getType().getDescriptionId());
+                stack.setHoverName(Component.translatable("item.peripherals.mob_data_card").append(" ("+livingEntity.getType().getDescriptionId()+")"));
             }
         }
         return super.onLeftClickEntity(stack, player, entity);
@@ -45,7 +43,7 @@ public class MobDataCardItem extends Item {
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> components, TooltipFlag flag) {
         stack.getOrCreateTag();
         if (stack.getTag() != null){
-            components.add(new TextComponent("Mob : " + (stack.getTag().get("mob") != null ? stack.getTag().getString("mob") : "none")));
+            components.add(Component.literal("Mob : " + (stack.getTag().get("mob") != null ? stack.getTag().getString("mob") : "none")));
         }
         super.appendHoverText(stack, level, components, flag);
     }

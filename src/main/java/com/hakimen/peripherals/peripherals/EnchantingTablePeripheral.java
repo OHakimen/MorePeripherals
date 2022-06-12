@@ -64,7 +64,7 @@ public class EnchantingTablePeripheral implements IPeripheral {
                 for (EnchantmentCategory category : EnchantmentCategory.values()) {
                     for (Enchantment e : Registry.ENCHANTMENT) {
                         if (e.category == category && e.canApplyAtEnchantingTable(item) && !e.isTreasureOnly()) {
-                            enchants.add(e.getRegistryName().toString());
+                            enchants.add(e.getDescriptionId());
                         }
                     }
                 }
@@ -138,7 +138,7 @@ public class EnchantingTablePeripheral implements IPeripheral {
             }
             else if (!item.isEnchanted()) {
                 if (item.isEnchantable()) {
-                    EnchantUtils.addRandomEnchant(tileEntity.getLevel().random,item);
+                    EnchantUtils.addRandomEnchant(new Random(),item);
                     return true;
 
                 } else {
