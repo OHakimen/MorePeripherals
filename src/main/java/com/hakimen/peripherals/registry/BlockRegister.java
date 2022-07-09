@@ -83,6 +83,18 @@ public class BlockRegister {
         return new BlockItem(spawnerInterfaceBlock.get(),new Item.Properties().tab(MorePeripherals.tab));
     });
 
+    public static final RegistryObject<DiskRaidBlock> diskRaid = BLOCKS.register("disk_raid",
+            DiskRaidBlock::new);
+    public static final RegistryObject<Item> diskRaidItem = ItemRegister.ITEMS.register("disk_raid",()->{
+        return new BlockItem(diskRaid.get(),new Item.Properties().tab(MorePeripherals.tab));
+    });
+    public static final RegistryObject<AdvancedDiskRaidBlock> advancedDiskRaid = BLOCKS.register("advanced_disk_raid",
+            AdvancedDiskRaidBlock::new);
+    public static final RegistryObject<Item> advancedDiskRaidItem = ItemRegister.ITEMS.register("advanced_disk_raid",()->{
+        return new BlockItem(advancedDiskRaid.get(),new Item.Properties().tab(MorePeripherals.tab));
+    });
+
+
 
 
     public static void register(IEventBus bus){
