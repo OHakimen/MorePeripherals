@@ -104,6 +104,11 @@ public class DiskRaidEntity extends BlockEntity {
         computers.remove(computer);
     }
 
+    @Override
+    public void onChunkUnloaded() {
+        super.onChunkUnloaded();
+    }
+
     private IMedia getDiskMedia(int i) {
         return MediaProviders.get(inventory.getStackInSlot(i));
     }

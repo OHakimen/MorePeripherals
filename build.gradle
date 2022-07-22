@@ -189,10 +189,10 @@ dependencies {
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
 
     implementation fg.deobf("org.squiddev:cc-tweaked-1.19:1.100.8")
-
+    runtimeOnly fg.deobf("curse.maven:extreme-reactors-250277:3855574")
+    runtimeOnly fg.deobf("curse.maven:zerocore-247921:3855564")
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 }
-
 // Example for how to get properties into the manifest for reading at runtime.
 jar {
     manifest {

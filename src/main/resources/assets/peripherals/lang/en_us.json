@@ -13,6 +13,7 @@
   "block.peripherals.spawner_interface" : "Spawner Interface",
   "block.peripherals.disk_raid" : "Disk Raid",
   "block.peripherals.advanced_disk_raid" : "Advanced Disk Raid",
+  "block.peripherals.induction_charger" : "Induction Charger",
 
   "item.peripherals.mob_data_card": "Mob Data Collector",
 

@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#x#",
+    "#@#",
+    "#X#"
+  ],
+  "key": {
+    "#": {
+      "tag": "forge:stone"
+    },
+    "x": {
+      "item": "minecraft:copper_ingot"
+    },
+    "X": {
+      "item": "minecraft:iron_ingot"
+    },
+    "@": {
+      "item": "minecraft:redstone"
+    }
+  },
+  "result": {
+    "item": "peripherals:induction_charger"
+  }
+}

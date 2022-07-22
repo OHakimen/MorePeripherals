@@ -2,9 +2,12 @@ package com.hakimen.peripherals.registry;
 
 import com.hakimen.peripherals.MorePeripherals;
 import com.hakimen.peripherals.blocks.*;
+import dan200.computercraft.shared.peripheral.modem.wired.BlockCable;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.material.Material;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -92,6 +95,12 @@ public class BlockRegister {
             AdvancedDiskRaidBlock::new);
     public static final RegistryObject<Item> advancedDiskRaidItem = ItemRegister.ITEMS.register("advanced_disk_raid",()->{
         return new BlockItem(advancedDiskRaid.get(),new Item.Properties().tab(MorePeripherals.tab));
+    });
+
+    public static final RegistryObject<InductionChargerBlock> inductionCharger = BLOCKS.register("induction_charger",
+            InductionChargerBlock::new);
+    public static final RegistryObject<Item> inductionChargerItem = ItemRegister.ITEMS.register("induction_charger",()->{
+        return new BlockItem(inductionCharger.get(),new Item.Properties().tab(MorePeripherals.tab));
     });
 
 

@@ -1,6 +1,12 @@
 {
-  "parent": "block/cube_all",
-  "textures":{
-    "all": "peripherals:block/spawner_interface"
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "down": "computercraft:block/computer_normal_top",
+    "east": "peripherals:block/spawner_interface",
+    "north": "peripherals:block/spawner_interface",
+    "particle": "peripherals:block/spawner_interface",
+    "south": "peripherals:block/spawner_interface",
+    "up": "computercraft:block/computer_normal_top",
+    "west": "peripherals:block/spawner_interface"
   }
 }

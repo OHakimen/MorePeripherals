@@ -1,6 +1,12 @@
 {
-  "parent": "block/cube_all",
-  "textures":{
-    "all": "peripherals:block/grindstone_interface"
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "down": "computercraft:block/computer_normal_top",
+    "east": "peripherals:block/grindstone_interface",
+    "north": "peripherals:block/grindstone_interface",
+    "particle": "peripherals:block/grindstone_interface",
+    "south": "peripherals:block/grindstone_interface",
+    "up": "computercraft:block/computer_normal_top",
+    "west": "peripherals:block/grindstone_interface"
   }
 }

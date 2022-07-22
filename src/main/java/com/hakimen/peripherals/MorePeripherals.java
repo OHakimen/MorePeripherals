@@ -4,11 +4,11 @@ import com.hakimen.peripherals.ber.AdvancedDiskRaidRenderer;
 import com.hakimen.peripherals.ber.DiskRaidRenderer;
 import com.hakimen.peripherals.registry.*;
 import com.hakimen.peripherals.utils.EnchantUtils;
+import dan200.computercraft.shared.Registry;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.gameevent.vibrations.VibrationListener;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -24,6 +24,8 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import javax.xml.crypto.Data;
+
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod("peripherals")
 public class MorePeripherals {
@@ -35,13 +37,11 @@ public class MorePeripherals {
         }
     };
 
-
     // Directly reference a log4j logger.
     public static final Logger LOGGER = LogManager.getLogger();
     public static final String mod_id = "peripherals";
     public MorePeripherals() {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
-
         EnchantUtils.init();
         BlockEntityRegister.register(bus);
         BlockRegister.register(bus);
