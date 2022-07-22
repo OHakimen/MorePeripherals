@@ -1,6 +1,12 @@
 {
-  "parent": "block/cube_all",
-  "textures":{
-    "all": "peripherals:block/trading_interface"
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "down": "computercraft:block/computer_normal_top",
+    "east": "peripherals:block/trading_interface",
+    "north": "peripherals:block/trading_interface",
+    "particle": "peripherals:block/trading_interface",
+    "south": "peripherals:block/trading_interface",
+    "up": "computercraft:block/computer_normal_top",
+    "west": "peripherals:block/trading_interface"
   }
 }

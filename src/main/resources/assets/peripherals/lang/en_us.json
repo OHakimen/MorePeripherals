@@ -11,11 +11,15 @@
   "block.peripherals.beehive_interface" : "Beehive Interface",
   "block.peripherals.anvil_interface" : "Anvil Interface",
   "block.peripherals.spawner_interface" : "Spawner Interface",
+  "block.peripherals.disk_raid" : "Disk Raid",
+  "block.peripherals.advanced_disk_raid" : "Advanced Disk Raid",
+  "block.peripherals.induction_charger" : "Induction Charger",
 
   "item.peripherals.mob_data_card": "Mob Data Collector",
 
   "gui.peripherals.grinder.name": "Grinder",
-
+  "gui.peripherals.diskraid.name": "Drive Raid",
+  "gui.peripherals.advanceddiskraid.name": "Advanced Drive Raid",
   "upgrade.minecraft.netherite_axe.adjective": "Felling",
   "upgrade.minecraft.netherite_pickaxe.adjective": "Mining",
   "upgrade.minecraft.netherite_sword.adjective": "Melee",

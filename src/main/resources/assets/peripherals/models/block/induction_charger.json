@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "down": "computercraft:block/computer_normal_top",
+    "east": "peripherals:block/induction_charger",
+    "north": "peripherals:block/induction_charger",
+    "particle": "peripherals:block/induction_charger",
+    "south": "peripherals:block/induction_charger",
+    "up": "computercraft:block/computer_normal_top",
+    "west": "peripherals:block/induction_charger"
+  }
+}

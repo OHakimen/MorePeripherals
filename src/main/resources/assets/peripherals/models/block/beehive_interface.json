@@ -1,6 +1,12 @@
 {
-  "parent": "block/cube_all",
-  "textures":{
-    "all": "peripherals:block/beehive_interface"
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "down": "computercraft:block/computer_normal_top",
+    "east": "peripherals:block/beehive_interface",
+    "north": "peripherals:block/beehive_interface",
+    "particle": "peripherals:block/beehive_interface",
+    "south": "peripherals:block/beehive_interface",
+    "up": "computercraft:block/computer_normal_top",
+    "west": "peripherals:block/beehive_interface"
   }
 }

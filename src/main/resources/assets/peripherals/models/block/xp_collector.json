@@ -1,6 +1,12 @@
 {
-  "parent": "block/cube_all",
-  "textures":{
-    "all": "peripherals:block/xp_collector"
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "down": "computercraft:block/computer_normal_top",
+    "east": "peripherals:block/xp_collector",
+    "north": "peripherals:block/xp_collector",
+    "particle": "peripherals:block/anvil_interface",
+    "south": "peripherals:block/xp_collector",
+    "up": "computercraft:block/computer_normal_top",
+    "west": "peripherals:block/xp_collector"
   }
 }

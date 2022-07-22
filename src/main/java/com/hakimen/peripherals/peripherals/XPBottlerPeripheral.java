@@ -15,7 +15,6 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.squiddev.cobalt.Lua;
 
 public class XPBottlerPeripheral implements IPeripheral {
 

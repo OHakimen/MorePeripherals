@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#x#",
+    "#@#",
+    "#x#"
+  ],
+  "key": {
+    "#": {
+      "tag": "forge:stone"
+    },
+    "x": {
+      "item": "computercraft:disk_drive"
+    },
+    "@": {
+      "item": "minecraft:redstone"
+    }
+  },
+  "result": {
+    "item": "peripherals:disk_raid"
+  }
+}

@@ -30,11 +30,11 @@ public class MobDataCardItem extends Item {
     @Override
     public boolean onLeftClickEntity(ItemStack stack, Player player, Entity entity) {
         if(entity instanceof LivingEntity livingEntity && !(entity instanceof Player) ){
-            Random r = player.level.random;
+            Random r = new Random();
             if (r.nextFloat() > 0.9f) {
                 stack.resetHoverName();
-                stack.getOrCreateTag().putString("mob", livingEntity.getType().getRegistryName().toString());
-                stack.setHoverName(new TranslatableComponent("item.peripherals.mob_data_card").append(" ("+livingEntity.getType().getRegistryName().toString()+")"));
+                stack.getOrCreateTag().putString("mob", livingEntity.getType().getDescriptionId());
+                stack.setHoverName(new TranslatableComponent("item.peripherals.mob_data_card").append(" ("+livingEntity.getType().getDescriptionId()+")"));
             }
         }
         return super.onLeftClickEntity(stack, player, entity);

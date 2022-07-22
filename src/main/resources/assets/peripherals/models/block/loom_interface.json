@@ -1,6 +1,12 @@
 {
-  "parent": "block/cube_all",
-  "textures":{
-    "all": "peripherals:block/loom_interface"
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "down": "computercraft:block/computer_normal_top",
+    "east": "peripherals:block/loom_interface",
+    "north": "peripherals:block/loom_interface",
+    "particle": "peripherals:block/loom_interface",
+    "south": "peripherals:block/loom_interface",
+    "up": "computercraft:block/computer_normal_top",
+    "west": "peripherals:block/loom_interface"
   }
 }

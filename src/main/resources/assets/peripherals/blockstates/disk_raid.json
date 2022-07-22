@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "peripherals:block/disk_raid"
+    },
+    "facing=south": {
+      "model": "peripherals:block/disk_raid",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "peripherals:block/disk_raid",
+      "y": 270
+    },
+    "facing=east": {
+      "model": "peripherals:block/disk_raid",
+      "y": 90
+    }
+  }
+}

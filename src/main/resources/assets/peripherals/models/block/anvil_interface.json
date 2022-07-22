@@ -1,6 +1,12 @@
 {
-  "parent": "block/cube_all",
-  "textures":{
-    "all": "peripherals:block/anvil_interface"
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "down": "computercraft:block/computer_normal_top",
+    "east": "peripherals:block/anvil_interface",
+    "north": "peripherals:block/anvil_interface",
+    "particle": "peripherals:block/anvil_interface",
+    "south": "peripherals:block/anvil_interface",
+    "up": "computercraft:block/computer_normal_top",
+    "west": "peripherals:block/anvil_interface"
   }
 }

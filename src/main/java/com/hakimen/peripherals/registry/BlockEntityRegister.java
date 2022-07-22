@@ -43,6 +43,16 @@ public class BlockEntityRegister {
     public static final RegistryObject<BlockEntityType<SpawnerInterfaceEntity>> spawnerInterfaceEntity = BLOCK_ENTITY.register("spawner_interface_entity",
             () -> BlockEntityType.Builder.of(SpawnerInterfaceEntity::new,BlockRegister.spawnerInterfaceBlock.get()).build(null));
 
+    public static final RegistryObject<BlockEntityType<DiskRaidEntity>> diskRaidEntity = BLOCK_ENTITY.register("disk_raid_entity",
+            () -> BlockEntityType.Builder.of(DiskRaidEntity::new,BlockRegister.diskRaid.get()).build(null));
+
+    public static final RegistryObject<BlockEntityType<AdvancedDiskRaidEntity>> advancedDiskRaidEntity = BLOCK_ENTITY.register("advanced_disk_raid_entity",
+            () -> BlockEntityType.Builder.of(AdvancedDiskRaidEntity::new,BlockRegister.advancedDiskRaid.get()).build(null));
+
+    public static final RegistryObject<BlockEntityType<InductionChargerEntity>> inductionChargerEntity = BLOCK_ENTITY.register("induction_charger_entity",
+            () -> BlockEntityType.Builder.of(InductionChargerEntity::new,BlockRegister.inductionCharger.get()).build(null));
+
+
 
     public static void register(IEventBus bus){
         BLOCK_ENTITY.register(bus);
