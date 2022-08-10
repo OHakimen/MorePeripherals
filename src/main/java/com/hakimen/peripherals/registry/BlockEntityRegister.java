@@ -52,6 +52,8 @@ public class BlockEntityRegister {
     public static final RegistryObject<BlockEntityType<InductionChargerEntity>> inductionChargerEntity = BLOCK_ENTITY.register("induction_charger_entity",
             () -> BlockEntityType.Builder.of(InductionChargerEntity::new,BlockRegister.inductionCharger.get()).build(null));
 
+    public static final RegistryObject<BlockEntityType<MagneticCardManiputalorEntity>> magneticCardManipulator = BLOCK_ENTITY.register("magnetic_card_manipulator_entity",
+            () -> BlockEntityType.Builder.of(MagneticCardManiputalorEntity::new,BlockRegister.magneticCardManipulator.get()).build(null));
 
 
     public static void register(IEventBus bus){

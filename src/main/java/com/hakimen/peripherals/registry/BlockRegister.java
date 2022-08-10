@@ -1,13 +1,11 @@
 package com.hakimen.peripherals.registry;
 
+import com.hakimen.peripherals.blocks.MagneticCardManipulatorBlock;
 import com.hakimen.peripherals.MorePeripherals;
 import com.hakimen.peripherals.blocks.*;
-import dan200.computercraft.shared.peripheral.modem.wired.BlockCable;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.material.Material;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -101,6 +99,12 @@ public class BlockRegister {
             InductionChargerBlock::new);
     public static final RegistryObject<Item> inductionChargerItem = ItemRegister.ITEMS.register("induction_charger",()->{
         return new BlockItem(inductionCharger.get(),new Item.Properties().tab(MorePeripherals.tab));
+    });
+
+    public static final RegistryObject<MagneticCardManipulatorBlock> magneticCardManipulator = BLOCKS.register("magnetic_card_manipulator",
+            MagneticCardManipulatorBlock::new);
+    public static final RegistryObject<Item> magneticCardManipulatorItem = ItemRegister.ITEMS.register("magnetic_card_manipulator",()->{
+        return new BlockItem(magneticCardManipulator.get(),new Item.Properties().tab(MorePeripherals.tab));
     });
 
 
