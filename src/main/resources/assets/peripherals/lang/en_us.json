@@ -14,12 +14,16 @@
   "block.peripherals.disk_raid" : "Disk Raid",
   "block.peripherals.advanced_disk_raid" : "Advanced Disk Raid",
   "block.peripherals.induction_charger" : "Induction Charger",
+  "block.peripherals.magnetic_card_manipulator" : "Magnetic Card Manipulator",
 
   "item.peripherals.mob_data_card": "Mob Data Collector",
+  "item.peripherals.magnetic_card": "Magnetic Card",
 
   "gui.peripherals.grinder.name": "Grinder",
   "gui.peripherals.diskraid.name": "Drive Raid",
   "gui.peripherals.advanceddiskraid.name": "Advanced Drive Raid",
+  "gui.peripherals.magnetic_card_manipulator.name": "Magnetic Card Manipulator",
+
   "upgrade.minecraft.netherite_axe.adjective": "Felling",
   "upgrade.minecraft.netherite_pickaxe.adjective": "Mining",
   "upgrade.minecraft.netherite_sword.adjective": "Melee",

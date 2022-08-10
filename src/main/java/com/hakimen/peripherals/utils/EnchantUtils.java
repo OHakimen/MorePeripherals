@@ -5,10 +5,13 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentCategory;
+import net.minecraft.world.item.enchantment.EnchantmentInstance;
 
 
 import javax.tools.Tool;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
 
@@ -86,9 +89,6 @@ public class EnchantUtils {
                     else {
                         enchant(r, itemStack, Armor);
                     }
-
-                } else {
-                    enchant(r, itemStack, Armor);
                 }
             }else if(((ArmorItem)item).getSlot() == EquipmentSlot.FEET){
                 if (r.nextFloat() <= 0.5f) {
@@ -115,7 +115,6 @@ public class EnchantUtils {
         else if(item instanceof Vanishable ){
             enchant(r,itemStack,Vanishable);
         }
-
     }
 
     private static void enchant(Random r,ItemStack item,List<Enchantment> enchantments){
@@ -124,6 +123,7 @@ public class EnchantUtils {
         }
         var enchant = enchantments.get(r.nextInt(0,enchantments.size()));
         var value = r.nextInt(enchant.getMinLevel(), enchant.getMaxLevel()+1);
+
         item.enchant(enchant,value);
 
     }

@@ -2,6 +2,7 @@ package com.hakimen.peripherals;
 
 import com.hakimen.peripherals.ber.AdvancedDiskRaidRenderer;
 import com.hakimen.peripherals.ber.DiskRaidRenderer;
+import com.hakimen.peripherals.ber.MagneticCardManipulatorRenderer;
 import com.hakimen.peripherals.registry.*;
 import com.hakimen.peripherals.utils.EnchantUtils;
 import dan200.computercraft.shared.Registry;
@@ -44,8 +45,8 @@ public class MorePeripherals {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
         EnchantUtils.init();
         BlockEntityRegister.register(bus);
-        BlockRegister.register(bus);
         ItemRegister.register(bus);
+        BlockRegister.register(bus);
         ContainerRegister.register(bus);
 
         ComputerCraftRegister.registerPeripheralProvider();
@@ -66,6 +67,8 @@ public class MorePeripherals {
         public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
             event.registerBlockEntityRenderer(BlockEntityRegister.diskRaidEntity.get(), DiskRaidRenderer::new);
             event.registerBlockEntityRenderer(BlockEntityRegister.advancedDiskRaidEntity.get(), AdvancedDiskRaidRenderer::new);
+            event.registerBlockEntityRenderer(BlockEntityRegister.magneticCardManipulator.get(), MagneticCardManipulatorRenderer::new);
+
         }
     }
     private void setup(final FMLCommonSetupEvent event) {

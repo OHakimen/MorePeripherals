@@ -125,12 +125,26 @@ public class EnchantingTablePeripheral implements IPeripheral {
             boolean isBook = item.getItem() == Items.BOOK;
             var bookItem = item.copy();
             if(isBook){
-                inputHandler.extractItem(slot,1,false);
                 var enchant = Registry.ENCHANTMENT.getRandom(tileEntity.getLevel().random);
                 if(enchant.isPresent()){
                     var value = tileEntity.getLevel().random.nextInt(enchant.get().value().getMinLevel(), enchant.get().value().getMaxLevel()+1);
                     bookItem = EnchantedBookItem.createForEnchantment(new EnchantmentInstance(enchant.get().value(),value));
-                    inputHandler.insertItem(slot,bookItem,false);
+                    if(item.getCount() > 1){
+                        boolean putBook = false;
+                        for (int i = 0; i < inputHandler.getSlots(); i++) {
+                           if(inputHandler.getStackInSlot(i) == ItemStack.EMPTY){
+                               inputHandler.insertItem(i,bookItem,false);
+                               putBook = true;
+                               break;
+                           }
+                        }
+                        if(!putBook){
+                            return false;
+                        }
+                    }else{
+                        inputHandler.insertItem(slot,bookItem,false);
+                    }
+                    inputHandler.extractItem(slot,1,false);
                 }else{
                     enchant(computer, from, slot, resources);
                 }

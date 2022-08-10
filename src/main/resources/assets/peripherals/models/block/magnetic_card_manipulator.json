@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/slab",
+  "textures": {
+    "bottom": "computercraft:block/computer_normal_top",
+    "top": "peripherals:block/magnetic_card_manipulator_top",
+    "side": "peripherals:block/magnetic_card_manipulator_side"
+  }
+}

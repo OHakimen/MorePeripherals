@@ -7,10 +7,7 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.DebugStickItem;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.*;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.level.Level;
@@ -31,8 +28,8 @@ public class MobDataCardItem extends Item {
             Random r = new Random();
             if (r.nextFloat() > 0.9f) {
                 stack.resetHoverName();
-                stack.getOrCreateTag().putString("mob", livingEntity.getType().getDescriptionId());
-                stack.setHoverName(Component.translatable("item.peripherals.mob_data_card").append(" ("+livingEntity.getType().getDescriptionId()+")"));
+                stack.getOrCreateTag().putString("mob", livingEntity.getEncodeId());
+                stack.setHoverName(Component.translatable("item.peripherals.mob_data_card").append(" ("+livingEntity.getEncodeId()+")"));
             }
         }
         return super.onLeftClickEntity(stack, player, entity);

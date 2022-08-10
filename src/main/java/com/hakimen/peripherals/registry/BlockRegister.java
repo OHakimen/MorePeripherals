@@ -103,6 +103,12 @@ public class BlockRegister {
         return new BlockItem(inductionCharger.get(),new Item.Properties().tab(MorePeripherals.tab));
     });
 
+    public static final RegistryObject<MagneticCardManipulatorBlock> magneticCardManipulator = BLOCKS.register("magnetic_card_manipulator",
+            MagneticCardManipulatorBlock::new);
+    public static final RegistryObject<Item> magneticCardManipulatorItem = ItemRegister.ITEMS.register("magnetic_card_manipulator",()->{
+        return new BlockItem(magneticCardManipulator.get(),new Item.Properties().tab(MorePeripherals.tab));
+    });
+
 
 
 
