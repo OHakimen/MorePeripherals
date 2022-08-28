@@ -14,7 +14,9 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
@@ -23,6 +25,7 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.squiddev.cobalt.Lua;
 
 import java.util.Optional;
 
@@ -42,46 +45,93 @@ public class MagneticCardManiputalorPeripheral implements IPeripheral {
         return "magnetic_card_manipulator";
     }
 
+
     @Override
     public boolean equals(@Nullable IPeripheral other) {
         return other == this;
     }
 
-    @LuaFunction
-    public final String readCard(){
-        return tileEntity.inventory.getStackInSlot(0).getOrCreateTag().getString("data");
+    @Override
+    public void attach(@NotNull IComputerAccess computer) {
+        tileEntity.computers.add(computer);
+        IPeripheral.super.attach(computer);
     }
-    @LuaFunction
-    public final void writeCard(String data){
-        tileEntity.inventory.getStackInSlot(0).getOrCreateTag().putString("data",data);
-    }
-    @LuaFunction
-    public final void ejectCard(){
-        tileEntity.getLevel().addFreshEntity(new ItemEntity(
-                tileEntity.getLevel(),
-                tileEntity.getBlockPos().getX() + 0.5,
-                tileEntity.getBlockPos().getY() + 0.5,
-                tileEntity.getBlockPos().getZ() + 0.5,
-                tileEntity.inventory.extractItem(0,1,false)
-        ));
+
+    @Override
+    public void detach(@NotNull IComputerAccess computer) {
+        tileEntity.computers.remove(computer);
+        IPeripheral.super.detach(computer);
     }
 
     @LuaFunction
-    public final void setLabel(String label){
-        if(label.equals("")){
-            tileEntity.inventory.getStackInSlot(0).resetHoverName();
-        }else{
-            tileEntity.inventory.getStackInSlot(0).setHoverName(new TextComponent(label));
+    public final String readCard() throws LuaException {
+        if (!tileEntity.inventory.getStackInSlot(0).getItem().equals(Items.AIR)) {
+            return tileEntity.inventory.getStackInSlot(0).getOrCreateTag().getString("data");
+        } else {
+            throw new LuaException("No card found");
         }
     }
+
     @LuaFunction
-    public final String getLabel(){
-        return tileEntity.inventory.getStackInSlot(0).getHoverName().getString();
+    public final void writeCard(String data) throws LuaException {
+        if (!tileEntity.inventory.getStackInSlot(0).getItem().equals(Items.AIR)) {
+            System.out.println(data);
+            tileEntity.inventory.getStackInSlot(0).getOrCreateTag().putString("data", data);
+        } else {
+            throw new LuaException("No card found");
+        }
     }
 
     @LuaFunction
-    public final void setSensibility(boolean sensibility){
-        tileEntity.inventory.getStackInSlot(0).getOrCreateTag().putBoolean("sensible",sensibility);
+    public final boolean hasCard(){
+        return !tileEntity.inventory.getStackInSlot(0).getItem().equals(Items.AIR);
+    }
+
+    @LuaFunction
+    public final boolean ejectCard(IComputerAccess computer) {
+        if (!tileEntity.inventory.getStackInSlot(0).getItem().equals(Items.AIR)) {
+            tileEntity.getLevel().addFreshEntity(new ItemEntity(
+                    tileEntity.getLevel(),
+                    tileEntity.getBlockPos().getX() + 0.5,
+                    tileEntity.getBlockPos().getY() + 0.5,
+                    tileEntity.getBlockPos().getZ() + 0.5,
+                    tileEntity.inventory.extractItem(0, 1, false)
+            ));
+            computer.queueEvent("card_remove");
+            return true;
+        }
+        return false;
+    }
+
+    @LuaFunction
+    public final boolean setLabel(String label) {
+        if (!tileEntity.inventory.getStackInSlot(0).getItem().equals(Items.AIR)) {
+            if (label.equals("")) {
+                tileEntity.inventory.getStackInSlot(0).resetHoverName();
+            } else {
+                tileEntity.inventory.getStackInSlot(0).setHoverName(new TextComponent(label));
+            }
+            return true;
+        }
+        return false;
+    }
+
+    @LuaFunction
+    public final String getLabel() throws LuaException {
+        if (!tileEntity.inventory.getStackInSlot(0).getItem().equals(Items.AIR)) {
+            return tileEntity.inventory.getStackInSlot(0).getHoverName().getString();
+        } else {
+            throw new LuaException("No card found");
+        }
+    }
+
+    @LuaFunction
+    public final void setSecure(boolean sensibility) throws LuaException {
+        if (!tileEntity.inventory.getStackInSlot(0).getItem().equals(Items.AIR)) {
+            tileEntity.inventory.getStackInSlot(0).getOrCreateTag().putBoolean("sensible", sensibility);
+        }else{
+            throw new LuaException("No card found");
+        }
     }
 
 }

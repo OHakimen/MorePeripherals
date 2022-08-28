@@ -1,5 +1,30 @@
 {
   "variants": {
-    "": {"model": "peripherals:block/magnetic_card_manipulator"}
+    "facing=north": {
+      "model": "peripherals:block/magnetic_card_manipulator",
+      "x": 90
+    },
+    "facing=south": {
+      "model": "peripherals:block/magnetic_card_manipulator",
+      "x": 90,
+      "y": 180
+    },
+    "facing=west": {
+      "model": "peripherals:block/magnetic_card_manipulator",
+      "x": 90,
+      "y": 270
+    },
+    "facing=east": {
+      "model": "peripherals:block/magnetic_card_manipulator",
+      "x": 90,
+      "y": 90
+    },
+    "facing=up": {
+      "model": "peripherals:block/magnetic_card_manipulator",
+      "z": 90
+    },
+    "facing=down": {
+      "model": "peripherals:block/magnetic_card_manipulator_down"
+    }
   }
 }

@@ -46,7 +46,7 @@ public class SpawnerPeripheral implements IPeripheral {
     }
 
     @LuaFunction
-    public final boolean changeSpawner(IComputerAccess computer, String inv, int slot) throws LuaException {
+    public final boolean changeSpawner(IComputerAccess computer, String inv, int slot, Optional<Boolean> force) throws LuaException {
         slot = slot-1;
         IPeripheral peripheral = computer.getAvailablePeripheral(inv);
         if (inv == null) throw new LuaException("the input " + inv + " was not found");
@@ -56,9 +56,15 @@ public class SpawnerPeripheral implements IPeripheral {
             if(slot < 0 || slot > handler.getSlots()) throw new LuaException("Slot out of range");
             var stack = handler.getStackInSlot(slot);
             if(stack.hasTag() && stack.getItem() instanceof MobDataCardItem){
-                System.out.println(EntityType.byString(stack.getTag().getString("mob")));
+                var previousMob = entity.entity.saveWithFullMetadata().getCompound("SpawnData").getCompound("entity").getString("id");
                 entity.entity.getSpawner().setEntityId(EntityType.byString(stack.getTag().getString("mob")).get());
-                stack.getTag().remove("mob");
+                if(force.isPresent() && force.get()){
+                    stack.getTag().remove("mob");
+                }else{
+                    if(!previousMob.equals("minecraft:pig")){
+                        stack.getTag().putString("mob",previousMob);
+                    }
+                }
                 stack.resetHoverName();
                 CompoundTag tag = new CompoundTag();
                 var saved = entity.entity.getSpawner().save(tag);
@@ -66,7 +72,6 @@ public class SpawnerPeripheral implements IPeripheral {
                 entity.entity.setChanged();
                 entity.entity.getSpawner().getSpawnerEntity();
                 return true;
-
             }
         }else{
             throw new LuaException("This block requires a vanilla inventory");
@@ -100,7 +105,7 @@ public class SpawnerPeripheral implements IPeripheral {
                     var stack = handler.getStackInSlot(slot.get());
                     if(stack.getItem() instanceof MobDataCardItem){
                         stack.getOrCreateTag().putString("mob",saved.getCompound("SpawnData").getCompound("entity").getString("id"));
-                        stack.setHoverName(new TranslatableComponent("item.peripherals.mob_data_card").append(" ("+stack.getOrCreateTag().getString("mob")+")"));
+                        stack.setHoverName(new TranslatableComponent("item.peripherals.spawner_card").append(" ("+stack.getOrCreateTag().getString("mob")+")"));
                         var blockPos = entity.entity.getBlockPos();
                         entity.entity.getLevel().addFreshEntity(new ItemEntity(entity.entity.getLevel(),blockPos.getX(),blockPos.getY(),blockPos.getZ(),spawnerBlock));
                         entity.entity.getLevel().destroyBlock(blockPos,false);

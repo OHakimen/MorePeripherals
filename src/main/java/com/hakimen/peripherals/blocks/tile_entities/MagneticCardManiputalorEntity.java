@@ -3,6 +3,8 @@ package com.hakimen.peripherals.blocks.tile_entities;
 import com.hakimen.peripherals.items.MagneticCardItem;
 import com.hakimen.peripherals.peripherals.MagneticCardManiputalorPeripheral;
 import com.hakimen.peripherals.registry.BlockEntityRegister;
+import com.hakimen.peripherals.registry.ItemRegister;
+import dan200.computercraft.api.peripheral.IComputerAccess;
 import dan200.computercraft.api.peripheral.IPeripheral;
 import dan200.computercraft.shared.Capabilities;
 import net.minecraft.core.BlockPos;
@@ -26,6 +28,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.Nonnull;
+import java.util.ArrayList;
 
 
 public class MagneticCardManiputalorEntity extends BlockEntity {
@@ -33,7 +36,7 @@ public class MagneticCardManiputalorEntity extends BlockEntity {
     public LazyOptional<IPeripheral> peripheral = LazyOptional.of(() -> new MagneticCardManiputalorPeripheral(this));
 
     public final ItemStackHandler inventory = createHandler();
-
+    public final ArrayList<IComputerAccess> computers = new ArrayList<>();
     private final LazyOptional<IItemHandler> handler = LazyOptional.of(() -> inventory);
 
 
@@ -101,10 +104,26 @@ public class MagneticCardManiputalorEntity extends BlockEntity {
                 return false;
             }
 
+
             @Override
             public @NotNull ItemStack extractItem(int slot, int amount, boolean simulate) {
-                level.sendBlockUpdated(getBlockPos(),getBlockState(),getBlockState(), Block.UPDATE_ALL);
+                System.out.println(getStackInSlot(slot));
+                if(getStackInSlot(slot).getItem().equals(ItemRegister.magnetic_card.get().asItem()) && !simulate){
+                    for (IComputerAccess c: computers) {
+                        c.queueEvent("card_remove");
+                    }
+                }
                 return super.extractItem(slot, amount, simulate);
+            }
+
+            @Override
+            public void setStackInSlot(int slot, @NotNull ItemStack stack) {
+                if(stack.getItem().equals(ItemRegister.magnetic_card.get().asItem())){
+                    for (IComputerAccess c: computers) {
+                        c.queueEvent("card_insert");
+                    }
+                }
+                super.setStackInSlot(slot, stack);
             }
 
             @Override

@@ -31,7 +31,7 @@ public class MobDataCardItem extends Item {
             if (r.nextFloat() > 0.9f) {
                 stack.resetHoverName();
                 stack.getOrCreateTag().putString("mob", livingEntity.getEncodeId());
-                stack.setHoverName(new TranslatableComponent("item.peripherals.mob_data_card").append(" ("+livingEntity.getEncodeId()+")"));
+                stack.setHoverName(new TranslatableComponent("item.peripherals.spawner_card").append(" ("+livingEntity.getEncodeId()+")"));
             }
         }
         return super.onLeftClickEntity(stack, player, entity);
