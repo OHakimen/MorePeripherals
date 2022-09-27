@@ -1,6 +1,7 @@
 package com.hakimen.peripherals.utils;
 
 import net.minecraft.core.Registry;
+import net.minecraft.nbt.Tag;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.enchantment.Enchantment;
@@ -122,9 +123,12 @@ public class EnchantUtils {
             return;
         }
         var enchant = enchantments.get(r.nextInt(0,enchantments.size()));
+        var a = enchantments;
+        a.remove(enchant);
         var value = r.nextInt(enchant.getMinLevel(), enchant.getMaxLevel()+1);
-
+        if(r.nextFloat() > 0.65){
+            enchant(r,item,a);
+        }
         item.enchant(enchant,value);
-
     }
 }

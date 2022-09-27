@@ -8,10 +8,11 @@ import com.hakimen.peripherals.utils.EnchantUtils;
 import dan200.computercraft.shared.Registry;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.data.DataGenerator;
+import net.minecraft.world.item.*;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
+import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
@@ -22,6 +23,7 @@ import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
 
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.forge.event.lifecycle.GatherDataEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -29,6 +31,7 @@ import javax.xml.crypto.Data;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod("peripherals")
+@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 public class MorePeripherals {
 
     public static CreativeModeTab tab = new CreativeModeTab("peripherals") {
@@ -44,8 +47,9 @@ public class MorePeripherals {
     public MorePeripherals() {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
         EnchantUtils.init();
-        BlockEntityRegister.register(bus);
         ItemRegister.register(bus);
+
+        BlockEntityRegister.register(bus);
         BlockRegister.register(bus);
         ContainerRegister.register(bus);
 
@@ -55,6 +59,7 @@ public class MorePeripherals {
         bus.addListener(this::setup);
         bus.addListener(this::enqueueIMC);
         bus.addListener(this::processIMC);
+
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> bus.addListener(MorePeripheralsClient::clientInit));
     }
     @Mod.EventBusSubscriber(modid = mod_id, bus = Mod.EventBusSubscriber.Bus.MOD)
@@ -71,6 +76,7 @@ public class MorePeripherals {
 
         }
     }
+
     private void setup(final FMLCommonSetupEvent event) {
 
     }

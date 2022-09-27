@@ -37,13 +37,14 @@ public class GrinderEntity extends BlockEntity {
 
     @Override
     public void load(CompoundTag tag) {
-        tag.merge(this.inventory.serializeNBT());
+        this.inventory.deserializeNBT(tag);
+
         super.load(tag);
     }
 
     @Override
     protected void saveAdditional(CompoundTag tag) {
-        this.inventory.deserializeNBT(tag);
+        tag.merge(this.inventory.serializeNBT());
         super.saveAdditional(tag);
     }
 

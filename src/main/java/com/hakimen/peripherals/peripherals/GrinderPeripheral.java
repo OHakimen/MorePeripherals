@@ -2,19 +2,27 @@ package com.hakimen.peripherals.peripherals;
 
 import com.hakimen.peripherals.blocks.tile_entities.GrinderEntity;
 import com.mojang.authlib.GameProfile;
+import com.mojang.authlib.minecraft.client.MinecraftClient;
 import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.lua.LuaFunction;
 import dan200.computercraft.api.peripheral.IComputerAccess;
 import dan200.computercraft.api.peripheral.IPeripheral;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
+import net.minecraft.commands.arguments.EntityAnchorArgument;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.Container;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Pose;
 import net.minecraft.world.item.SwordItem;
+import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.common.util.LazyOptional;
@@ -50,20 +58,24 @@ public class GrinderPeripheral implements IPeripheral {
         return other == this;
     }
 
-    @LuaFunction(mainThread = true)
+    @LuaFunction
     public final void attack(){
         List<Entity> entities = tileEntity.getLevel().getEntities(null,new AABB(tileEntity.getBlockPos().below().north().east(2),
                 tileEntity.getBlockPos().above(2).south(2).west(2)));
+        var copy = tileEntity.inventory.getStackInSlot(0);
+
         for (Entity entity:entities){
             if(entity instanceof LivingEntity livingEntity){
-                fakePlayer.setItemInHand(InteractionHand.MAIN_HAND,tileEntity.inventory.getStackInSlot(0));
-                fakePlayer.attack(entity);
+                Minecraft.getInstance().player.sendMessage(new TextComponent(copy+""),null);
+                fakePlayer.setItemInHand(InteractionHand.MAIN_HAND,copy);
                 livingEntity.invulnerableTime = 0;
-                if(tileEntity.inventory.getStackInSlot(0).getItem() instanceof SwordItem sword){
-                    livingEntity.hurt(DamageSource.playerAttack(fakePlayer),
-                            (sword).getDamage());
+                if(fakePlayer.getItemInHand(InteractionHand.MAIN_HAND).getItem() instanceof SwordItem sword) {
+                    livingEntity.hurt(DamageSource.playerAttack(fakePlayer), sword.getDamage()*2);
                 }
             }
+        }
+        if(fakePlayer.getItemInHand(InteractionHand.MAIN_HAND).getItem() instanceof SwordItem sword) {
+            sword.setDamage(copy, copy.getDamageValue() + 1);
         }
     }
 

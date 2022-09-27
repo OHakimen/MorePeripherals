@@ -90,6 +90,7 @@ public class EnchantingTablePeripheral implements IPeripheral {
         IPeripheral input = computer.getAvailablePeripheral(from);
         if (input == null) throw new LuaException("the input " + from + " was not found");
         IItemHandler inputHandler = extractHandler(input.getTarget());
+        slot -=1;
         if(slot < 0 || slot > inputHandler.getSlots()) throw new LuaException("slot out of range");
 
         IPeripheral resourcesInput = computer.getAvailablePeripheral(resources);
@@ -119,8 +120,6 @@ public class EnchantingTablePeripheral implements IPeripheral {
             throw new LuaException("not found the required lapis lazuli");
         }
         if(foundEXP && foundLapis){
-            resourcesInputHandler.extractItem(lapisSlot,1,false);
-            resourcesInputHandler.extractItem(expSlot,bottlesNeeded,false);
             var item = inputHandler.getStackInSlot(slot);
             boolean isBook = item.getItem() == Items.BOOK;
             var bookItem = item.copy();
@@ -129,7 +128,7 @@ public class EnchantingTablePeripheral implements IPeripheral {
                 if(enchant.isPresent()){
                     var value = tileEntity.getLevel().random.nextInt(enchant.get().value().getMinLevel(), enchant.get().value().getMaxLevel()+1);
                     bookItem = EnchantedBookItem.createForEnchantment(new EnchantmentInstance(enchant.get().value(),value));
-                    if(item.getCount() > 1){
+                    if(item.getCount() >= 1){
                         boolean putBook = false;
                         for (int i = 0; i < inputHandler.getSlots(); i++) {
                            if(inputHandler.getStackInSlot(i) == ItemStack.EMPTY){
@@ -148,6 +147,8 @@ public class EnchantingTablePeripheral implements IPeripheral {
                 }else{
                     enchant(computer, from, slot, resources);
                 }
+                resourcesInputHandler.extractItem(lapisSlot,1,false);
+                resourcesInputHandler.extractItem(expSlot,bottlesNeeded,false);
                 return true;
             }
             else if (!item.isEnchanted()) {
