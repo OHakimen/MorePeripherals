@@ -66,7 +66,6 @@ public class GrinderPeripheral implements IPeripheral {
 
         for (Entity entity:entities){
             if(entity instanceof LivingEntity livingEntity){
-                Minecraft.getInstance().player.sendMessage(new TextComponent(copy+""),null);
                 fakePlayer.setItemInHand(InteractionHand.MAIN_HAND,copy);
                 livingEntity.invulnerableTime = 0;
                 if(fakePlayer.getItemInHand(InteractionHand.MAIN_HAND).getItem() instanceof SwordItem sword) {
