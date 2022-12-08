@@ -1,10 +1,7 @@
 package com.hakimen.peripherals.registry;
 
 import com.hakimen.peripherals.MorePeripherals;
-import com.hakimen.peripherals.containers.AdvancedDiskRaidContainer;
-import com.hakimen.peripherals.containers.DiskRaidContainer;
-import com.hakimen.peripherals.containers.GrinderContainer;
-import com.hakimen.peripherals.containers.MagneticCardManipulatorContainer;
+import com.hakimen.peripherals.containers.*;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraftforge.common.extensions.IForgeMenuType;
 import net.minecraftforge.eventbus.api.IEventBus;

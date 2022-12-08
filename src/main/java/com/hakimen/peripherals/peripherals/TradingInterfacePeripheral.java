@@ -17,6 +17,7 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.npc.Villager;
+import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
@@ -34,15 +35,11 @@ import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.items.wrapper.InvWrapper;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.squiddev.cobalt.Lua;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class TradingInterfacePeripheral implements IPeripheral {
-
-
 
     private final TradingInterfaceEntity tileEntity;
 
@@ -142,7 +139,7 @@ public class TradingInterfacePeripheral implements IPeripheral {
                 }
             }
         }
-        if(validA) {
+        if((validA && validB)||(!validB && validA)) {
 
             var out = offer.assemble();
             var rest = out.copy();
@@ -172,6 +169,17 @@ public class TradingInterfacePeripheral implements IPeripheral {
         if(tileEntity.villager == null) throw new LuaException("villager not in range");
         tileEntity.villager.restock();
     }
+    @LuaFunction
+    public final void cycleTrades() throws LuaException{
+        if(tileEntity.villager == null) throw new LuaException("villager not in range");
+        var lastProfession = tileEntity.villager.getVillagerData().getProfession();
+
+        tileEntity.villager.setVillagerData(tileEntity.villager.getVillagerData().setProfession(VillagerProfession.NONE));
+        tileEntity.villager.setVillagerData(tileEntity.villager.getVillagerData().setLevel(1));
+        tileEntity.villager.setVillagerXp(0);
+        tileEntity.villager.setVillagerData(tileEntity.villager.getVillagerData().setProfession(lastProfession));
+
+    }
 
     private static HashMap<String,Object> getItemInfo(Map<Enchantment,Integer> enchants,int count){
         var itemSetDetails = new HashMap<String,Object>();
@@ -183,6 +191,10 @@ public class TradingInterfacePeripheral implements IPeripheral {
         itemSetDetails.put("count",count);
         return itemSetDetails;
     }
+
+
+
+
     @javax.annotation.Nullable
     private static IItemHandler extractHandler( @javax.annotation.Nullable Object object )
     {
@@ -198,6 +210,9 @@ public class TradingInterfacePeripheral implements IPeripheral {
         if( object instanceof Container container ) return new InvWrapper( container );
         return null;
     }
+
+
+
 
     private static int moveItem( IItemHandler from, int fromSlot, IItemHandler to, int toSlot, final int limit )
     {

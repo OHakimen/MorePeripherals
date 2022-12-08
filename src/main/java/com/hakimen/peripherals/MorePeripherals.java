@@ -5,14 +5,14 @@ import com.hakimen.peripherals.ber.DiskRaidRenderer;
 import com.hakimen.peripherals.ber.MagneticCardManipulatorRenderer;
 import com.hakimen.peripherals.registry.*;
 import com.hakimen.peripherals.utils.EnchantUtils;
-import dan200.computercraft.shared.Registry;
+import dan200.computercraft.client.render.TurtleModelLoader;
+import net.minecraft.client.KeyboardHandler;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.data.DataGenerator;
 import net.minecraft.world.item.*;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
-import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
@@ -23,11 +23,9 @@ import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
 
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.forge.event.lifecycle.GatherDataEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.xml.crypto.Data;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod("peripherals")
@@ -41,13 +39,17 @@ public class MorePeripherals {
         }
     };
 
+
     // Directly reference a log4j logger.
     public static final Logger LOGGER = LogManager.getLogger();
     public static final String mod_id = "peripherals";
     public MorePeripherals() {
+
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
         EnchantUtils.init();
         ItemRegister.register(bus);
+
+
 
         BlockEntityRegister.register(bus);
         BlockRegister.register(bus);
@@ -73,7 +75,6 @@ public class MorePeripherals {
             event.registerBlockEntityRenderer(BlockEntityRegister.diskRaidEntity.get(), DiskRaidRenderer::new);
             event.registerBlockEntityRenderer(BlockEntityRegister.advancedDiskRaidEntity.get(), AdvancedDiskRaidRenderer::new);
             event.registerBlockEntityRenderer(BlockEntityRegister.magneticCardManipulator.get(), MagneticCardManipulatorRenderer::new);
-
         }
     }
 

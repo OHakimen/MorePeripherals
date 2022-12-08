@@ -3,6 +3,7 @@ package com.hakimen.peripherals.registry;
 import com.hakimen.peripherals.blocks.MagneticCardManipulatorBlock;
 import com.hakimen.peripherals.MorePeripherals;
 import com.hakimen.peripherals.blocks.*;
+import dan200.computercraft.shared.turtle.upgrades.TurtleInventoryCrafting;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -106,6 +107,9 @@ public class BlockRegister {
     public static final RegistryObject<Item> magneticCardManipulatorItem = ItemRegister.ITEMS.register("magnetic_card_manipulator",()->{
         return new BlockItem(magneticCardManipulator.get(),new Item.Properties().tab(MorePeripherals.tab));
     });
+
+
+
 
 
 
