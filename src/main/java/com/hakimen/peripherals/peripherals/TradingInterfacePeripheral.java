@@ -6,17 +6,8 @@ import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.lua.LuaFunction;
 import dan200.computercraft.api.peripheral.IComputerAccess;
 import dan200.computercraft.api.peripheral.IPeripheral;
-import dan200.computercraft.api.turtle.ITurtleUpgrade;
-import dan200.computercraft.shared.Registry;
-import dan200.computercraft.shared.turtle.blocks.ITurtleTile;
-import dan200.computercraft.shared.turtle.items.ITurtleItem;
-import dan200.computercraft.shared.turtle.upgrades.CraftingTablePeripheral;
-import net.minecraft.client.gui.screens.inventory.EnchantmentNames;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.Tag;
 import net.minecraft.world.Container;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.npc.Villager;
+import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
@@ -24,11 +15,9 @@ import net.minecraft.world.item.trading.Merchant;
 import net.minecraft.world.item.trading.MerchantOffer;
 import net.minecraft.world.level.block.EnderChestBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.EnchantmentTableBlockEntity;
-import net.minecraft.world.level.block.entity.EnderChestBlockEntity;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.items.wrapper.InvWrapper;
@@ -142,7 +131,7 @@ public class TradingInterfacePeripheral implements IPeripheral {
                 }
             }
         }
-        if(validA) {
+        if((validA && validB)||(!validB && validA)) {
 
             var out = offer.assemble();
             var rest = out.copy();
@@ -173,6 +162,18 @@ public class TradingInterfacePeripheral implements IPeripheral {
         tileEntity.villager.restock();
     }
 
+    @LuaFunction
+    public final void cycleTrades() throws LuaException{
+        if(tileEntity.villager == null) throw new LuaException("villager not in range");
+        var lastProfession = tileEntity.villager.getVillagerData().getProfession();
+
+        tileEntity.villager.setVillagerData(tileEntity.villager.getVillagerData().setProfession(VillagerProfession.NONE));
+        tileEntity.villager.setVillagerData(tileEntity.villager.getVillagerData().setLevel(1));
+        tileEntity.villager.setVillagerXp(0);
+        tileEntity.villager.setVillagerData(tileEntity.villager.getVillagerData().setProfession(lastProfession));
+
+    }
+
     private static HashMap<String,Object> getItemInfo(Map<Enchantment,Integer> enchants,int count){
         var itemSetDetails = new HashMap<String,Object>();
         var enchantList = new ArrayList<String>();
@@ -184,18 +185,16 @@ public class TradingInterfacePeripheral implements IPeripheral {
         return itemSetDetails;
     }
     @javax.annotation.Nullable
-    private static IItemHandler extractHandler( @javax.annotation.Nullable Object object )
-    {
-        if( object instanceof BlockEntity blockEntity && blockEntity.isRemoved() ) return null;
+    private static IItemHandler extractHandler(@javax.annotation.Nullable Object object) {
+        if (object instanceof BlockEntity blockEntity && blockEntity.isRemoved()) return null;
 
-        if( object instanceof ICapabilityProvider provider )
-        {
-            LazyOptional<IItemHandler> cap = provider.getCapability( CapabilityItemHandler.ITEM_HANDLER_CAPABILITY );
-            if( cap.isPresent() ) return cap.orElseThrow( NullPointerException::new );
+        if (object instanceof ICapabilityProvider provider) {
+            LazyOptional<IItemHandler> cap = provider.getCapability(ForgeCapabilities.ITEM_HANDLER);
+            if (cap.isPresent()) return cap.orElseThrow(NullPointerException::new);
         }
 
-        if( object instanceof IItemHandler handler ) return handler;
-        if( object instanceof Container container ) return new InvWrapper( container );
+        if (object instanceof IItemHandler handler) return handler;
+        if (object instanceof Container container) return new InvWrapper(container);
         return null;
     }
 

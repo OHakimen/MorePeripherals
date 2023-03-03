@@ -14,15 +14,10 @@ import net.minecraft.tags.BannerPatternTags;
 import net.minecraft.world.Container;
 import net.minecraft.world.inventory.LoomMenu;
 import net.minecraft.world.item.*;
-import net.minecraft.world.item.trading.MerchantOffer;
-import net.minecraft.world.level.block.BannerBlock;
-import net.minecraft.world.level.block.BeehiveBlock;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.LoomBlock;
 import net.minecraft.world.level.block.entity.*;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.items.wrapper.InvWrapper;
@@ -133,7 +128,7 @@ public class LoomInterfacePeripheral implements IPeripheral {
         if (object instanceof BlockEntity blockEntity && blockEntity.isRemoved()) return null;
 
         if (object instanceof ICapabilityProvider provider) {
-            LazyOptional<IItemHandler> cap = provider.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY);
+            LazyOptional<IItemHandler> cap = provider.getCapability(ForgeCapabilities.ITEM_HANDLER);
             if (cap.isPresent()) return cap.orElseThrow(NullPointerException::new);
         }
 

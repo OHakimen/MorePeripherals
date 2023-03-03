@@ -17,9 +17,9 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.SpawnerBlockEntity;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
 import org.jetbrains.annotations.NotNull;
@@ -45,7 +45,7 @@ public class SpawnerPeripheral implements IPeripheral {
     }
 
     @LuaFunction
-    public final boolean changeSpawner(IComputerAccess computer, String inv, int slot) throws LuaException {
+    public final boolean changeSpawner(IComputerAccess computer, String inv, int slot, Optional<Boolean> force) throws LuaException {
         slot = slot-1;
         IPeripheral peripheral = computer.getAvailablePeripheral(inv);
         if (inv == null) throw new LuaException("the input " + inv + " was not found");
@@ -55,9 +55,15 @@ public class SpawnerPeripheral implements IPeripheral {
             if(slot < 0 || slot > handler.getSlots()) throw new LuaException("Slot out of range");
             var stack = handler.getStackInSlot(slot);
             if(stack.hasTag() && stack.getItem() instanceof MobDataCardItem){
-                System.out.println(EntityType.byString(stack.getTag().getString("mob")));
+                var previousMob = entity.entity.saveWithFullMetadata().getCompound("SpawnData").getCompound("entity").getString("id");
                 entity.entity.getSpawner().setEntityId(EntityType.byString(stack.getTag().getString("mob")).get());
-                stack.getTag().remove("mob");
+                if(force.isPresent() && force.get()){
+                    stack.getTag().remove("mob");
+                }else{
+                    if(!previousMob.equals("minecraft:pig")){
+                        stack.getTag().putString("mob",previousMob);
+                    }
+                }
                 stack.resetHoverName();
                 CompoundTag tag = new CompoundTag();
                 var saved = entity.entity.getSpawner().save(tag);
@@ -65,7 +71,6 @@ public class SpawnerPeripheral implements IPeripheral {
                 entity.entity.setChanged();
                 entity.entity.getSpawner().getSpawnerEntity();
                 return true;
-
             }
         }else{
             throw new LuaException("This block requires a vanilla inventory");
@@ -118,12 +123,12 @@ public class SpawnerPeripheral implements IPeripheral {
         return false;
     }
 
-    @Nullable
-    private static IItemHandler extractHandler(@Nullable Object object) {
+    @javax.annotation.Nullable
+    private static IItemHandler extractHandler(@javax.annotation.Nullable Object object) {
         if (object instanceof BlockEntity blockEntity && blockEntity.isRemoved()) return null;
 
         if (object instanceof ICapabilityProvider provider) {
-            LazyOptional<IItemHandler> cap = provider.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY);
+            LazyOptional<IItemHandler> cap = provider.getCapability(ForgeCapabilities.ITEM_HANDLER);
             if (cap.isPresent()) return cap.orElseThrow(NullPointerException::new);
         }
 

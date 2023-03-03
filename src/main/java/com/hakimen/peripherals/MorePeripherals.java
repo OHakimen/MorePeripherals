@@ -8,6 +8,7 @@ import com.hakimen.peripherals.utils.EnchantUtils;
 import dan200.computercraft.shared.Registry;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.entity.layers.CapeLayer;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
@@ -48,7 +49,6 @@ public class MorePeripherals {
         ItemRegister.register(bus);
         BlockRegister.register(bus);
         ContainerRegister.register(bus);
-
         ComputerCraftRegister.registerPeripheralProvider();
         ComputerCraftRegister.registerTurtleUpgrades();
 

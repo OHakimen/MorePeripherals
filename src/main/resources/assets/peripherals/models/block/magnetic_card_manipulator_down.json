@@ -1,12 +1,12 @@
 {
   "parent": "minecraft:block/cube",
   "textures": {
-    "down": "computercraft:block/computer_normal_top",
+    "down": "peripherals:block/magnetic_card_manipulator_top",
     "east": "computercraft:block/computer_normal_top",
     "north": "computercraft:block/computer_normal_top",
     "particle": "computercraft:block/computer_normal_top",
     "south": "computercraft:block/computer_normal_top",
-    "up": "peripherals:block/magnetic_card_manipulator_top",
+    "up": "computercraft:block/computer_normal_top",
     "west": "computercraft:block/computer_normal_top"
   }
 }

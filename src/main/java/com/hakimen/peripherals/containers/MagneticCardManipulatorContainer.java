@@ -1,7 +1,9 @@
 package com.hakimen.peripherals.containers;
 
+import com.hakimen.peripherals.blocks.tile_entities.MagneticCardManiputalorEntity;
 import com.hakimen.peripherals.registry.BlockRegister;
 import com.hakimen.peripherals.registry.ContainerRegister;
+import dan200.computercraft.api.peripheral.IComputerAccess;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -81,6 +83,11 @@ public class MagneticCardManipulatorContainer extends AbstractContainerMenu {
                 return ItemStack.EMPTY;
             }
             if (!this.moveItemStackTo(stack1, 0, 1, false)) {
+                if(blockEntity instanceof MagneticCardManiputalorEntity manip){
+                    for (IComputerAccess c: manip.computers) {
+                        c.queueEvent("card_remove");
+                    }
+                }
                 return ItemStack.EMPTY;
             }
             if (stack1.isEmpty()) {
@@ -91,6 +98,7 @@ public class MagneticCardManipulatorContainer extends AbstractContainerMenu {
             } else {
                 slot.setChanged();
             }
+
         }
         return stack;
     }

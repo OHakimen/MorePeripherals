@@ -1,6 +1,8 @@
 package com.hakimen.peripherals.registry;
 
+import com.hakimen.peripherals.peripherals.CrafterPeripheral;
 import dan200.computercraft.api.ComputerCraftAPI;
+import dan200.computercraft.api.ForgeComputerCraftAPI;
 import dan200.computercraft.api.peripheral.IPeripheral;
 import dan200.computercraft.shared.Capabilities;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -16,7 +18,8 @@ public class ComputerCraftRegister {
 
 
     public static void registerPeripheralProvider(){
-        ComputerCraftAPI.registerPeripheralProvider(((world, blockPos, direction) -> {
+        ForgeComputerCraftAPI.registerPeripheralProvider(new CrafterPeripheral());
+        ForgeComputerCraftAPI.registerPeripheralProvider(((world, blockPos, direction) -> {
             BlockEntity te = world.getBlockEntity(blockPos);
             if(te == null) {
                 return LazyOptional.empty();

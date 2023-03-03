@@ -13,7 +13,7 @@ import net.minecraftforge.registries.RegistryObject;
 public class ItemRegister {
     public static DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, MorePeripherals.mod_id);
 
-    public static final RegistryObject<Item> mob_data_card = ItemRegister.ITEMS.register("mob_data_card",()->{
+    public static final RegistryObject<Item> mob_data_card = ItemRegister.ITEMS.register("spawner_card",()->{
         return new MobDataCardItem(new Item.Properties().tab(MorePeripherals.tab));
     });
     public static final RegistryObject<Item> magnetic_card = ItemRegister.ITEMS.register("magnetic_card",()->{

@@ -13,7 +13,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
 public class ContainerRegister {
-    public static final DeferredRegister<MenuType<?>> CONTAINERS = DeferredRegister.create(ForgeRegistries.CONTAINERS, MorePeripherals.mod_id);
+    public static final DeferredRegister<MenuType<?>> CONTAINERS = DeferredRegister.create(ForgeRegistries.MENU_TYPES, MorePeripherals.mod_id);
 
     public static final RegistryObject<MenuType<GrinderContainer>> grinderContainer = CONTAINERS.register("grinder", ()-> IForgeMenuType.create(((windowId, inv, data) -> new GrinderContainer(windowId,data.readBlockPos(),inv,inv.player))));
     public static final RegistryObject<MenuType<DiskRaidContainer>> diskRaidContainer = CONTAINERS.register("disk_raid", ()-> IForgeMenuType.create(((windowId, inv, data) -> new DiskRaidContainer(windowId,data.readBlockPos(),inv,inv.player))));

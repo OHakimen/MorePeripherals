@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "peripherals:spawner_card"
+    }
+  ],
+  "result": {
+    "item": "peripherals:spawner_card"
+  }
+}

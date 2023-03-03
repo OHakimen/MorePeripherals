@@ -16,7 +16,7 @@
   "block.peripherals.induction_charger" : "Induction Charger",
   "block.peripherals.magnetic_card_manipulator" : "Magnetic Card Manipulator",
 
-  "item.peripherals.mob_data_card": "Mob Data Collector",
+  "item.peripherals.spawner_card": "Spawner Card",
   "item.peripherals.magnetic_card": "Magnetic Card",
 
   "gui.peripherals.grinder.name": "Grinder",

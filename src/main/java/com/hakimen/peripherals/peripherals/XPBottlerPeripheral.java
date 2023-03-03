@@ -8,9 +8,9 @@ import dan200.computercraft.api.peripheral.IPeripheral;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
 import org.jetbrains.annotations.NotNull;
@@ -87,18 +87,16 @@ public class XPBottlerPeripheral implements IPeripheral {
 
 
     @javax.annotation.Nullable
-    private static IItemHandler extractHandler( @javax.annotation.Nullable Object object )
-    {
-        if( object instanceof BlockEntity blockEntity && blockEntity.isRemoved() ) return null;
+    private static IItemHandler extractHandler(@javax.annotation.Nullable Object object) {
+        if (object instanceof BlockEntity blockEntity && blockEntity.isRemoved()) return null;
 
-        if( object instanceof ICapabilityProvider provider )
-        {
-            LazyOptional<IItemHandler> cap = provider.getCapability( CapabilityItemHandler.ITEM_HANDLER_CAPABILITY );
-            if( cap.isPresent() ) return cap.orElseThrow( NullPointerException::new );
+        if (object instanceof ICapabilityProvider provider) {
+            LazyOptional<IItemHandler> cap = provider.getCapability(ForgeCapabilities.ITEM_HANDLER);
+            if (cap.isPresent()) return cap.orElseThrow(NullPointerException::new);
         }
 
-        if( object instanceof IItemHandler handler ) return handler;
-        if( object instanceof Container container ) return new InvWrapper( container );
+        if (object instanceof IItemHandler handler) return handler;
+        if (object instanceof Container container) return new InvWrapper(container);
         return null;
     }
 

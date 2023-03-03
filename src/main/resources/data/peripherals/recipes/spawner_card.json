@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#  ",
+    " xO",
+    " O@"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:iron_ingot"
+    },
+    "@": {
+      "item": "computercraft:disk"
+    },
+    "x": {
+      "item": "minecraft:netherite_ingot"
+    },
+    "O": {
+      "item": "minecraft:blaze_rod"
+    }
+  },
+  "result": {
+    "item": "peripherals:spawner_card"
+  }
+}

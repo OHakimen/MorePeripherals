@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "peripherals:magnetic_card"
+    }
+  ],
+  "result": {
+    "item": "peripherals:magnetic_card"
+  }
+}

@@ -56,7 +56,7 @@ public class GrinderBlock extends Block implements EntityBlock {
                         return new GrinderContainer(windowId, pos, playerInventory, playerEntity);
                     }
                 };
-                NetworkHooks.openGui((ServerPlayer) player, containerProvider, tileEntity.getBlockPos());
+                NetworkHooks.openScreen((ServerPlayer) player, containerProvider, tileEntity.getBlockPos());
             } else {
                 throw new IllegalStateException("Our named container provider is missing!");
             }
