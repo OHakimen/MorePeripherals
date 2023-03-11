@@ -1,5 +1,6 @@
 package com.hakimen.peripherals.blocks.tile_entities;
 
+import com.hakimen.peripherals.config.Config;
 import com.hakimen.peripherals.peripherals.BeehiveInterfacePeripheral;
 import com.hakimen.peripherals.registry.BlockEntityRegister;
 import dan200.computercraft.api.peripheral.IPeripheral;
@@ -46,7 +47,7 @@ public class InductionChargerEntity extends BlockEntity {
     public void tick(){
         if(getLevel().getBlockEntity(getBlockPos().above()) instanceof ITurtleTile turtle){
             if(turtle.getAccess().getFuelLevel() < turtle.getAccess().getFuelLimit()){
-                turtle.getAccess().addFuel((storage.extractEnergy(100,false) * 4));
+                turtle.getAccess().addFuel((storage.extractEnergy(Config.extractRate.get(),false) * Config.conversionRate.get()));
             }
         }
     }

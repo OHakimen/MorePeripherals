@@ -1,5 +1,19 @@
 {
   "variants": {
-    "": {"model": "peripherals:block/induction_charger"}
+    "facing=north": {
+      "model": "peripherals:block/induction_charger"
+    },
+    "facing=south": {
+      "model": "peripherals:block/induction_charger",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "peripherals:block/induction_charger",
+      "y": 270
+    },
+    "facing=east": {
+      "model": "peripherals:block/induction_charger",
+      "y": 90
+    }
   }
 }

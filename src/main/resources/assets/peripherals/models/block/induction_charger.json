@@ -1,12 +1,101 @@
 {
-  "parent": "minecraft:block/cube",
-  "textures": {
-    "down": "computercraft:block/computer_normal_top",
-    "east": "peripherals:block/induction_charger",
-    "north": "peripherals:block/induction_charger",
-    "particle": "peripherals:block/induction_charger",
-    "south": "peripherals:block/induction_charger",
-    "up": "computercraft:block/computer_normal_top",
-    "west": "peripherals:block/induction_charger"
-  }
+	"credit": "Made with Blockbench",
+	"texture_size": [64, 64],
+	"textures": {
+		"0": "peripherals:block/induction_charger",
+		"particle": "peripherals:block/induction_charger"
+	},
+	"elements": [
+		{
+			"from": [0, 0, 0],
+			"to": [16, 2, 16],
+			"faces": {
+				"north": {"uv": [10.5, 5.5, 14.5, 6], "texture": "#0"},
+				"east": {"uv": [10.5, 6, 14.5, 6.5], "texture": "#0"},
+				"south": {"uv": [10.5, 6.5, 14.5, 7], "texture": "#0"},
+				"west": {"uv": [10.5, 7, 14.5, 7.5], "texture": "#0"},
+				"up": {"uv": [4, 4, 0, 0], "texture": "#0"},
+				"down": {"uv": [4, 4, 0, 8], "texture": "#0"}
+			}
+		},
+		{
+			"from": [0, 14, 0],
+			"to": [16, 16, 16],
+			"faces": {
+				"north": {"uv": [10.5, 7.5, 14.5, 8], "texture": "#0"},
+				"east": {"uv": [10.5, 8, 14.5, 8.5], "texture": "#0"},
+				"south": {"uv": [0, 11, 4, 11.5], "texture": "#0"},
+				"west": {"uv": [9, 11, 13, 11.5], "texture": "#0"},
+				"up": {"uv": [8, 4, 4, 0], "texture": "#0"},
+				"down": {"uv": [8, 4, 4, 8], "texture": "#0"}
+			}
+		},
+		{
+			"from": [0, 2, 14],
+			"to": [16, 14, 16],
+			"faces": {
+				"north": {"uv": [0, 8, 4, 11], "texture": "#0"},
+				"east": {"uv": [8, 11.25, 8.5, 14.25], "texture": "#0"},
+				"south": {"uv": [8, 0, 12, 3], "texture": "#0"},
+				"west": {"uv": [8.5, 11.25, 9, 14.25], "texture": "#0"},
+				"up": {"uv": [8, 11.75, 4, 11.25], "texture": "#0"},
+				"down": {"uv": [4, 11.5, 0, 12], "texture": "#0"}
+			}
+		},
+		{
+			"from": [7, 1, 7],
+			"to": [9, 15, 9],
+			"faces": {
+				"north": {"uv": [9, 11.5, 9.5, 14.5], "texture": "#0"},
+				"east": {"uv": [9.5, 11.5, 10, 14.5], "texture": "#0"},
+				"south": {"uv": [10, 11.5, 10.5, 14.5], "texture": "#0"},
+				"west": {"uv": [10.5, 11.5, 11, 14.5], "texture": "#0"},
+				"up": {"uv": [7, 8.5, 6.5, 8], "texture": "#0"},
+				"down": {"uv": [7.5, 8, 7, 8.5], "texture": "#0"}
+			}
+		},
+		{
+			"from": [3, 2.6, 3],
+			"to": [13, 13.4, 13],
+			"faces": {
+				"north": {"uv": [8, 3, 10.5, 5.75], "texture": "#0"},
+				"east": {"uv": [4, 8, 6.5, 10.75], "texture": "#0"},
+				"south": {"uv": [8, 5.75, 10.5, 8.5], "texture": "#0"},
+				"west": {"uv": [6.5, 8.5, 9, 11.25], "texture": "#0"},
+				"up": {"uv": [11.5, 11, 9, 8.5], "texture": "#0"},
+				"down": {"uv": [13, 3, 10.5, 5.5], "texture": "#0"}
+			}
+		}
+	],
+	"display": {
+		"thirdperson_righthand": {
+			"rotation": [75, 45, 0],
+			"translation": [0, 2.5, 0],
+			"scale": [0.375, 0.375, 0.375]
+		},
+		"thirdperson_lefthand": {
+			"rotation": [75, 45, 0],
+			"translation": [0, 2.5, 0],
+			"scale": [0.375, 0.375, 0.375]
+		},
+		"firstperson_righthand": {
+			"rotation": [0, 45, 0],
+			"scale": [0.4, 0.4, 0.4]
+		},
+		"firstperson_lefthand": {
+			"rotation": [0, 225, 0],
+			"scale": [0.4, 0.4, 0.4]
+		},
+		"ground": {
+			"translation": [0, 3, 0],
+			"scale": [0.25, 0.25, 0.25]
+		},
+		"gui": {
+			"rotation": [30, 225, 0],
+			"scale": [0.625, 0.625, 0.625]
+		},
+		"fixed": {
+			"scale": [0.5, 0.5, 0.5]
+		}
+	}
 }
