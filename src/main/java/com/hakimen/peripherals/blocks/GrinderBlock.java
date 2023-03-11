@@ -1,15 +1,13 @@
 package com.hakimen.peripherals.blocks;
 
-import com.hakimen.peripherals.blocks.tile_entities.EnchantingTableInterfaceEntity;
 import com.hakimen.peripherals.blocks.tile_entities.GrinderEntity;
-import com.hakimen.peripherals.containers.GrinderContainer;
+import com.hakimen.peripherals.client.containers.GrinderContainer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.MenuProvider;
-import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;

@@ -1,4 +1,4 @@
-package com.hakimen.peripherals.ber;
+package com.hakimen.peripherals.client.ber;
 
 import com.hakimen.peripherals.blocks.DiskRaidBlock;
 import com.hakimen.peripherals.blocks.MagneticCardManipulatorBlock;
@@ -63,8 +63,8 @@ public class MagneticCardManipulatorRenderer implements BlockEntityRenderer<Magn
                 stack,
                 buffer,
                 Minecraft.getInstance().level,
-                overlay,
                 packedLight,
+                overlay,
                 1);
         stack.popPose();
     }

@@ -1,14 +1,10 @@
 package com.hakimen.peripherals;
 
-import com.hakimen.peripherals.ber.DiskRaidRenderer;
-import com.hakimen.peripherals.blocks.AdvancedDiskRaidBlock;
-import com.hakimen.peripherals.registry.BlockEntityRegister;
-import com.hakimen.peripherals.registry.BlockRegister;
 import com.hakimen.peripherals.registry.ContainerRegister;
-import com.hakimen.peripherals.screen.AdvancedDiskRaidScreen;
-import com.hakimen.peripherals.screen.DiskRaidScreen;
-import com.hakimen.peripherals.screen.GrinderScreen;
-import com.hakimen.peripherals.screen.MagneticCardManipulatorScreen;
+import com.hakimen.peripherals.client.screen.AdvancedDiskRaidScreen;
+import com.hakimen.peripherals.client.screen.DiskRaidScreen;
+import com.hakimen.peripherals.client.screen.GrinderScreen;
+import com.hakimen.peripherals.client.screen.MagneticCardManipulatorScreen;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 

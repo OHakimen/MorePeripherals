@@ -1,4 +1,4 @@
-package com.hakimen.peripherals.ber;
+package com.hakimen.peripherals.client.ber;
 
 import ca.weblite.objc.Client;
 import com.hakimen.peripherals.blocks.DiskRaidBlock;
@@ -74,8 +74,8 @@ public class DiskRaidRenderer implements BlockEntityRenderer<DiskRaidEntity> {
                     stack,
                     buffer,
                     Minecraft.getInstance().level,
-                    overlay,
                     packedLight,
+                    overlay,
                     1);
             stack.popPose();
             z = 0;

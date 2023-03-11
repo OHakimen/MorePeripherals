@@ -26,12 +26,12 @@ public class MagneticCardItem extends Item {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> components, TooltipFlag flag) {
-        var data =  (stack.getOrCreateTag().get("data") != null ? stack.getTag().getString("data") : "None");
+        var data =  (stack.getOrCreateTag().get("data") != null ? stack.getTag().getString("data") : "Empty");
         var isSensible = (stack.getOrCreateTag().get("sensible") != null ? stack.getTag().getBoolean("sensible") : false);
         if(!isSensible){
-            components.add(Component.literal("Data : ").append(data));
+            components.add(Component.literal(data).setStyle(Style.EMPTY.withColor(0x838383)));
         }else{
-            components.add(Component.literal("Sensible Data").setStyle(Style.EMPTY.withColor(TextColor.fromRgb(0xaaaaaa))));
+            components.add(Component.literal("Sensible Data").setStyle(Style.EMPTY.withColor(0x838383)));
         }
         super.appendHoverText(stack, level, components, flag);
     }

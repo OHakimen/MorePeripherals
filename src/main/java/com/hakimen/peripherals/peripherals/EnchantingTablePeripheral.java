@@ -1,16 +1,20 @@
 package com.hakimen.peripherals.peripherals;
 
-import com.hakimen.peripherals.blocks.tile_entities.EnchantingTableInterfaceEntity;
 import com.hakimen.peripherals.utils.EnchantUtils;
 import com.hakimen.peripherals.utils.Utils;
 import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.lua.LuaFunction;
 import dan200.computercraft.api.peripheral.IComputerAccess;
 import dan200.computercraft.api.peripheral.IPeripheral;
+import dan200.computercraft.api.peripheral.IPeripheralProvider;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.Registry;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.enchantment.*;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
@@ -23,16 +27,9 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
-public class EnchantingTablePeripheral implements IPeripheral {
+public class EnchantingTablePeripheral implements IPeripheral, IPeripheralProvider {
 
-
-    private final EnchantingTableInterfaceEntity tileEntity;
-
-
-    public EnchantingTablePeripheral(EnchantingTableInterfaceEntity tileEntity) {
-        this.tileEntity = tileEntity;
-
-    }
+    public Level level;
 
     @NotNull
     @Override
@@ -47,17 +44,11 @@ public class EnchantingTablePeripheral implements IPeripheral {
 
     @LuaFunction
     public List<String> getEnchantsFor(IComputerAccess computer, String from, int slot) throws LuaException {
-        if (tileEntity.enchantTable == null) {
-            throw new LuaException("there is no enchanting table near the interface");
-        }
         List<String> enchants = new ArrayList<>();
         IPeripheral input = computer.getAvailablePeripheral(from);
         if (input == null) throw new LuaException("the input " + from + " was not found");
         IItemHandler inputHandler = extractHandler(input.getTarget());
         if(slot < 0 || slot > inputHandler.getSlots()) throw new LuaException("slot out of range");
-        if (tileEntity.enchantTable == null) {
-            throw new LuaException("there is no enchanting table near the interface");
-        }
         var item = inputHandler.getStackInSlot(slot);
         if (item.isEnchantable()) {
             if (!item.isEnchanted()) {
@@ -81,9 +72,6 @@ public class EnchantingTablePeripheral implements IPeripheral {
     public boolean enchant(IComputerAccess computer, String from, int slot, String resources) throws LuaException {
         if(!Utils.isFromMinecraft(computer,resources)){
             throw new LuaException("this method needs a vanilla inventory as the resources input");
-        }
-        if (tileEntity.enchantTable == null) {
-            throw new LuaException("there is no enchanting table near the interface");
         }
         var bottlesNeeded = 8;
 
@@ -125,9 +113,9 @@ public class EnchantingTablePeripheral implements IPeripheral {
             boolean isBook = item.getItem() == Items.BOOK;
             var bookItem = item.copy();
             if(isBook){
-                var enchant = Registry.ENCHANTMENT.getRandom(tileEntity.getLevel().random);
+                var enchant = Registry.ENCHANTMENT.getRandom(level.random);
                 if(enchant.isPresent()){
-                    var value = tileEntity.getLevel().random.nextInt(enchant.get().value().getMinLevel(), enchant.get().value().getMaxLevel()+1);
+                    var value = level.random.nextInt(enchant.get().value().getMinLevel(), enchant.get().value().getMaxLevel()+1);
                     bookItem = EnchantedBookItem.createForEnchantment(new EnchantmentInstance(enchant.get().value(),value));
                     if(item.getCount() > 1){
                         boolean putBook = false;
@@ -197,5 +185,16 @@ public class EnchantingTablePeripheral implements IPeripheral {
         // about that.
         from.extractItem(fromSlot, inserted, false);
         return inserted;
+    }
+
+    @NotNull
+    @Override
+    public LazyOptional<IPeripheral> getPeripheral(@NotNull Level world, @NotNull BlockPos pos, @NotNull Direction side) {
+        level = world;
+        if(world.getBlockState(pos).getBlock().equals(Blocks.ENCHANTING_TABLE)){
+
+            return LazyOptional.of(() -> this);
+        }
+        return LazyOptional.empty();
     }
 }

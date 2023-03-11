@@ -1,4 +1,4 @@
-package com.hakimen.peripherals.containers;
+package com.hakimen.peripherals.client.containers;
 
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Player;

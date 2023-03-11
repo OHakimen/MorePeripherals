@@ -1,12 +1,7 @@
 package com.hakimen.peripherals.blocks;
 
 import com.hakimen.peripherals.blocks.tile_entities.DiskRaidEntity;
-import com.hakimen.peripherals.blocks.tile_entities.GrinderEntity;
-import com.hakimen.peripherals.containers.DiskRaidContainer;
-import com.hakimen.peripherals.containers.GrinderContainer;
-import com.mojang.authlib.minecraft.client.MinecraftClient;
-import dan200.computercraft.shared.peripheral.diskdrive.DiskDriveState;
-import net.minecraft.client.Minecraft;
+import com.hakimen.peripherals.client.containers.DiskRaidContainer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;

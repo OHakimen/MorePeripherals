@@ -1,19 +1,19 @@
 package com.hakimen.peripherals.peripherals;
 
-import com.hakimen.peripherals.blocks.tile_entities.LoomInterfaceEntity;
 import com.hakimen.peripherals.utils.Utils;
 import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.lua.LuaFunction;
 import dan200.computercraft.api.peripheral.IComputerAccess;
 import dan200.computercraft.api.peripheral.IPeripheral;
-import net.minecraft.core.Registry;
+import dan200.computercraft.api.peripheral.IPeripheralProvider;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.StringTag;
-import net.minecraft.tags.BannerPatternTags;
 import net.minecraft.world.Container;
-import net.minecraft.world.inventory.LoomMenu;
 import net.minecraft.world.item.*;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.*;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
@@ -24,21 +24,9 @@ import net.minecraftforge.items.wrapper.InvWrapper;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import static net.minecraft.core.Registry.BANNER_PATTERN;
 
-public class LoomInterfacePeripheral implements IPeripheral {
-
-    private final LoomInterfaceEntity tileEntity;
-
-
-    public LoomInterfacePeripheral(LoomInterfaceEntity tileEntity) {
-        this.tileEntity = tileEntity;
-    }
+public class LoomInterfacePeripheral implements IPeripheral, IPeripheralProvider {
 
     @NotNull
     @Override
@@ -55,9 +43,6 @@ public class LoomInterfacePeripheral implements IPeripheral {
     public void paintBanner(IComputerAccess computer, String from, int slotBanner, int slotDye, int pattern) throws LuaException {
         if(!Utils.isFromMinecraft(computer,from)){
             throw new LuaException("this method needs a vanilla inventory as input");
-        }
-        if(tileEntity.loom == null){
-            throw new LuaException("there is no loom near the interface");
         }
 
 
@@ -108,9 +93,6 @@ public class LoomInterfacePeripheral implements IPeripheral {
     @LuaFunction
     public void clearBanner(IComputerAccess computer,String from,int slot) throws LuaException {
 
-        if(tileEntity.loom == null){
-            throw new LuaException("there is no loom near the interface");
-        }
 
         IPeripheral inputPeripheral = computer.getAvailablePeripheral(from);
         if (inputPeripheral == null) throw new LuaException("the input " + from + " was not found");
@@ -154,5 +136,14 @@ public class LoomInterfacePeripheral implements IPeripheral {
         // about that.
         from.extractItem(fromSlot, inserted, false);
         return inserted;
+    }
+
+    @NotNull
+    @Override
+    public LazyOptional<IPeripheral> getPeripheral(@NotNull Level world, @NotNull BlockPos pos, @NotNull Direction side) {
+        if(world.getBlockState(pos).getBlock().equals(Blocks.LOOM)){
+            return LazyOptional.of(() -> this);
+        }
+        return LazyOptional.empty();
     }
 }

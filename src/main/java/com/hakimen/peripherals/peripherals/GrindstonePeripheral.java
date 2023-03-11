@@ -1,24 +1,21 @@
 package com.hakimen.peripherals.peripherals;
 
-import com.hakimen.peripherals.blocks.tile_entities.EnchantingTableInterfaceEntity;
-import com.hakimen.peripherals.blocks.tile_entities.GrindstoneInterfaceEntity;
-import com.hakimen.peripherals.utils.EnchantUtils;
 import com.hakimen.peripherals.utils.Utils;
 import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.lua.LuaFunction;
 import dan200.computercraft.api.peripheral.IComputerAccess;
 import dan200.computercraft.api.peripheral.IPeripheral;
-import net.minecraft.core.Registry;
+import dan200.computercraft.api.peripheral.IPeripheralProvider;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.world.Container;
 import net.minecraft.world.inventory.AnvilMenu;
-import net.minecraft.world.item.EnchantedBookItem;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantment;
-import net.minecraft.world.item.enchantment.EnchantmentCategory;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
-import net.minecraft.world.item.enchantment.EnchantmentInstance;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
@@ -29,22 +26,11 @@ import net.minecraftforge.items.wrapper.InvWrapper;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-public class GrindstonePeripheral implements IPeripheral {
-
-
-    private final GrindstoneInterfaceEntity tileEntity;
-
-
-    public GrindstonePeripheral(GrindstoneInterfaceEntity tileEntity) {
-        this.tileEntity = tileEntity;
-
-    }
+public class GrindstonePeripheral implements IPeripheral, IPeripheralProvider {
 
     @NotNull
     @Override
@@ -67,10 +53,6 @@ public class GrindstonePeripheral implements IPeripheral {
             throw new LuaException("This method requires a vanilla inventory");
         }
 
-
-        if (tileEntity.grindStone == null) {
-            throw new LuaException("there is no grindstone near the interface");
-        }
         fromSlot -= 1;
         resourceSlot -= 1; //Java starts counting at zero, but lua starts at 1
         if(from.matches(resource) && fromSlot == resourceSlot) throw new LuaException("Can't combine item with itself");
@@ -125,9 +107,6 @@ public class GrindstonePeripheral implements IPeripheral {
             throw new LuaException("This method requires a vanilla inventory");
         }
 
-        if (tileEntity.grindStone == null) {
-            throw new LuaException("there is no grindstone near the interface");
-        }
         slot = slot+1;
         IPeripheral input = computer.getAvailablePeripheral(from);
         if (input == null) throw new LuaException("the input " + from + " was not found");
@@ -228,5 +207,15 @@ public class GrindstonePeripheral implements IPeripheral {
         }
 
         return itemstack;
+    }
+
+    @NotNull
+    @Override
+    public LazyOptional<IPeripheral> getPeripheral(@NotNull Level world, @NotNull BlockPos pos, @NotNull Direction side) {
+        if(world.getBlockState(pos).getBlock().equals(Blocks.GRINDSTONE)){
+
+            return LazyOptional.of(() -> this);
+        }
+        return LazyOptional.empty();
     }
 }

@@ -1,11 +1,13 @@
 package com.hakimen.peripherals.peripherals;
 
-import com.hakimen.peripherals.blocks.tile_entities.AnvilInterfaceEntity;
 import com.hakimen.peripherals.utils.Utils;
 import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.lua.LuaFunction;
 import dan200.computercraft.api.peripheral.IComputerAccess;
 import dan200.computercraft.api.peripheral.IPeripheral;
+import dan200.computercraft.api.peripheral.IPeripheralProvider;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.Container;
 import net.minecraft.world.inventory.AnvilMenu;
@@ -14,6 +16,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
@@ -23,19 +27,12 @@ import net.minecraftforge.items.wrapper.InvWrapper;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.awt.*;
 import java.util.Map;
 
-public class AnvilPeripheral implements IPeripheral {
+public class AnvilPeripheral implements IPeripheral, IPeripheralProvider {
 
 
-    private final AnvilInterfaceEntity tileEntity;
 
-
-    public AnvilPeripheral(AnvilInterfaceEntity tileEntity) {
-        this.tileEntity = tileEntity;
-
-    }
 
     @NotNull
     @Override
@@ -59,9 +56,6 @@ public class AnvilPeripheral implements IPeripheral {
         }
 
 
-        if (tileEntity.anvil == null) {
-            throw new LuaException("there is no anvil near the interface");
-        }
         fromSlot -= 1;
         resourceSlot -= 1; //Java starts counting at zero, but lua starts at 1
         int i = 0;
@@ -224,10 +218,6 @@ public class AnvilPeripheral implements IPeripheral {
             throw new LuaException("This method requires a vanilla inventory");
         }
 
-        if (tileEntity.anvil == null) {
-            throw new LuaException("there is no anvil near the interface");
-        }
-
         slot -= 1;
 
         IPeripheral input = computer.getAvailablePeripheral(from);
@@ -259,4 +249,14 @@ public class AnvilPeripheral implements IPeripheral {
         return null;
     }
 
+    @NotNull
+    @Override
+    public LazyOptional<IPeripheral> getPeripheral(@NotNull Level world, @NotNull BlockPos pos, @NotNull Direction side) {
+        if(world.getBlockState(pos).getBlock().equals(Blocks.ANVIL)||
+                world.getBlockState(pos).getBlock().equals(Blocks.CHIPPED_ANVIL)||
+                world.getBlockState(pos).getBlock().equals(Blocks.DAMAGED_ANVIL)){
+            return LazyOptional.of(() -> this);
+        }
+        return LazyOptional.empty();
+    }
 }

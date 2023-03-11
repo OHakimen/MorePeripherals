@@ -1,10 +1,6 @@
 package com.hakimen.peripherals.peripherals;
 
-import com.hakimen.peripherals.blocks.tile_entities.AnvilInterfaceEntity;
 import com.hakimen.peripherals.blocks.tile_entities.DiskRaidEntity;
-import com.hakimen.peripherals.utils.Utils;
-import dan200.computercraft.api.ComputerCraftAPI;
-import dan200.computercraft.api.filesystem.IMount;
 import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.lua.LuaFunction;
 import dan200.computercraft.api.media.IMedia;
@@ -12,17 +8,10 @@ import dan200.computercraft.api.peripheral.IComputerAccess;
 import dan200.computercraft.api.peripheral.IPeripheral;
 import dan200.computercraft.shared.MediaProviders;
 import dan200.computercraft.shared.media.items.ItemDisk;
-import dan200.computercraft.shared.peripheral.diskdrive.TileDiskDrive;
 import dan200.computercraft.shared.util.StringUtil;
-import net.minecraft.network.chat.Component;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.item.ItemEntity;
-import net.minecraft.world.inventory.AnvilMenu;
-import net.minecraft.world.item.EnchantedBookItem;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.item.enchantment.Enchantment;
-import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
@@ -32,8 +21,6 @@ import net.minecraftforge.items.wrapper.InvWrapper;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nonnull;
-import java.util.Map;
 import java.util.Optional;
 
 public class DiskRaidPeripheral implements IPeripheral {

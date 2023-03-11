@@ -1,14 +1,12 @@
 package com.hakimen.peripherals;
 
-import com.hakimen.peripherals.ber.AdvancedDiskRaidRenderer;
-import com.hakimen.peripherals.ber.DiskRaidRenderer;
-import com.hakimen.peripherals.ber.MagneticCardManipulatorRenderer;
+import com.hakimen.peripherals.client.ber.AdvancedDiskRaidRenderer;
+import com.hakimen.peripherals.client.ber.DiskRaidRenderer;
+import com.hakimen.peripherals.client.ber.MagneticCardManipulatorRenderer;
+import com.hakimen.peripherals.config.Config;
 import com.hakimen.peripherals.registry.*;
 import com.hakimen.peripherals.utils.EnchantUtils;
 import dan200.computercraft.shared.Registry;
-import net.minecraft.client.renderer.ItemBlockRenderTypes;
-import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.entity.layers.CapeLayer;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
@@ -16,7 +14,9 @@ import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
@@ -25,8 +25,6 @@ import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import javax.xml.crypto.Data;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod("peripherals")
@@ -43,6 +41,9 @@ public class MorePeripherals {
     public static final Logger LOGGER = LogManager.getLogger();
     public static final String mod_id = "peripherals";
     public MorePeripherals() {
+
+        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.commonConfigSpec, "more-peripherals-common.toml");
+
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
         EnchantUtils.init();
         BlockEntityRegister.register(bus);
@@ -61,7 +62,7 @@ public class MorePeripherals {
     public static class ClientModEvents {
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event) {
-            ItemBlockRenderTypes.setRenderLayer(BlockRegister.diskRaid.get(),RenderType.cutoutMipped());
+
         }
         @SubscribeEvent
         public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {

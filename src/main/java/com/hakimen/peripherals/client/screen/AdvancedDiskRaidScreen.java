@@ -1,8 +1,7 @@
-package com.hakimen.peripherals.screen;
+package com.hakimen.peripherals.client.screen;
 
 import com.hakimen.peripherals.MorePeripherals;
-import com.hakimen.peripherals.containers.GrinderContainer;
-import com.hakimen.peripherals.containers.MagneticCardManipulatorContainer;
+import com.hakimen.peripherals.client.containers.AdvancedDiskRaidContainer;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
@@ -10,11 +9,11 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 
-public class MagneticCardManipulatorScreen extends AbstractContainerScreen<MagneticCardManipulatorContainer> {
+public class AdvancedDiskRaidScreen extends AbstractContainerScreen<AdvancedDiskRaidContainer> {
 
-    private final ResourceLocation GUI = new ResourceLocation(MorePeripherals.mod_id, "textures/gui/magnetic_card_manipulator_gui.png");
+    private final ResourceLocation GUI = new ResourceLocation(MorePeripherals.mod_id, "textures/gui/advanced_disk_raid_gui.png");
 
-    public MagneticCardManipulatorScreen(MagneticCardManipulatorContainer container, Inventory inv, Component name) {
+    public AdvancedDiskRaidScreen(AdvancedDiskRaidContainer container, Inventory inv, Component name) {
         super(container, inv, name);
     }
 

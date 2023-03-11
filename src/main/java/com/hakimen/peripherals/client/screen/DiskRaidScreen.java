@@ -1,8 +1,7 @@
-package com.hakimen.peripherals.screen;
+package com.hakimen.peripherals.client.screen;
 
 import com.hakimen.peripherals.MorePeripherals;
-import com.hakimen.peripherals.containers.AdvancedDiskRaidContainer;
-import com.hakimen.peripherals.containers.DiskRaidContainer;
+import com.hakimen.peripherals.client.containers.DiskRaidContainer;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
@@ -10,11 +9,11 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 
-public class AdvancedDiskRaidScreen extends AbstractContainerScreen<AdvancedDiskRaidContainer> {
+public class DiskRaidScreen extends AbstractContainerScreen<DiskRaidContainer> {
 
-    private final ResourceLocation GUI = new ResourceLocation(MorePeripherals.mod_id, "textures/gui/advanced_disk_raid_gui.png");
+    private final ResourceLocation GUI = new ResourceLocation(MorePeripherals.mod_id, "textures/gui/disk_raid_gui.png");
 
-    public AdvancedDiskRaidScreen(AdvancedDiskRaidContainer container, Inventory inv, Component name) {
+    public DiskRaidScreen(DiskRaidContainer container, Inventory inv, Component name) {
         super(container, inv, name);
     }
 

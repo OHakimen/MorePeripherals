@@ -1,4 +1,4 @@
-package com.hakimen.peripherals.ber;
+package com.hakimen.peripherals.client.ber;
 
 import com.hakimen.peripherals.blocks.DiskRaidBlock;
 import com.hakimen.peripherals.blocks.tile_entities.AdvancedDiskRaidEntity;
@@ -79,8 +79,8 @@ public class AdvancedDiskRaidRenderer implements BlockEntityRenderer<AdvancedDis
                         stack,
                         buffer,
                         Minecraft.getInstance().level,
-                        overlay,
                         packedLight,
+                        overlay,
                         1);
                 stack.popPose();
                 z = 0;

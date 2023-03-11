@@ -1,6 +1,6 @@
 package com.hakimen.peripherals.peripherals;
 
-import com.hakimen.peripherals.containers.CrafterContainer;
+import com.hakimen.peripherals.client.containers.CrafterContainer;
 import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.lua.LuaFunction;
 
@@ -10,7 +10,6 @@ import dan200.computercraft.api.peripheral.IPeripheralProvider;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.Container;
-import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;

@@ -1,10 +1,7 @@
 package com.hakimen.peripherals.blocks;
 
 import com.hakimen.peripherals.blocks.tile_entities.AdvancedDiskRaidEntity;
-import com.hakimen.peripherals.blocks.tile_entities.DiskRaidEntity;
-import com.hakimen.peripherals.containers.AdvancedDiskRaidContainer;
-import com.hakimen.peripherals.containers.DiskRaidContainer;
-import com.hakimen.peripherals.screen.AdvancedDiskRaidScreen;
+import com.hakimen.peripherals.client.containers.AdvancedDiskRaidContainer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;

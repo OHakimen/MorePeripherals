@@ -39,20 +39,6 @@ public class BlockRegister {
     });
 
 
-    public static final RegistryObject<EnchantingTableInterfaceBlock> enchantingInterface = BLOCKS.register("enchanting_interface",
-            EnchantingTableInterfaceBlock::new);
-
-    public static final RegistryObject<Item> enchantingInterfaceItem = ItemRegister.ITEMS.register("enchanting_interface",()->{
-        return new BlockItem(enchantingInterface.get(),new Item.Properties().tab(MorePeripherals.tab));
-    });
-
-
-    public static final RegistryObject<LoomInterfaceBlock> loomInterface = BLOCKS.register("loom_interface",
-            LoomInterfaceBlock::new);
-
-    public static final RegistryObject<Item> loomInterfaceItem = ItemRegister.ITEMS.register("loom_interface",()->{
-        return new BlockItem(loomInterface.get(),new Item.Properties().tab(MorePeripherals.tab));
-    });
 
     public static final RegistryObject<GrinderBlock> grinder = BLOCKS.register("grinder",
             GrinderBlock::new);
@@ -61,30 +47,6 @@ public class BlockRegister {
         return new BlockItem(grinder.get(),new Item.Properties().tab(MorePeripherals.tab));
     });
 
-    public static final RegistryObject<GrindstoneInterfaceBlock> grindstoneInterface = BLOCKS.register("grindstone_interface",
-            GrindstoneInterfaceBlock::new);
-
-    public static final RegistryObject<Item> grindstoneInterfaceItem = ItemRegister.ITEMS.register("grindstone_interface",()->{
-        return new BlockItem(grindstoneInterface.get(),new Item.Properties().tab(MorePeripherals.tab));
-    });
-    public static final RegistryObject<AnvilInterfaceBlock> anvilInterface = BLOCKS.register("anvil_interface",
-            AnvilInterfaceBlock::new);
-
-    public static final RegistryObject<Item> anvilItem = ItemRegister.ITEMS.register("anvil_interface",()->{
-        return new BlockItem(anvilInterface.get(),new Item.Properties().tab(MorePeripherals.tab));
-    });
-
-    public static final RegistryObject<BeehiveInterfaceBlock> beehiveInterface = BLOCKS.register("beehive_interface",
-            BeehiveInterfaceBlock::new);
-
-    public static final RegistryObject<Item> beehiveInterfaceItem = ItemRegister.ITEMS.register("beehive_interface",()->{
-        return new BlockItem(beehiveInterface.get(),new Item.Properties().tab(MorePeripherals.tab));
-    });
-    public static final RegistryObject<SpawnerInterfaceBlock> spawnerInterfaceBlock = BLOCKS.register("spawner_interface",
-            SpawnerInterfaceBlock::new);
-    public static final RegistryObject<Item> spawnerInterfaceBlockItem = ItemRegister.ITEMS.register("spawner_interface",()->{
-        return new BlockItem(spawnerInterfaceBlock.get(),new Item.Properties().tab(MorePeripherals.tab));
-    });
 
     public static final RegistryObject<DiskRaidBlock> diskRaid = BLOCKS.register("disk_raid",
             DiskRaidBlock::new);

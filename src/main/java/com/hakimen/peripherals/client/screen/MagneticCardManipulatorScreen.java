@@ -1,7 +1,7 @@
-package com.hakimen.peripherals.screen;
+package com.hakimen.peripherals.client.screen;
 
 import com.hakimen.peripherals.MorePeripherals;
-import com.hakimen.peripherals.containers.GrinderContainer;
+import com.hakimen.peripherals.client.containers.MagneticCardManipulatorContainer;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
@@ -9,11 +9,11 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 
-public class GrinderScreen extends AbstractContainerScreen<GrinderContainer> {
+public class MagneticCardManipulatorScreen extends AbstractContainerScreen<MagneticCardManipulatorContainer> {
 
-    private final ResourceLocation GUI = new ResourceLocation(MorePeripherals.mod_id, "textures/gui/grinder_gui.png");
+    private final ResourceLocation GUI = new ResourceLocation(MorePeripherals.mod_id, "textures/gui/magnetic_card_manipulator_gui.png");
 
-    public GrinderScreen(GrinderContainer container, Inventory inv, Component name) {
+    public MagneticCardManipulatorScreen(MagneticCardManipulatorContainer container, Inventory inv, Component name) {
         super(container, inv, name);
     }
 
