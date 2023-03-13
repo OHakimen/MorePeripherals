@@ -6,11 +6,18 @@ import com.hakimen.peripherals.client.ber.MagneticCardManipulatorRenderer;
 import com.hakimen.peripherals.config.Config;
 import com.hakimen.peripherals.registry.*;
 import com.hakimen.peripherals.utils.EnchantUtils;
-import dan200.computercraft.shared.Registry;
+import dan200.computercraft.api.ComputerCraftAPI;
+import dan200.computercraft.core.util.Colour;
+import dan200.computercraft.shared.ModRegistry;
+import dan200.computercraft.shared.media.items.DiskItem;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
+import net.minecraftforge.event.CreativeModeTabEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
@@ -28,21 +35,11 @@ import org.apache.logging.log4j.Logger;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod("peripherals")
+@Mod.EventBusSubscriber(modid = MorePeripherals.mod_id, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class MorePeripherals {
-
-    public static CreativeModeTab tab = new CreativeModeTab("peripherals") {
-        @Override
-        public ItemStack makeIcon() {
-            return BlockRegister.tradingInterfaceItem.get().getDefaultInstance();
-        }
-    };
-
-    // Directly reference a log4j logger.
     public static final Logger LOGGER = LogManager.getLogger();
     public static final String mod_id = "peripherals";
     public MorePeripherals() {
-
-        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.commonConfigSpec, "more-peripherals-common.toml");
 
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
         EnchantUtils.init();
@@ -56,7 +53,27 @@ public class MorePeripherals {
         bus.addListener(this::setup);
         bus.addListener(this::enqueueIMC);
         bus.addListener(this::processIMC);
+
+        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.commonConfigSpec, "more-peripherals-common.toml");
+
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> bus.addListener(MorePeripheralsClient::clientInit));
+    }
+
+    @SubscribeEvent
+    public static void registerModTab(CreativeModeTabEvent.Register event){
+        event.registerCreativeModeTab(new ResourceLocation(MorePeripherals.mod_id,"tab"),MorePeripherals::buildTab);
+    }
+
+    public static CreativeModeTab buildTab(CreativeModeTab.Builder builder){
+        {
+            return builder
+                    .icon(() -> new ItemStack(BlockRegister.tradingInterfaceItem.get()))
+                    .title(Component.translatable("itemGroup.peripherals"))
+                    .displayItems((flags, out, isOp) -> {
+                        ItemRegister.ITEMS.getEntries().forEach(x -> out.accept(x.get()));
+
+                    }).build();
+        }
     }
     @Mod.EventBusSubscriber(modid = mod_id, bus = Mod.EventBusSubscriber.Bus.MOD)
     public static class ClientModEvents {

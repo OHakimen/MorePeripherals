@@ -115,7 +115,7 @@ public class CrafterPeripheral implements IPeripheral, IPeripheralProvider {
                 }
             }
             if(!placed && !canPlaceAllRemainders){
-                throw new LuaException("Deu pau");
+                throw new LuaException("Failed to Craft");
             }
         }
 

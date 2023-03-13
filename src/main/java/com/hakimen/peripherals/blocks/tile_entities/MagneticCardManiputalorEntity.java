@@ -95,10 +95,8 @@ public class MagneticCardManiputalorEntity extends BlockEntity {
 
             @Override
             public boolean isItemValid(int slot, @Nonnull ItemStack stack) {
-                switch (slot) {
-                    case 0 ->{
-                        return stack.getItem() instanceof MagneticCardItem;
-                    }
+                if (slot == 0) {
+                    return stack.getItem() instanceof MagneticCardItem;
                 }
                 return false;
             }

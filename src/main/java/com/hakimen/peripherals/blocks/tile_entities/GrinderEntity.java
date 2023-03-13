@@ -75,10 +75,8 @@ public class GrinderEntity extends BlockEntity {
 
             @Override
             public boolean isItemValid(int slot, @Nonnull ItemStack stack) {
-                switch (slot) {
-                    case 0 ->{
-                        return stack.getItem() instanceof SwordItem;
-                    }
+                if (slot == 0) {
+                    return stack.getItem() instanceof SwordItem;
                 }
                 return false;
             }

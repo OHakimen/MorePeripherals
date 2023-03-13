@@ -106,7 +106,7 @@ public class GrinderPeripheral implements IPeripheral {
                 break;
             }
         }
-        if(sent == false){
+        if(!sent){
            throw new LuaException("target inventory is full");
         }
     }
