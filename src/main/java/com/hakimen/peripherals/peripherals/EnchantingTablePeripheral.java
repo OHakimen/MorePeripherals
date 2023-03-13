@@ -22,6 +22,7 @@ import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.items.wrapper.InvWrapper;
+import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -48,12 +49,12 @@ public class EnchantingTablePeripheral implements IPeripheral, IPeripheralProvid
         IPeripheral input = computer.getAvailablePeripheral(from);
         if (input == null) throw new LuaException("the input " + from + " was not found");
         IItemHandler inputHandler = extractHandler(input.getTarget());
-        if(slot < 0 || slot > inputHandler.getSlots()) throw new LuaException("slot out of range");
+        if (slot < 0 || slot > inputHandler.getSlots()) throw new LuaException("slot out of range");
         var item = inputHandler.getStackInSlot(slot);
         if (item.isEnchantable()) {
             if (!item.isEnchanted()) {
                 for (EnchantmentCategory category : EnchantmentCategory.values()) {
-                    for (Enchantment e : Registry.ENCHANTMENT) {
+                    for (Enchantment e : ForgeRegistries.ENCHANTMENTS) {
                         if (e.category == category && e.canApplyAtEnchantingTable(item) && !e.isTreasureOnly()) {
                             enchants.add(e.getDescriptionId());
                         }
@@ -70,7 +71,7 @@ public class EnchantingTablePeripheral implements IPeripheral, IPeripheralProvid
 
     @LuaFunction
     public boolean enchant(IComputerAccess computer, String from, int slot, String resources) throws LuaException {
-        if(!Utils.isFromMinecraft(computer,resources)){
+        if (!Utils.isFromMinecraft(computer, resources)) {
             throw new LuaException("this method needs a vanilla inventory as the resources input");
         }
         var bottlesNeeded = 8;
@@ -78,80 +79,73 @@ public class EnchantingTablePeripheral implements IPeripheral, IPeripheralProvid
         IPeripheral input = computer.getAvailablePeripheral(from);
         if (input == null) throw new LuaException("the input " + from + " was not found");
         IItemHandler inputHandler = extractHandler(input.getTarget());
-        if(slot < 0 || slot > inputHandler.getSlots()) throw new LuaException("slot out of range");
+        if (slot < 0 || slot > inputHandler.getSlots()) throw new LuaException("slot out of range");
 
         IPeripheral resourcesInput = computer.getAvailablePeripheral(resources);
         if (resourcesInput == null) throw new LuaException("the resources input " + resources + " was not found");
         IItemHandler resourcesInputHandler = extractHandler(resourcesInput.getTarget());
 
-        boolean foundLapis = false,foundEXP = false;
-        int lapisSlot=-1,expSlot=-1;
+        boolean foundLapis = false, foundEXP = false;
+        int lapisSlot = -1, expSlot = -1;
         for (int i = 0; i < resourcesInputHandler.getSlots(); i++) {
-            if(!foundLapis){
-                if(resourcesInputHandler.getStackInSlot(i).is(Items.LAPIS_LAZULI) && resourcesInputHandler.getStackInSlot(i).getCount()>=1){
-                    lapisSlot=i;
+            if (!foundLapis) {
+                if (resourcesInputHandler.getStackInSlot(i).is(Items.LAPIS_LAZULI) && resourcesInputHandler.getStackInSlot(i).getCount() >= 1) {
+                    lapisSlot = i;
                     foundLapis = true;
                 }
             }
-            if(!foundEXP){
-                if(resourcesInputHandler.getStackInSlot(i).is(Items.EXPERIENCE_BOTTLE) && resourcesInputHandler.getStackInSlot(i).getCount() >= bottlesNeeded){
+            if (!foundEXP) {
+                if (resourcesInputHandler.getStackInSlot(i).is(Items.EXPERIENCE_BOTTLE) && resourcesInputHandler.getStackInSlot(i).getCount() >= bottlesNeeded) {
                     expSlot = i;
                     foundEXP = true;
                 }
             }
         }
-        if(!foundEXP){
-            throw new LuaException("not found the required "+bottlesNeeded+" xp bottles");
+        if (!foundEXP) {
+            throw new LuaException("not found the required " + bottlesNeeded + " xp bottles");
         }
-        if(!foundLapis){
+        if (!foundLapis) {
             throw new LuaException("not found the required lapis lazuli");
         }
-        if(foundEXP && foundLapis){
-            resourcesInputHandler.extractItem(lapisSlot,1,false);
-            resourcesInputHandler.extractItem(expSlot,bottlesNeeded,false);
+        if (foundEXP && foundLapis) {
+            resourcesInputHandler.extractItem(lapisSlot, 1, false);
+            resourcesInputHandler.extractItem(expSlot, bottlesNeeded, false);
             var item = inputHandler.getStackInSlot(slot);
             boolean isBook = item.getItem() == Items.BOOK;
             var bookItem = item.copy();
-            if(isBook){
-                var enchant = Registry.ENCHANTMENT.getRandom(level.random);
-                if(enchant.isPresent()){
-                    var value = level.random.nextInt(enchant.get().value().getMinLevel(), enchant.get().value().getMaxLevel()+1);
-                    bookItem = EnchantedBookItem.createForEnchantment(new EnchantmentInstance(enchant.get().value(),value));
-                    if(item.getCount() > 1){
-                        boolean putBook = false;
-                        for (int i = 0; i < inputHandler.getSlots(); i++) {
-                           if(inputHandler.getStackInSlot(i) == ItemStack.EMPTY){
-                               inputHandler.insertItem(i,bookItem,false);
-                               putBook = true;
-                               break;
-                           }
+            if (isBook) {
+                var enchant = ForgeRegistries.ENCHANTMENTS.getValues().stream().toList().get(new Random().nextInt(0, ForgeRegistries.ENCHANTMENTS.getValues().size()));
+                var value = level.random.nextInt(enchant.getMinLevel(), enchant.getMaxLevel() + 1);
+                bookItem = EnchantedBookItem.createForEnchantment(new EnchantmentInstance(enchant, value));
+                if (item.getCount() > 1) {
+                    boolean putBook = false;
+                    for (int i = 0; i < inputHandler.getSlots(); i++) {
+                        if (inputHandler.getStackInSlot(i) == ItemStack.EMPTY) {
+                            inputHandler.insertItem(i, bookItem, false);
+                            putBook = true;
+                            break;
                         }
-                        if(!putBook){
-                            return false;
-                        }
-                    }else{
-                        inputHandler.insertItem(slot,bookItem,false);
                     }
-                    inputHandler.extractItem(slot,1,false);
-                }else{
-                    enchant(computer, from, slot, resources);
-                }
-                return true;
-            }
-            else if (!item.isEnchanted()) {
-                if (item.isEnchantable()) {
-                    EnchantUtils.addRandomEnchant(new Random(),item);
-                    return true;
+                    if (!putBook) {
+                        return false;
+                    }
+                }else if (!item.isEnchanted()) {
+                    if (item.isEnchantable()) {
+                        EnchantUtils.addRandomEnchant(new Random(), item);
+                        return true;
 
+                    } else {
+                        throw new LuaException("this item is not enchatable");
+                    }
                 } else {
-                    throw new LuaException("this item is not enchatable");
+                    inputHandler.insertItem(slot, bookItem, false);
                 }
-            } else {
-                throw new LuaException("this item is already enchanted");
+                inputHandler.extractItem(slot, 1, false);
             }
-
+            return true;
+        } else {
+            throw new LuaException("this item is already enchanted");
         }
-        return false;
     }
 
     @javax.annotation.Nullable
@@ -191,7 +185,7 @@ public class EnchantingTablePeripheral implements IPeripheral, IPeripheralProvid
     @Override
     public LazyOptional<IPeripheral> getPeripheral(@NotNull Level world, @NotNull BlockPos pos, @NotNull Direction side) {
         level = world;
-        if(world.getBlockState(pos).getBlock().equals(Blocks.ENCHANTING_TABLE)){
+        if (world.getBlockState(pos).getBlock().equals(Blocks.ENCHANTING_TABLE)) {
 
             return LazyOptional.of(() -> this);
         }

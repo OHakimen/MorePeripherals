@@ -6,9 +6,9 @@ import dan200.computercraft.api.lua.LuaFunction;
 import dan200.computercraft.api.media.IMedia;
 import dan200.computercraft.api.peripheral.IComputerAccess;
 import dan200.computercraft.api.peripheral.IPeripheral;
-import dan200.computercraft.shared.MediaProviders;
-import dan200.computercraft.shared.media.items.ItemDisk;
-import dan200.computercraft.shared.util.StringUtil;
+import dan200.computercraft.core.util.StringUtil;
+import dan200.computercraft.impl.MediaProviders;
+import dan200.computercraft.shared.media.items.DiskItem;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
@@ -49,7 +49,6 @@ public class DiskRaidPeripheral implements IPeripheral {
         for (int i = 0; i < 5; i++) {
             tileEntity.mount(i, computer);
         }
-        ;
         IPeripheral.super.attach(computer);
     }
 
@@ -58,7 +57,6 @@ public class DiskRaidPeripheral implements IPeripheral {
         for (int i = 0; i < 5; i++) {
             tileEntity.unmount(i, computer);
         }
-        ;
         IPeripheral.super.detach(computer);
     }
 
@@ -120,7 +118,7 @@ public class DiskRaidPeripheral implements IPeripheral {
     public final Object[] getDiskID(int slot)
     {
         ItemStack disk = tileEntity.inventory.getStackInSlot(slot);
-        return disk.getItem() instanceof ItemDisk ? new Object[] { ItemDisk.getDiskID( disk ) } : null;
+        return disk.getItem() instanceof DiskItem ? new Object[] { DiskItem.getDiskID( disk ) } : null;
     }
     @javax.annotation.Nullable
     private static IItemHandler extractHandler(@javax.annotation.Nullable Object object) {

@@ -55,7 +55,7 @@ public class SpawnerPeripheral implements IPeripheral, IPeripheralProvider {
             var stack = handler.getStackInSlot(slot);
             if(stack.hasTag() && stack.getItem() instanceof MobDataCardItem){
                 var previousMob = entity.saveWithFullMetadata().getCompound("SpawnData").getCompound("entity").getString("id");
-                entity.getSpawner().setEntityId(EntityType.byString(stack.getTag().getString("mob")).get());
+                entity.getSpawner().setEntityId(EntityType.byString(stack.getTag().getString("mob")).get(),entity.getLevel(),entity.getLevel().getRandom(), entity.getBlockPos());
                 if(force.isPresent() && force.get()){
                     stack.getTag().remove("mob");
                 }else{

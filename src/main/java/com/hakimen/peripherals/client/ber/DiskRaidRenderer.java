@@ -4,7 +4,6 @@ import ca.weblite.objc.Client;
 import com.hakimen.peripherals.blocks.DiskRaidBlock;
 import com.hakimen.peripherals.blocks.tile_entities.DiskRaidEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Quaternion;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -16,6 +15,7 @@ import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.world.entity.decoration.GlowItemFrame;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import org.joml.Quaternionf;
 
 public class DiskRaidRenderer implements BlockEntityRenderer<DiskRaidEntity> {
 
@@ -64,7 +64,7 @@ public class DiskRaidRenderer implements BlockEntityRenderer<DiskRaidEntity> {
             }
             stack.pushPose();
             stack.translate(x, 0.225f+((i/10f)*1.25f),z);
-            stack.mulPose(Quaternion.fromXYZ(3.1415f/2,0,3.1415f/rot));
+            stack.mulPose(new Quaternionf().rotationXYZ(3.1415f/2,0,3.1415f/rot));
             stack.scale(0.5f,0.5f,0.5f);
 
             itemRenderer.renderStatic(null,

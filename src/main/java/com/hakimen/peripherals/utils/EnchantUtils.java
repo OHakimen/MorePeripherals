@@ -6,6 +6,7 @@ import net.minecraft.world.item.*;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentCategory;
 import net.minecraft.world.item.enchantment.EnchantmentInstance;
+import net.minecraftforge.registries.ForgeRegistries;
 
 
 import javax.tools.Tool;
@@ -33,7 +34,7 @@ public class EnchantUtils {
     static List<Enchantment> FishingRod = new ArrayList<>();
 
     public static void init(){
-        Registry.ENCHANTMENT.forEach((e)->{
+        ForgeRegistries.ENCHANTMENTS.forEach((e)->{
             switch (e.category){
                 case ARMOR ->  Armor.add(e);
                 case DIGGER -> Digable.add(e);

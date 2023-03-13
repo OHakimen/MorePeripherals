@@ -73,7 +73,7 @@ public class MagneticCardManiputalorEntity extends BlockEntity {
     @Override
     public @NotNull <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap) {
         if (cap == Capabilities.CAPABILITY_PERIPHERAL) {
-            return (LazyOptional<T>) peripheral;
+            return peripheral.cast();
         }
         if (cap == ForgeCapabilities.ITEM_HANDLER) {
             return (LazyOptional<T>) handler;
@@ -95,10 +95,8 @@ public class MagneticCardManiputalorEntity extends BlockEntity {
 
             @Override
             public boolean isItemValid(int slot, @Nonnull ItemStack stack) {
-                switch (slot) {
-                    case 0 ->{
-                        return stack.getItem() instanceof MagneticCardItem;
-                    }
+                if (slot == 0) {
+                    return stack.getItem() instanceof MagneticCardItem;
                 }
                 return false;
             }

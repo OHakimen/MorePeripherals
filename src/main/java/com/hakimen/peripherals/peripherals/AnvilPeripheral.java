@@ -228,7 +228,6 @@ public class AnvilPeripheral implements IPeripheral, IPeripheralProvider {
 
         if(name.matches("")) {
             itemstack.resetHoverName();
-            return;
         } else {
             itemstack.setHoverName(Component.literal(name));
         }

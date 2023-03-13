@@ -2,12 +2,9 @@ package com.hakimen.peripherals.registry;
 
 import com.hakimen.peripherals.MorePeripherals;
 import com.hakimen.peripherals.blocks.*;
-import dan200.computercraft.shared.peripheral.modem.wired.BlockCable;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.material.Material;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -21,21 +18,21 @@ public class BlockRegister {
             TradingInterfaceBlock::new);
 
     public static final RegistryObject<Item> tradingInterfaceItem = ItemRegister.ITEMS.register("trading_interface",()->{
-       return new BlockItem(tradingInterface.get(),new Item.Properties().tab(MorePeripherals.tab));
+       return new BlockItem(tradingInterface.get(),new Item.Properties());
     });
 
     public static final RegistryObject<XPCollectorBlock> xpCollector = BLOCKS.register("xp_collector",
             XPCollectorBlock::new);
 
     public static final RegistryObject<Item> xpCollectorItem = ItemRegister.ITEMS.register("xp_collector",()->{
-        return new BlockItem(xpCollector.get(),new Item.Properties().tab(MorePeripherals.tab));
+        return new BlockItem(xpCollector.get(),new Item.Properties());
     });
 
     public static final RegistryObject<XPBottlerBlock> xpBottler = BLOCKS.register("xp_bottler",
             XPBottlerBlock::new);
 
     public static final RegistryObject<Item> xpBottlerItem = ItemRegister.ITEMS.register("xp_bottler",()->{
-        return new BlockItem(xpBottler.get(),new Item.Properties().tab(MorePeripherals.tab));
+        return new BlockItem(xpBottler.get(),new Item.Properties());
     });
 
 
@@ -44,31 +41,31 @@ public class BlockRegister {
             GrinderBlock::new);
 
     public static final RegistryObject<Item> grinderItem = ItemRegister.ITEMS.register("grinder",()->{
-        return new BlockItem(grinder.get(),new Item.Properties().tab(MorePeripherals.tab));
+        return new BlockItem(grinder.get(),new Item.Properties());
     });
 
 
     public static final RegistryObject<DiskRaidBlock> diskRaid = BLOCKS.register("disk_raid",
             DiskRaidBlock::new);
     public static final RegistryObject<Item> diskRaidItem = ItemRegister.ITEMS.register("disk_raid",()->{
-        return new BlockItem(diskRaid.get(),new Item.Properties().tab(MorePeripherals.tab));
+        return new BlockItem(diskRaid.get(),new Item.Properties());
     });
     public static final RegistryObject<AdvancedDiskRaidBlock> advancedDiskRaid = BLOCKS.register("advanced_disk_raid",
             AdvancedDiskRaidBlock::new);
     public static final RegistryObject<Item> advancedDiskRaidItem = ItemRegister.ITEMS.register("advanced_disk_raid",()->{
-        return new BlockItem(advancedDiskRaid.get(),new Item.Properties().tab(MorePeripherals.tab));
+        return new BlockItem(advancedDiskRaid.get(),new Item.Properties());
     });
 
     public static final RegistryObject<InductionChargerBlock> inductionCharger = BLOCKS.register("induction_charger",
             InductionChargerBlock::new);
     public static final RegistryObject<Item> inductionChargerItem = ItemRegister.ITEMS.register("induction_charger",()->{
-        return new BlockItem(inductionCharger.get(),new Item.Properties().tab(MorePeripherals.tab));
+        return new BlockItem(inductionCharger.get(),new Item.Properties());
     });
 
     public static final RegistryObject<MagneticCardManipulatorBlock> magneticCardManipulator = BLOCKS.register("magnetic_card_manipulator",
             MagneticCardManipulatorBlock::new);
     public static final RegistryObject<Item> magneticCardManipulatorItem = ItemRegister.ITEMS.register("magnetic_card_manipulator",()->{
-        return new BlockItem(magneticCardManipulator.get(),new Item.Properties().tab(MorePeripherals.tab));
+        return new BlockItem(magneticCardManipulator.get(),new Item.Properties());
     });
 
 

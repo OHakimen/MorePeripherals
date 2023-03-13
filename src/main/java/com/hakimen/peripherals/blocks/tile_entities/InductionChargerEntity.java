@@ -1,18 +1,11 @@
 package com.hakimen.peripherals.blocks.tile_entities;
 
 import com.hakimen.peripherals.config.Config;
-import com.hakimen.peripherals.peripherals.BeehiveInterfacePeripheral;
 import com.hakimen.peripherals.registry.BlockEntityRegister;
-import dan200.computercraft.api.peripheral.IPeripheral;
-import dan200.computercraft.shared.Capabilities;
-import dan200.computercraft.shared.turtle.blocks.BlockTurtle;
-import dan200.computercraft.shared.turtle.blocks.ITurtleTile;
-import dan200.computercraft.shared.turtle.blocks.TileTurtle;
+import dan200.computercraft.shared.turtle.blocks.TurtleBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.entity.BeehiveBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
@@ -45,7 +38,11 @@ public class InductionChargerEntity extends BlockEntity {
     }
 
     public void tick(){
-        if(getLevel().getBlockEntity(getBlockPos().above()) instanceof ITurtleTile turtle){
+        if(getLevel().getBlockEntity(getBlockPos().above()) instanceof TurtleBlockEntity turtle){
+            if(turtle.getAccess().getFuelLevel() < turtle.getAccess().getFuelLimit()){
+                turtle.getAccess().addFuel((storage.extractEnergy(Config.extractRate.get(),false) * Config.conversionRate.get()));
+            }
+        }else if(getLevel().getBlockEntity(getBlockPos().below()) instanceof TurtleBlockEntity turtle){
             if(turtle.getAccess().getFuelLevel() < turtle.getAccess().getFuelLimit()){
                 turtle.getAccess().addFuel((storage.extractEnergy(Config.extractRate.get(),false) * Config.conversionRate.get()));
             }

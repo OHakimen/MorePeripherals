@@ -3,16 +3,16 @@ package com.hakimen.peripherals.blocks.tile_entities;
 import com.hakimen.peripherals.peripherals.AdvancedDiskRaidPeripheral;
 import com.hakimen.peripherals.peripherals.DiskRaidPeripheral;
 import com.hakimen.peripherals.registry.BlockEntityRegister;
-import dan200.computercraft.api.ComputerCraftAPI;
-import dan200.computercraft.api.filesystem.IMount;
-import dan200.computercraft.api.filesystem.IWritableMount;
+import dan200.computercraft.api.filesystem.Mount;
+import dan200.computercraft.api.filesystem.WritableMount;
 import dan200.computercraft.api.media.IMedia;
 import dan200.computercraft.api.peripheral.IComputerAccess;
 import dan200.computercraft.api.peripheral.IPeripheral;
+import dan200.computercraft.impl.MediaProviders;
 import dan200.computercraft.shared.Capabilities;
-import dan200.computercraft.shared.MediaProviders;
-import dan200.computercraft.shared.media.items.ItemDisk;
-import dan200.computercraft.shared.pocket.items.ItemPocketComputer;
+
+import dan200.computercraft.shared.media.items.DiskItem;
+import dan200.computercraft.shared.pocket.items.PocketComputerItem;
 import dan200.computercraft.shared.util.InventoryUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -39,6 +39,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import static com.hakimen.peripherals.utils.Utils.canMergeItems;
+
 
 public class AdvancedDiskRaidEntity extends BlockEntity {
 
@@ -56,7 +58,7 @@ public class AdvancedDiskRaidEntity extends BlockEntity {
         public String[] mountPaths = new String[10];
     }
 
-    public IMount[] mounts = new IMount[10];
+    public Mount[] mounts = new Mount[10];
     public final Map<IComputerAccess, MountInfo> computers = new HashMap<>();
 
 
@@ -118,14 +120,14 @@ public class AdvancedDiskRaidEntity extends BlockEntity {
             IMedia contents = getDiskMedia(i);
             if (contents != null) {
                 if (mounts[i] == null) {
-                    mounts[i] = contents.createDataMount(inventory.getStackInSlot(i), getLevel());
+                    mounts[i] = contents.createDataMount(inventory.getStackInSlot(i), (ServerLevel) getLevel());
                 }
                 if (mounts[i] != null) {
-                    if (mounts[i] instanceof IWritableMount) {
+                    if (mounts[i] instanceof WritableMount) {
                         // Try mounting at the lowest numbered "disk" name we can
                         int n = 1;
                         while (info.mountPaths[i] == null) {
-                            info.mountPaths[i] = computer.mountWritable(n == 1 ? "disk" : "disk" + n, (IWritableMount) mounts[i]);
+                            info.mountPaths[i] = computer.mountWritable(n == 1 ? "disk" : "disk" + n, (WritableMount) mounts[i]);
                             n++;
                         }
                     } else {
@@ -191,7 +193,7 @@ public class AdvancedDiskRaidEntity extends BlockEntity {
 
                 synchronized( this )
                 {
-                    if( InventoryUtil.areItemsStackable( stack, inventory.getStackInSlot(slot) ))
+                    if( canMergeItems( stack, inventory.getStackInSlot(slot) ))
                     {
                         super.extractItem(slot, 1,false);
                         return;
@@ -222,7 +224,7 @@ public class AdvancedDiskRaidEntity extends BlockEntity {
 
             @Override
             public boolean isItemValid(int slot, @Nonnull ItemStack stack) {
-                return stack.getItem() instanceof ItemDisk || stack.getItem() instanceof ItemPocketComputer;
+                return stack.getItem() instanceof DiskItem || stack.getItem() instanceof PocketComputerItem;
             }
 
             @Override

@@ -2,10 +2,8 @@ package com.hakimen.peripherals.client.containers;
 
 import com.hakimen.peripherals.registry.BlockRegister;
 import com.hakimen.peripherals.registry.ContainerRegister;
-import dan200.computercraft.shared.Registry;
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.Container;
-import net.minecraft.world.SimpleContainer;
+
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -13,7 +11,7 @@ import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
@@ -34,7 +32,7 @@ public class DiskRaidContainer extends AbstractContainerMenu {
         this.playerInventory = new InvWrapper(playerInventory);
 
         if(blockEntity != null){
-            blockEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(h -> {
+            blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(h -> {
                 addSlot(new SlotItemHandler(h,0,32,31));
                 addSlot(new SlotItemHandler(h,1,56,31));
                 addSlot(new SlotItemHandler(h,2,80,31));
