@@ -35,7 +35,6 @@ public class MorePeripherals {
     public static final Logger LOGGER = LogManager.getLogger();
     public static final String mod_id = "peripherals";
     public MorePeripherals() {
-
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
         EnchantUtils.init();
         BlockEntityRegister.register(bus);

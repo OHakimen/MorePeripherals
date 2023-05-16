@@ -15,10 +15,10 @@ public class Config {
                 .defineInRange("mobDataCaptureChance",0.9f,0f,1f);
 
         conversionRate = commonConfigBuilder.comment("Conversion Rate for the Induction charger (1 RF = x Turtle Fuel")
-                .defineInRange("conversionRate",1,0,4);
+                .defineInRange("conversionRate",1,0,15);
 
         extractRate = commonConfigBuilder.comment("Extraction Rate for each tick")
-                .defineInRange("conversionRate",1,1,100);
+                .defineInRange("extractRate",4,1,100);
         commonConfigBuilder.pop();
         commonConfigSpec = commonConfigBuilder.build();
     }

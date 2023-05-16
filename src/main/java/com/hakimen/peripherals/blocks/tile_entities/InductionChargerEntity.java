@@ -46,6 +46,25 @@ public class InductionChargerEntity extends BlockEntity {
             if(turtle.getAccess().getFuelLevel() < turtle.getAccess().getFuelLimit()){
                 turtle.getAccess().addFuel((storage.extractEnergy(Config.extractRate.get(),false) * Config.conversionRate.get()));
             }
+        }else if(getLevel().getBlockEntity(getBlockPos().east()) instanceof TurtleBlockEntity turtle){
+            if(turtle.getAccess().getFuelLevel() < turtle.getAccess().getFuelLimit()){
+                turtle.getAccess().addFuel((storage.extractEnergy(Config.extractRate.get(),false) * Config.conversionRate.get()));
+            }
+        }
+        else if(getLevel().getBlockEntity(getBlockPos().west()) instanceof TurtleBlockEntity turtle){
+            if(turtle.getAccess().getFuelLevel() < turtle.getAccess().getFuelLimit()){
+                turtle.getAccess().addFuel((storage.extractEnergy(Config.extractRate.get(),false) * Config.conversionRate.get()));
+            }
+        }
+        else if(getLevel().getBlockEntity(getBlockPos().north()) instanceof TurtleBlockEntity turtle){
+            if(turtle.getAccess().getFuelLevel() < turtle.getAccess().getFuelLimit()){
+                turtle.getAccess().addFuel((storage.extractEnergy(Config.extractRate.get(),false) * Config.conversionRate.get()));
+            }
+        }
+        else if(getLevel().getBlockEntity(getBlockPos().south()) instanceof TurtleBlockEntity turtle){
+            if(turtle.getAccess().getFuelLevel() < turtle.getAccess().getFuelLimit()){
+                turtle.getAccess().addFuel((storage.extractEnergy(Config.extractRate.get(),false) * Config.conversionRate.get()));
+            }
         }
     }
 
