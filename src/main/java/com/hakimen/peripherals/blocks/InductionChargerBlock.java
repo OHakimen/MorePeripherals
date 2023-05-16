@@ -4,6 +4,7 @@ import com.hakimen.peripherals.blocks.tile_entities.InductionChargerEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -14,45 +15,24 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.material.Material;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.Nonnull;
 
 public class InductionChargerBlock extends Block implements EntityBlock {
 
-    public static final DirectionProperty FACING = BlockStateProperties.FACING;
     public InductionChargerBlock() {
         super(Properties.of(Material.STONE).strength(2f,2f).sound(SoundType.STONE));
-        registerDefaultState( getStateDefinition().any()
-                .setValue( FACING, Direction.NORTH ));
-    }
-    @Override
-    protected void createBlockStateDefinition( StateDefinition.Builder<Block, BlockState> properties )
-    {
-        properties.add( FACING );
+
     }
 
-    @Nonnull
     @Override
-    @Deprecated
-    public BlockState mirror( BlockState state, Mirror mirrorIn )
-    {
-        return state.rotate( mirrorIn.getRotation( state.getValue( FACING ) ) );
-    }
-    @Nonnull
-    @Override
-    @Deprecated
-    public BlockState rotate( BlockState state, Rotation rot )
-    {
-        return state.setValue( FACING, rot.rotate( state.getValue( FACING ) ) );
+    public VoxelShape getShape(BlockState p_60555_, BlockGetter p_60556_, BlockPos p_60557_, CollisionContext p_60558_) {
+        return Block.box(2,1.5,2,14,14.5,14);
     }
 
-    @javax.annotation.Nullable
-    @Override
-    public BlockState getStateForPlacement( BlockPlaceContext placement )
-    {
-        return defaultBlockState().setValue( FACING, placement.getHorizontalDirection().getOpposite() );
-    }
 
 
     @Nullable

@@ -18,7 +18,7 @@ public class Config {
                 .defineInRange("conversionRate",1,0,4);
 
         extractRate = commonConfigBuilder.comment("Extraction Rate for each tick")
-                .defineInRange("conversionRate",1,1,100);
+                .defineInRange("extractRate",1,1,100);
         commonConfigBuilder.pop();
         commonConfigSpec = commonConfigBuilder.build();
     }
