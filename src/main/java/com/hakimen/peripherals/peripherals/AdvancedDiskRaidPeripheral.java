@@ -1,7 +1,6 @@
 package com.hakimen.peripherals.peripherals;
 
 import com.hakimen.peripherals.blocks.tile_entities.AdvancedDiskRaidEntity;
-import com.hakimen.peripherals.blocks.tile_entities.DiskRaidEntity;
 import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.lua.LuaFunction;
 import dan200.computercraft.api.media.IMedia;
@@ -62,12 +61,12 @@ public class AdvancedDiskRaidPeripheral implements IPeripheral {
     }
 
 
-    @LuaFunction
+    @LuaFunction(mainThread = true)
     public final boolean isDiskPresent(int slot) {
         return !tileEntity.inventory.getStackInSlot(slot - 1).isEmpty();
     }
 
-    @LuaFunction
+    @LuaFunction(mainThread = true)
     public final Object[] getDiskLabel(int slot) {
         ItemStack stack = tileEntity.inventory.getStackInSlot(slot - 1);
         IMedia media = MediaProviders.get(stack);
@@ -88,7 +87,7 @@ public class AdvancedDiskRaidPeripheral implements IPeripheral {
         tileEntity.inventory.insertItem(slot-1,stack,false);
     }
 
-    @LuaFunction
+    @LuaFunction(mainThread = true)
     public final boolean hasData(int mount, IComputerAccess computer) {
         synchronized (this) {
             AdvancedDiskRaidEntity.MountInfo info = tileEntity.computers.get(computer);
@@ -96,7 +95,7 @@ public class AdvancedDiskRaidPeripheral implements IPeripheral {
         }
     }
 
-    @LuaFunction
+    @LuaFunction(mainThread = true)
     @javax.annotation.Nullable
     public final String getMountPath(int mount, IComputerAccess computer )
     {
@@ -106,7 +105,7 @@ public class AdvancedDiskRaidPeripheral implements IPeripheral {
         }
     }
 
-    @LuaFunction
+    @LuaFunction(mainThread = true)
     public final void ejectDisk(int slot)
     {
         tileEntity.getLevel().addFreshEntity(new ItemEntity(tileEntity.getLevel(),
@@ -115,7 +114,7 @@ public class AdvancedDiskRaidPeripheral implements IPeripheral {
                 tileEntity.getBlockPos().getZ(),tileEntity.inventory.extractItem(slot-1,1,false)));
     }
 
-    @LuaFunction
+    @LuaFunction(mainThread = true)
     public final Object[] getDiskID(int slot)
     {
         ItemStack disk = tileEntity.inventory.getStackInSlot(slot);

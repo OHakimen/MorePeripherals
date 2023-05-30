@@ -43,7 +43,7 @@ public class CrafterPeripheral implements IPeripheral, IPeripheralProvider {
         return other == this;
     }
 
-    @LuaFunction
+    @LuaFunction(mainThread = true)
     public final void craft(IComputerAccess computer, String fromName, String toName, Map<?, ?> craftingParameters) throws LuaException {
         IPeripheral from = computer.getAvailablePeripheral(fromName);
         if (from == null) throw new LuaException("the input " + fromName + " was not found");
@@ -115,7 +115,7 @@ public class CrafterPeripheral implements IPeripheral, IPeripheralProvider {
                 }
             }
             if(!placed && !canPlaceAllRemainders){
-                throw new LuaException("Deu pau");
+                throw new LuaException("Failed to Craft");
             }
         }
 

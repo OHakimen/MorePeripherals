@@ -21,10 +21,12 @@ import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.items.wrapper.InvWrapper;
+import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import static net.minecraft.core.Registry.BANNER_PATTERN;
+
 
 public class LoomInterfacePeripheral implements IPeripheral, IPeripheralProvider {
 
@@ -39,7 +41,7 @@ public class LoomInterfacePeripheral implements IPeripheral, IPeripheralProvider
         return other == this;
     }
 
-    @LuaFunction
+    @LuaFunction(mainThread = true)
     public void paintBanner(IComputerAccess computer, String from, int slotBanner, int slotDye, int pattern) throws LuaException {
         if(!Utils.isFromMinecraft(computer,from)){
             throw new LuaException("this method needs a vanilla inventory as input");
@@ -90,7 +92,7 @@ public class LoomInterfacePeripheral implements IPeripheral, IPeripheralProvider
 
     }
 
-    @LuaFunction
+    @LuaFunction(mainThread = true)
     public void clearBanner(IComputerAccess computer,String from,int slot) throws LuaException {
 
 

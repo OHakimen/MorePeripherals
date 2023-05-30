@@ -49,7 +49,6 @@ public class DiskRaidPeripheral implements IPeripheral {
         for (int i = 0; i < 5; i++) {
             tileEntity.mount(i, computer);
         }
-        ;
         IPeripheral.super.attach(computer);
     }
 
@@ -58,17 +57,16 @@ public class DiskRaidPeripheral implements IPeripheral {
         for (int i = 0; i < 5; i++) {
             tileEntity.unmount(i, computer);
         }
-        ;
         IPeripheral.super.detach(computer);
     }
 
 
-    @LuaFunction
+    @LuaFunction(mainThread = true)
     public final boolean isDiskPresent(int slot) {
         return !tileEntity.inventory.getStackInSlot(slot - 1).isEmpty();
     }
 
-    @LuaFunction
+    @LuaFunction(mainThread = true)
     public final Object[] getDiskLabel(int slot) {
         ItemStack stack = tileEntity.inventory.getStackInSlot(slot - 1);
         IMedia media = MediaProviders.get(stack);
@@ -89,7 +87,7 @@ public class DiskRaidPeripheral implements IPeripheral {
         tileEntity.inventory.insertItem(slot-1,stack,false);
     }
 
-    @LuaFunction
+    @LuaFunction(mainThread = true)
     public final boolean hasData(int mount, IComputerAccess computer) {
         synchronized (this) {
             DiskRaidEntity.MountInfo info = tileEntity.computers.get(computer);
@@ -97,7 +95,7 @@ public class DiskRaidPeripheral implements IPeripheral {
         }
     }
 
-    @LuaFunction
+    @LuaFunction(mainThread = true)
     @javax.annotation.Nullable
     public final String getMountPath(int mount, IComputerAccess computer )
     {
@@ -107,7 +105,7 @@ public class DiskRaidPeripheral implements IPeripheral {
         }
     }
 
-    @LuaFunction
+    @LuaFunction(mainThread = true)
     public final void ejectDisk(int slot)
     {
         tileEntity.getLevel().addFreshEntity(new ItemEntity(tileEntity.getLevel(),
@@ -116,7 +114,7 @@ public class DiskRaidPeripheral implements IPeripheral {
                 tileEntity.getBlockPos().getZ(),tileEntity.inventory.extractItem(slot-1,1,false)));
     }
 
-    @LuaFunction
+    @LuaFunction(mainThread = true)
     public final Object[] getDiskID(int slot)
     {
         ItemStack disk = tileEntity.inventory.getStackInSlot(slot);

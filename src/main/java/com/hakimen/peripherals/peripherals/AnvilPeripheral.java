@@ -45,7 +45,7 @@ public class AnvilPeripheral implements IPeripheral, IPeripheralProvider {
         return other == this;
     }
 
-    @LuaFunction
+    @LuaFunction(mainThread = true)
     public boolean combine(IComputerAccess computer, String from, int fromSlot, String resource, int resourceSlot, String xpSource) throws LuaException {
 
         if(!Utils.isFromMinecraft(computer,from)){
@@ -211,7 +211,7 @@ public class AnvilPeripheral implements IPeripheral, IPeripheralProvider {
         return true;
     }
 
-    @LuaFunction
+    @LuaFunction(mainThread = true)
     public void rename(IComputerAccess computer, String from, int slot, String name) throws LuaException {
 
         if(!Utils.isFromMinecraft(computer,from)){
@@ -228,7 +228,6 @@ public class AnvilPeripheral implements IPeripheral, IPeripheralProvider {
 
         if(name.matches("")) {
             itemstack.resetHoverName();
-            return;
         } else {
             itemstack.setHoverName(Component.literal(name));
         }

@@ -45,7 +45,7 @@ public class MagneticCardManiputalorPeripheral implements IPeripheral {
         IPeripheral.super.detach(computer);
     }
 
-    @LuaFunction
+    @LuaFunction(mainThread = true)
     public final String readCard() throws LuaException {
         if (!tileEntity.inventory.getStackInSlot(0).getItem().equals(Items.AIR)) {
             return tileEntity.inventory.getStackInSlot(0).getOrCreateTag().getString("data");
@@ -54,7 +54,7 @@ public class MagneticCardManiputalorPeripheral implements IPeripheral {
         }
     }
 
-    @LuaFunction
+    @LuaFunction(mainThread = true)
     public final void writeCard(String data) throws LuaException {
         if (!tileEntity.inventory.getStackInSlot(0).getItem().equals(Items.AIR)) {
             System.out.println(data);
@@ -64,12 +64,12 @@ public class MagneticCardManiputalorPeripheral implements IPeripheral {
         }
     }
 
-    @LuaFunction
+    @LuaFunction(mainThread = true)
     public final boolean hasCard(){
         return !tileEntity.inventory.getStackInSlot(0).getItem().equals(Items.AIR);
     }
 
-    @LuaFunction
+    @LuaFunction(mainThread = true)
     public final boolean ejectCard(IComputerAccess computer) {
         if (!tileEntity.inventory.getStackInSlot(0).getItem().equals(Items.AIR)) {
             tileEntity.getLevel().addFreshEntity(new ItemEntity(
@@ -85,7 +85,7 @@ public class MagneticCardManiputalorPeripheral implements IPeripheral {
         return false;
     }
 
-    @LuaFunction
+    @LuaFunction(mainThread = true)
     public final boolean setLabel(String label) {
         if (!tileEntity.inventory.getStackInSlot(0).getItem().equals(Items.AIR)) {
             if (label.equals("")) {
@@ -98,7 +98,7 @@ public class MagneticCardManiputalorPeripheral implements IPeripheral {
         return false;
     }
 
-    @LuaFunction
+    @LuaFunction(mainThread = true)
     public final String getLabel() throws LuaException {
         if (!tileEntity.inventory.getStackInSlot(0).getItem().equals(Items.AIR)) {
             return tileEntity.inventory.getStackInSlot(0).getHoverName().getString();
@@ -107,7 +107,7 @@ public class MagneticCardManiputalorPeripheral implements IPeripheral {
         }
     }
 
-    @LuaFunction
+    @LuaFunction(mainThread = true)
     public final void setSecure(boolean sensibility) throws LuaException {
         if (!tileEntity.inventory.getStackInSlot(0).getItem().equals(Items.AIR)) {
             tileEntity.inventory.getStackInSlot(0).getOrCreateTag().putBoolean("sensible", sensibility);

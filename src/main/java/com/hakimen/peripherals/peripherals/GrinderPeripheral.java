@@ -67,11 +67,11 @@ public class GrinderPeripheral implements IPeripheral {
         }
     }
 
-    @LuaFunction
+    @LuaFunction(mainThread = true)
     public final boolean hasSword(){
         return tileEntity.inventory.getStackInSlot(0).getItem() instanceof SwordItem;
     }
-    @LuaFunction
+    @LuaFunction(mainThread = true)
     public final boolean pushSword(IComputerAccess computer,String from, int slot) throws LuaException {
         IPeripheral input = computer.getAvailablePeripheral(from);
         if (input == null) throw new LuaException("the input " + from + " was not found");
@@ -90,7 +90,7 @@ public class GrinderPeripheral implements IPeripheral {
             return false;
         }
     }
-    @LuaFunction
+    @LuaFunction(mainThread = true)
     public final void pullSword(IComputerAccess computer,String to) throws LuaException {
         IPeripheral input = computer.getAvailablePeripheral(to);
         if (input == null) throw new LuaException("the output " + to + " was not found");
@@ -106,7 +106,7 @@ public class GrinderPeripheral implements IPeripheral {
                 break;
             }
         }
-        if(sent == false){
+        if(!sent){
            throw new LuaException("target inventory is full");
         }
     }
