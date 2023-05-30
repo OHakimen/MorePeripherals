@@ -14,12 +14,12 @@ public class XPCollectorPeripheral implements IPeripheral {
         this.tileEntity = tileEntity;
     }
 
-    @LuaFunction
+    @LuaFunction(mainThread = true)
     public int getCurrentXP(){
         return tileEntity.xpPoints;
     }
 
-    @LuaFunction
+    @LuaFunction(mainThread = true)
     public void dumpXP(){
         tileEntity.xpPoints = 0;
         tileEntity.setChanged();

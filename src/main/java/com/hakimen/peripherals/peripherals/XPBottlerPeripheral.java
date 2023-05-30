@@ -38,7 +38,7 @@ public class XPBottlerPeripheral implements IPeripheral {
         return other instanceof XPBottlerPeripheral;
     }
 
-    @LuaFunction
+    @LuaFunction(mainThread = true)
     public boolean bottleXP(IComputerAccess computer,String from,String to,String xp_collector) throws LuaException {
 
         IPeripheral inputPeripheral = computer.getAvailablePeripheral(from);

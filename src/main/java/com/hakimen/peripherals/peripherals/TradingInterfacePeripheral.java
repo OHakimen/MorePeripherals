@@ -6,6 +6,7 @@ import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.lua.LuaFunction;
 import dan200.computercraft.api.peripheral.IComputerAccess;
 import dan200.computercraft.api.peripheral.IPeripheral;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.item.ItemStack;
@@ -52,7 +53,7 @@ public class TradingInterfacePeripheral implements IPeripheral {
         return other == this;
     }
 
-    @LuaFunction
+    @LuaFunction(mainThread = true)
     public final String getProfession() throws LuaException{
 
         if(tileEntity.villager == null) throw new LuaException("villager not in range");
@@ -60,7 +61,7 @@ public class TradingInterfacePeripheral implements IPeripheral {
     }
 
 
-    @LuaFunction
+    @LuaFunction(mainThread = true)
     public final List<Map<String,Map<String,Map<String,?>>>> getTrades() throws LuaException{
         if(tileEntity.villager == null) throw new LuaException("villager not in range");
         List<Map<String,Map<String,Map<String,?>>>> offerList = new ArrayList<>();
@@ -74,19 +75,20 @@ public class TradingInterfacePeripheral implements IPeripheral {
             var itemSetDetails = getItemInfo(EnchantmentHelper.getEnchantments(
                     offer.getBaseCostA()
             ),offer.getBaseCostA().getCount());
-            itemSet.put(offer.getBaseCostA().getItem().getDescriptionId(),itemSetDetails);
+
+            itemSet.put(BuiltInRegistries.ITEM.getKey(offer.getBaseCostA().getItem()).toString(),itemSetDetails);
             map.put("costA",itemSet);
 
             var itemSetDetails2 = getItemInfo(EnchantmentHelper.getEnchantments(
                     offer.getCostB()
             ),offer.getCostB().getCount());
-            itemSet2.put(offer.getCostB().getItem().getDescriptionId(),itemSetDetails2);
+            itemSet2.put(BuiltInRegistries.ITEM.getKey(offer.getCostB().getItem()).toString(),itemSetDetails2);
             map.put("costB",itemSet2);
 
             var itemSetDetails3 = getItemInfo(EnchantmentHelper.getEnchantments(
                     offer.getResult()
             ),offer.getResult().getCount());
-            itemSet3.put(offer.getResult().getItem().getDescriptionId(),itemSetDetails3);
+            itemSet3.put(BuiltInRegistries.ITEM.getKey(offer.getResult().getItem()).toString(),itemSetDetails3);
             map.put("result",itemSet3);
 
             offerList.add(map);
@@ -94,7 +96,7 @@ public class TradingInterfacePeripheral implements IPeripheral {
         return offerList;
     }
 
-    @LuaFunction
+    @LuaFunction(mainThread = true)
     public final boolean trade(IComputerAccess computer,String from,String to,int trade) throws LuaException {
         if(!Utils.isFromMinecraft(computer,from)){
             throw new LuaException("this method needs a vanilla inventory as input");
@@ -156,13 +158,13 @@ public class TradingInterfacePeripheral implements IPeripheral {
         }
         return false;
     }
-    @LuaFunction
+    @LuaFunction(mainThread = true)
     public final void restock() throws LuaException{
         if(tileEntity.villager == null) throw new LuaException("villager not in range");
         tileEntity.villager.restock();
     }
 
-    @LuaFunction
+    @LuaFunction(mainThread = true)
     public final void cycleTrades() throws LuaException{
         if(tileEntity.villager == null) throw new LuaException("villager not in range");
         var lastProfession = tileEntity.villager.getVillagerData().getProfession();
@@ -176,9 +178,9 @@ public class TradingInterfacePeripheral implements IPeripheral {
 
     private static HashMap<String,Object> getItemInfo(Map<Enchantment,Integer> enchants,int count){
         var itemSetDetails = new HashMap<String,Object>();
-        var enchantList = new ArrayList<String>();
+        var enchantList = new HashMap<String,Integer>();
         enchants.forEach((e,i)->{
-            enchantList.add(e.getDescriptionId()+" "+i);
+            enchantList.put(e.getDescriptionId(),i);
         });
         itemSetDetails.put("enchants",enchantList);
         itemSetDetails.put("count",count);

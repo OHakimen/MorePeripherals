@@ -43,7 +43,7 @@ public class LoomInterfacePeripheral implements IPeripheral, IPeripheralProvider
         return other == this;
     }
 
-    @LuaFunction
+    @LuaFunction(mainThread = true)
     public void paintBanner(IComputerAccess computer, String from, int slotBanner, int slotDye, int pattern) throws LuaException {
         if(!Utils.isFromMinecraft(computer,from)){
             throw new LuaException("this method needs a vanilla inventory as input");
@@ -94,7 +94,7 @@ public class LoomInterfacePeripheral implements IPeripheral, IPeripheralProvider
 
     }
 
-    @LuaFunction
+    @LuaFunction(mainThread = true)
     public void clearBanner(IComputerAccess computer,String from,int slot) throws LuaException {
 
 

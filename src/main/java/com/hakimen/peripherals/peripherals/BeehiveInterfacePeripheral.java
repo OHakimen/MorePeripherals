@@ -58,7 +58,7 @@ public class BeehiveInterfacePeripheral implements IPeripheral, IPeripheralProvi
         return beehive.isFireNearby();
     }
 
-    @LuaFunction
+    @LuaFunction(mainThread = true)
     public final Map<Integer,?> getBees() throws LuaException {
         if (!hasBees()) {
             throw new LuaException("there is no bees in the hive");

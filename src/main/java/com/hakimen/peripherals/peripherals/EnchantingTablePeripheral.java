@@ -43,7 +43,7 @@ public class EnchantingTablePeripheral implements IPeripheral, IPeripheralProvid
         return other == this;
     }
 
-    @LuaFunction
+    @LuaFunction(mainThread = true)
     public List<String> getEnchantsFor(IComputerAccess computer, String from, int slot) throws LuaException {
         List<String> enchants = new ArrayList<>();
         IPeripheral input = computer.getAvailablePeripheral(from);
@@ -69,7 +69,7 @@ public class EnchantingTablePeripheral implements IPeripheral, IPeripheralProvid
         return enchants;
     }
 
-    @LuaFunction
+    @LuaFunction(mainThread = true)
     public boolean enchant(IComputerAccess computer, String from, int slot, String resources) throws LuaException {
         if (!Utils.isFromMinecraft(computer, resources)) {
             throw new LuaException("this method needs a vanilla inventory as the resources input");

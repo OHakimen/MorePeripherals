@@ -43,7 +43,7 @@ public class SpawnerPeripheral implements IPeripheral, IPeripheralProvider {
         return other == this;
     }
 
-    @LuaFunction
+    @LuaFunction(mainThread = true)
     public final boolean changeSpawner(IComputerAccess computer, String inv, int slot, Optional<Boolean> force) throws LuaException {
         slot = slot-1;
         IPeripheral peripheral = computer.getAvailablePeripheral(inv);
@@ -78,14 +78,14 @@ public class SpawnerPeripheral implements IPeripheral, IPeripheralProvider {
     }
 
 
-    @LuaFunction
+    @LuaFunction(mainThread = true)
     public final String getCurrentlySpawningMob(){
         CompoundTag tag = new CompoundTag();
         tag = entity.getSpawner().save(tag);
         return tag.getCompound("SpawnData").getCompound("entity").getString("id");
     }
 
-    @LuaFunction
+    @LuaFunction(mainThread = true)
     public final boolean captureSpawner(IComputerAccess computer, Optional<String> inv, Optional<Integer> slot) throws LuaException {
         ItemStack spawnerBlock = new ItemStack(Items.SPAWNER);
 

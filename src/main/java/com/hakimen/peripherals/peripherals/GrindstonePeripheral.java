@@ -43,7 +43,7 @@ public class GrindstonePeripheral implements IPeripheral, IPeripheralProvider {
         return other == this;
     }
 
-    @LuaFunction
+    @LuaFunction(mainThread = true)
     public boolean combine(IComputerAccess computer, String from, int fromSlot, String resource, int resourceSlot) throws LuaException {
 
         if(!Utils.isFromMinecraft(computer,from)){
@@ -100,7 +100,7 @@ public class GrindstonePeripheral implements IPeripheral, IPeripheralProvider {
         return true;
     }
 
-    @LuaFunction
+    @LuaFunction(mainThread = true)
     public void disenchant(IComputerAccess computer, String from, int slot, Optional<String> collector) throws LuaException {
 
         if(!Utils.isFromMinecraft(computer,from)){
