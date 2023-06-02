@@ -1,5 +1,6 @@
 package com.hakimen.peripherals.peripherals;
 
+import cc.tweaked.internal.cobalt.LuaThread;
 import com.hakimen.peripherals.items.MobDataCardItem;
 import com.hakimen.peripherals.utils.Utils;
 import dan200.computercraft.api.lua.LuaException;
@@ -32,6 +33,7 @@ import java.util.Optional;
 public class SpawnerPeripheral implements IPeripheral, IPeripheralProvider {
 
     SpawnerBlockEntity entity;
+    long lastTime;
     @NotNull
     @Override
     public String getType() {
@@ -87,11 +89,10 @@ public class SpawnerPeripheral implements IPeripheral, IPeripheralProvider {
 
     @LuaFunction(mainThread = true)
     public final boolean captureSpawner(IComputerAccess computer, Optional<String> inv, Optional<Integer> slot) throws LuaException {
-        ItemStack spawnerBlock = new ItemStack(Items.SPAWNER);
-
         CompoundTag tag = new CompoundTag();
         var saved = entity.getSpawner().save(tag);
-
+        if(lastTime + 50 >= System.currentTimeMillis())     // Adds a bit of delay, or else the spawners dupe (don't ask me why they dupe)
+            return false;
         if(inv.isPresent()){
             IPeripheral peripheral = computer.getAvailablePeripheral(inv.get());
             if (inv.get() == null) throw new LuaException("the input " + inv.get() + " was not found");
@@ -102,11 +103,12 @@ public class SpawnerPeripheral implements IPeripheral, IPeripheralProvider {
                     if (slot.get() < 0 || slot.get() > handler.getSlots()) throw new LuaException("Slot out of range");
                     var stack = handler.getStackInSlot(slot.get());
                     if(stack.getItem() instanceof MobDataCardItem){
+                        var blockPos = entity.getBlockPos();
+                        entity.getLevel().destroyBlock(blockPos,true);
                         stack.getOrCreateTag().putString("mob",saved.getCompound("SpawnData").getCompound("entity").getString("id"));
                         stack.setHoverName(Component.translatable("item.peripherals.mob_data_card").append(" ("+stack.getOrCreateTag().getString("mob")+")"));
-                        var blockPos = entity.getBlockPos();
-                        entity.getLevel().addFreshEntity(new ItemEntity(entity.getLevel(),blockPos.getX(),blockPos.getY(),blockPos.getZ(),spawnerBlock));
-                        entity.getLevel().destroyBlock(blockPos,false);
+                        entity.getLevel().addFreshEntity(new ItemEntity(entity.getLevel(),blockPos.getX(),blockPos.getY(),blockPos.getZ(),new ItemStack(Items.SPAWNER)));
+                        lastTime = System.currentTimeMillis();
                         return true;
                     }
                 }
@@ -115,8 +117,9 @@ public class SpawnerPeripheral implements IPeripheral, IPeripheralProvider {
             }
         }else if(saved.getCompound("SpawnData").getCompound("entity").getString("id").equals("minecraft:pig")){
                 var blockPos = entity.getBlockPos();
-                entity.getLevel().addFreshEntity(new ItemEntity(entity.getLevel(),blockPos.getX(),blockPos.getY(),blockPos.getZ(),spawnerBlock));
-                entity.getLevel().destroyBlock(blockPos,false);
+                entity.getLevel().destroyBlock(blockPos,true);
+                entity.getLevel().addFreshEntity(new ItemEntity(entity.getLevel(),blockPos.getX(),blockPos.getY(),blockPos.getZ(),new ItemStack(Items.SPAWNER)));
+                lastTime = System.currentTimeMillis();
                 return true;
         }
         return false;

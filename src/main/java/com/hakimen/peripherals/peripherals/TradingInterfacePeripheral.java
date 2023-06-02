@@ -161,9 +161,11 @@ public class TradingInterfacePeripheral implements IPeripheral {
         if(tileEntity.villager == null) throw new LuaException("villager not in range");
         tileEntity.villager.restock();
     }
-
+    long lastTime;
     @LuaFunction(mainThread = true)
     public final void cycleTrades() throws LuaException{
+        if(lastTime + 50 >= System.currentTimeMillis()) // Slow the trade cycling down a bit, because it can lead to crashes in servers if done too fast
+            return;
         if(tileEntity.villager == null) throw new LuaException("villager not in range");
         var lastProfession = tileEntity.villager.getVillagerData().getProfession();
 
@@ -171,7 +173,7 @@ public class TradingInterfacePeripheral implements IPeripheral {
         tileEntity.villager.setVillagerData(tileEntity.villager.getVillagerData().setLevel(1));
         tileEntity.villager.setVillagerXp(0);
         tileEntity.villager.setVillagerData(tileEntity.villager.getVillagerData().setProfession(lastProfession));
-
+        lastTime = System.currentTimeMillis();
     }
 
     private static HashMap<String,Object> getItemInfo(Map<Enchantment,Integer> enchants,int count){
