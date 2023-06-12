@@ -9,6 +9,7 @@ import dan200.computercraft.api.peripheral.IPeripheral;
 import dan200.computercraft.api.peripheral.IPeripheralProvider;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeType;
@@ -75,7 +76,7 @@ public class CrafterPeripheral implements IPeripheral, IPeripheralProvider {
         var recipe = level.getRecipeManager().getRecipeFor(RecipeType.CRAFTING, container, level);
         if (recipe.isPresent()) {
             for (int i = 0; i < toHandler.getSlots(); i++) {
-                var assemble = recipe.get().getResultItem().copy();
+                var assemble = recipe.get().getResultItem(RegistryAccess.EMPTY).copy();
                 var stack = toHandler.insertItem(i,assemble , true);
                 if (stack.isEmpty()) {
                     placed = true;

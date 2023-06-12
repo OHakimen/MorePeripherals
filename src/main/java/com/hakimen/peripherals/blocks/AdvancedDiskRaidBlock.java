@@ -24,7 +24,6 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.material.FluidState;
-import net.minecraft.world.level.material.Material;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
@@ -36,7 +35,7 @@ public class AdvancedDiskRaidBlock extends Block implements EntityBlock {
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
 
     public AdvancedDiskRaidBlock() {
-        super(Properties.of(Material.STONE).strength(2f,2f).sound(SoundType.STONE));
+        super(Properties.copy(Blocks.STONE).strength(2f,2f).sound(SoundType.STONE));
         registerDefaultState( getStateDefinition().any()
                 .setValue( FACING, Direction.NORTH ));
     }

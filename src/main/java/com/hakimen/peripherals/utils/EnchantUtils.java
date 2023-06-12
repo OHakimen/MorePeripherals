@@ -1,18 +1,11 @@
 package com.hakimen.peripherals.utils;
 
-import net.minecraft.core.Registry;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.enchantment.Enchantment;
-import net.minecraft.world.item.enchantment.EnchantmentCategory;
-import net.minecraft.world.item.enchantment.EnchantmentInstance;
 import net.minecraftforge.registries.ForgeRegistries;
 
-
-import javax.tools.Tool;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
 
@@ -70,19 +63,19 @@ public class EnchantUtils {
             enchant(r,itemStack,Crossbow);
         }
         else if(item instanceof ArmorItem){
-            if(((ArmorItem)item).getSlot() == EquipmentSlot.HEAD){
+            if(((ArmorItem)item).getEquipmentSlot() == EquipmentSlot.HEAD){
                 if (r.nextFloat() <= 0.5f) {
                     enchant(r, itemStack, Helmet);
                 } else {
                     enchant(r, itemStack, Armor);
                 }
-            }else if(((ArmorItem)item).getSlot() == EquipmentSlot.CHEST){
+            }else if(((ArmorItem)item).getEquipmentSlot() == EquipmentSlot.CHEST){
                 if (r.nextFloat() <= 0.5f) {
                     enchant(r, itemStack, Chestplate);
                 } else {
                     enchant(r, itemStack, Armor);
                 }
-            }else if(((ArmorItem)item).getSlot() == EquipmentSlot.LEGS){
+            }else if(((ArmorItem)item).getEquipmentSlot() == EquipmentSlot.LEGS){
                 if (r.nextFloat() <= 0.5f) {
                     if(Legs.size() > 0){
                         enchant(r, itemStack, Legs);
@@ -91,7 +84,7 @@ public class EnchantUtils {
                         enchant(r, itemStack, Armor);
                     }
                 }
-            }else if(((ArmorItem)item).getSlot() == EquipmentSlot.FEET){
+            }else if(((ArmorItem)item).getEquipmentSlot() == EquipmentSlot.FEET){
                 if (r.nextFloat() <= 0.5f) {
                     enchant(r, itemStack, Boots);
                 } else {
@@ -110,7 +103,7 @@ public class EnchantUtils {
         else if(item.canBeDepleted()){
             enchant(r,itemStack,Breakable);
         }
-        else if(item instanceof Wearable){
+        else if(item instanceof Equipable){
             enchant(r,itemStack,Wearable);
         }
         else if(item instanceof Vanishable ){

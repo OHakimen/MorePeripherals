@@ -70,7 +70,7 @@ public class XPBottlerPeripheral implements IPeripheral {
             }
             if(hasBottle){
                 for (int i = 0; i < output.getSlots(); i++) {
-                    if((output.getStackInSlot(i).getCount() < output.getSlotLimit(i) && output.getStackInSlot(i).sameItem(Items.EXPERIENCE_BOTTLE.getDefaultInstance())) || output.getStackInSlot(i).isEmpty()){
+                    if((output.getStackInSlot(i).getCount() < output.getSlotLimit(i) && output.getStackInSlot(i).equals(Items.EXPERIENCE_BOTTLE.getDefaultInstance())) || output.getStackInSlot(i).isEmpty()){
                         output.insertItem(i,Items.EXPERIENCE_BOTTLE.getDefaultInstance(),false);
                         collector.tileEntity.xpPoints-=8;
                         collector.tileEntity.setChanged();

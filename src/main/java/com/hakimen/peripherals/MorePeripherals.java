@@ -6,13 +6,8 @@ import com.hakimen.peripherals.client.ber.MagneticCardManipulatorRenderer;
 import com.hakimen.peripherals.config.Config;
 import com.hakimen.peripherals.registry.*;
 import com.hakimen.peripherals.utils.EnchantUtils;
-import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
-import net.minecraftforge.event.CreativeModeTabEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
@@ -23,7 +18,6 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
-
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -53,21 +47,6 @@ public class MorePeripherals {
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> bus.addListener(MorePeripheralsClient::clientInit));
     }
 
-    @SubscribeEvent
-    public static void registerModTab(CreativeModeTabEvent.Register event){
-        event.registerCreativeModeTab(new ResourceLocation(MorePeripherals.mod_id,"tab"),MorePeripherals::buildTab);
-    }
-
-    public static CreativeModeTab buildTab(CreativeModeTab.Builder builder){
-        {
-            return builder
-                    .icon(() -> new ItemStack(BlockRegister.tradingInterfaceItem.get()))
-                    .title(Component.translatable("itemGroup.peripherals"))
-                    .displayItems((flags, out, isOp) -> {
-                        ItemRegister.ITEMS.getEntries().forEach(x -> out.accept(x.get()));
-                    }).build();
-        }
-    }
     @Mod.EventBusSubscriber(modid = mod_id, bus = Mod.EventBusSubscriber.Bus.MOD)
     public static class ClientModEvents {
         @SubscribeEvent
