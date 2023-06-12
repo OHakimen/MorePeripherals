@@ -6,10 +6,11 @@ import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.lua.LuaFunction;
 import dan200.computercraft.api.peripheral.IComputerAccess;
 import dan200.computercraft.api.peripheral.IPeripheral;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.Container;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageSources;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.SwordItem;
@@ -60,7 +61,7 @@ public class GrinderPeripheral implements IPeripheral {
                 fakePlayer.attack(entity);
                 livingEntity.invulnerableTime = 0;
                 if(tileEntity.inventory.getStackInSlot(0).getItem() instanceof SwordItem sword){
-                    livingEntity.hurt(DamageSource.playerAttack(fakePlayer),
+                    livingEntity.hurt(new DamageSources(RegistryAccess.EMPTY).playerAttack(fakePlayer),
                             (sword).getDamage());
                 }
             }

@@ -5,10 +5,10 @@ import com.hakimen.peripherals.blocks.tile_entities.MagneticCardManiputalorEntit
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.entity.ItemRenderer;
+import net.minecraft.world.item.ItemDisplayContext;
 import org.joml.Quaternionf;
 
 
@@ -56,7 +56,7 @@ public class MagneticCardManipulatorRenderer implements BlockEntityRenderer<Magn
         stack.scale(0.75f, 0.75f, 0.75f);
         itemRenderer.renderStatic(null,
                 entity.inventory.getStackInSlot(0),
-                ItemTransforms.TransformType.FIXED,
+                ItemDisplayContext.FIXED,
                 false,
                 stack,
                 buffer,

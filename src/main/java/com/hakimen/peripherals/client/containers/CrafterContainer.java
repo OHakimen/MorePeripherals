@@ -3,17 +3,16 @@ package com.hakimen.peripherals.client.containers;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.player.StackedContents;
-import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
+import java.util.List;
 import java.util.Set;
 
-public class CrafterContainer extends CraftingContainer {
+public class CrafterContainer implements CraftingContainer {
     SimpleContainer container = new SimpleContainer(9);
     public CrafterContainer() {
-        super(null,0,0);
     }
 
 
@@ -45,6 +44,11 @@ public class CrafterContainer extends CraftingContainer {
     @Override
     public int getHeight() {
         return 3;
+    }
+
+    @Override
+    public List<ItemStack> getItems() {
+        return List.of();
     }
 
     @Override
@@ -85,6 +89,11 @@ public class CrafterContainer extends CraftingContainer {
     @Override
     public int getMaxStackSize() {
         return container.getMaxStackSize();
+    }
+
+    @Override
+    public void setChanged() {
+
     }
 
     @Override

@@ -1,19 +1,14 @@
 package com.hakimen.peripherals.client.ber;
 
-import ca.weblite.objc.Client;
 import com.hakimen.peripherals.blocks.DiskRaidBlock;
 import com.hakimen.peripherals.blocks.tile_entities.DiskRaidEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
-import net.minecraft.client.renderer.entity.ItemFrameRenderer;
 import net.minecraft.client.renderer.entity.ItemRenderer;
-import net.minecraft.world.entity.decoration.GlowItemFrame;
-import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import org.joml.Quaternionf;
 
@@ -69,7 +64,7 @@ public class DiskRaidRenderer implements BlockEntityRenderer<DiskRaidEntity> {
 
             itemRenderer.renderStatic(null,
                     slots[i],
-                    ItemTransforms.TransformType.FIXED,
+                    ItemDisplayContext.FIXED,
                     false,
                     stack,
                     buffer,

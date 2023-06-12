@@ -6,15 +6,12 @@ import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.lua.LuaFunction;
 import dan200.computercraft.api.peripheral.IComputerAccess;
 import dan200.computercraft.api.peripheral.IPeripheral;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
-import net.minecraft.world.item.trading.Merchant;
 import net.minecraft.world.item.trading.MerchantOffer;
-import net.minecraft.world.level.block.EnderChestBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
@@ -121,14 +118,14 @@ public class TradingInterfacePeripheral implements IPeripheral {
             var test = input.getStackInSlot(slot);
             if(!validA){
                 if(test.getCount() >= offer.getBaseCostA().getCount() &&
-                        test.sameItem(offer.getBaseCostA())){
+                        test.equals(offer.getBaseCostA())){
                     validA = true;
                     slots[0] = slot;
                 }
             }
             if(!validB){
                 if(test.getCount() >= offer.getCostB().getCount() &&
-                        test.sameItem(offer.getCostB())){
+                        test.equals(offer.getCostB())){
                     validB = true;
                     slots[1] = slot;
                 }
