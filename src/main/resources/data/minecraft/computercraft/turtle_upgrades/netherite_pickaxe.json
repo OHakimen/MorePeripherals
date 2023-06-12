@@ -1,5 +1,4 @@
 {
   "type": "computercraft:tool",
-  "item": "minecraft:netherite_pickaxe",
-  "breakable" : "peripherals:netherite_pick"
+  "item": "minecraft:netherite_pickaxe"
 }

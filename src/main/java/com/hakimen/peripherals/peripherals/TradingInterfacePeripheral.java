@@ -22,6 +22,7 @@ import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.items.wrapper.InvWrapper;
+import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -76,19 +77,19 @@ public class TradingInterfacePeripheral implements IPeripheral {
                     offer.getBaseCostA()
             ),offer.getBaseCostA().getCount());
 
-            itemSet.put(BuiltInRegistries.ITEM.getKey(offer.getBaseCostA().getItem()).toString(),itemSetDetails);
+            itemSet.put(ForgeRegistries.ITEMS.getKey(offer.getBaseCostA().getItem()).toString(),itemSetDetails);
             map.put("costA",itemSet);
 
             var itemSetDetails2 = getItemInfo(EnchantmentHelper.getEnchantments(
                     offer.getCostB()
             ),offer.getCostB().getCount());
-            itemSet2.put(BuiltInRegistries.ITEM.getKey(offer.getCostB().getItem()).toString(),itemSetDetails2);
+            itemSet2.put(ForgeRegistries.ITEMS.getKey(offer.getCostB().getItem()).toString(),itemSetDetails2);
             map.put("costB",itemSet2);
 
             var itemSetDetails3 = getItemInfo(EnchantmentHelper.getEnchantments(
                     offer.getResult()
             ),offer.getResult().getCount());
-            itemSet3.put(BuiltInRegistries.ITEM.getKey(offer.getResult().getItem()).toString(),itemSetDetails3);
+            itemSet3.put(ForgeRegistries.ITEMS.getKey(offer.getResult().getItem()).toString(),itemSetDetails3);
             map.put("result",itemSet3);
 
             offerList.add(map);
@@ -163,9 +164,11 @@ public class TradingInterfacePeripheral implements IPeripheral {
         if(tileEntity.villager == null) throw new LuaException("villager not in range");
         tileEntity.villager.restock();
     }
-
+    long lastTime;
     @LuaFunction(mainThread = true)
     public final void cycleTrades() throws LuaException{
+        if(lastTime + 50 >= System.currentTimeMillis()) // Slow the trade cycling down a bit, because it can lead to crashes in servers if done too fast
+            return;
         if(tileEntity.villager == null) throw new LuaException("villager not in range");
         var lastProfession = tileEntity.villager.getVillagerData().getProfession();
 
@@ -173,7 +176,7 @@ public class TradingInterfacePeripheral implements IPeripheral {
         tileEntity.villager.setVillagerData(tileEntity.villager.getVillagerData().setLevel(1));
         tileEntity.villager.setVillagerXp(0);
         tileEntity.villager.setVillagerData(tileEntity.villager.getVillagerData().setProfession(lastProfession));
-
+        lastTime = System.currentTimeMillis();
     }
 
     private static HashMap<String,Object> getItemInfo(Map<Enchantment,Integer> enchants,int count){
