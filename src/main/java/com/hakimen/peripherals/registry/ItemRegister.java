@@ -19,6 +19,10 @@ public class ItemRegister {
     public static final RegistryObject<Item> mob_data_card = ItemRegister.ITEMS.register("spawner_card",()->{
         return new MobDataCardItem(new Item.Properties());
     });
+
+    public static final RegistryObject<Item> magnet = ItemRegister.ITEMS.register("magnet",()->{
+        return new Item(new Item.Properties());
+    });
     public static final RegistryObject<Item> magnetic_card = ItemRegister.ITEMS.register("magnetic_card",()->{
         return new MagneticCardItem(new Item.Properties().stacksTo(1));
     });

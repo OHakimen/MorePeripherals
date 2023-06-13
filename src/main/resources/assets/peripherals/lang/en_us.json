@@ -18,6 +18,7 @@
 
   "item.peripherals.spawner_card": "Spawner Card",
   "item.peripherals.magnetic_card": "Magnetic Card",
+  "item.peripherals.magnet": "Magnet",
 
   "gui.peripherals.grinder.name": "Grinder",
   "gui.peripherals.diskraid.name": "Drive Raid",
@@ -52,5 +53,7 @@
   "upgrade.minecraft.wooden_pickaxe.adjective": "Mining",
   "upgrade.minecraft.wooden_sword.adjective": "Melee",
   "upgrade.minecraft.wooden_hoe.adjective": "Farming",
-  "upgrade.minecraft.wooden_shovel.adjective": "Digging"
+  "upgrade.minecraft.wooden_shovel.adjective": "Digging",
+
+  "upgrade.peripherals.magnet.adjective": "Magnetic"
 }

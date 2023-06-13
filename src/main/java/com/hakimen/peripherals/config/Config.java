@@ -9,6 +9,9 @@ public class Config {
     public final static ForgeConfigSpec.IntValue conversionRate;
     public final static ForgeConfigSpec.IntValue extractRate;
 
+    public final static ForgeConfigSpec.IntValue maxMagnetRange;
+    public final static ForgeConfigSpec.BooleanValue magnetConsumesFuel;
+
     static {
         commonConfigBuilder.push("Common Configs for More Peripherals");
         mobDataCaptureChance = commonConfigBuilder.comment("Chance to get a mobs data when hit by a Spawner Card")
@@ -19,6 +22,12 @@ public class Config {
 
         extractRate = commonConfigBuilder.comment("Extraction Rate for each tick")
                 .defineInRange("extractRate",4,1,100);
+
+        maxMagnetRange = commonConfigBuilder.comment("Max Range for Magnetic Turtles")
+                .defineInRange("maxRangeMagnet",8,1,32);
+
+        magnetConsumesFuel = commonConfigBuilder.comment("Does Magnetic Turtle uses fuel")
+                        .define("magnetConsumesFuel", true);
         commonConfigBuilder.pop();
         commonConfigSpec = commonConfigBuilder.build();
     }

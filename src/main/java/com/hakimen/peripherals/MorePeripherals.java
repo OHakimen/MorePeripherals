@@ -35,8 +35,8 @@ public class MorePeripherals {
         ItemRegister.register(bus);
         BlockRegister.register(bus);
         ContainerRegister.register(bus);
+        ComputerCraftRegister.registerTurtleUpgrades(bus);
         ComputerCraftRegister.registerPeripheralProvider();
-        ComputerCraftRegister.registerTurtleUpgrades();
 
         bus.addListener(this::setup);
         bus.addListener(this::enqueueIMC);
