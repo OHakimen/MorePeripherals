@@ -4,6 +4,7 @@ import com.hakimen.peripherals.client.screen.AdvancedDiskRaidScreen;
 import com.hakimen.peripherals.client.screen.DiskRaidScreen;
 import com.hakimen.peripherals.client.screen.GrinderScreen;
 import com.hakimen.peripherals.client.screen.MagneticCardManipulatorScreen;
+import com.hakimen.peripherals.client.turtle.SolarTurtleModeller;
 import com.hakimen.peripherals.registry.ComputerCraftRegister;
 import com.hakimen.peripherals.registry.ContainerRegister;
 import dan200.computercraft.api.client.ComputerCraftAPIClient;
@@ -16,6 +17,7 @@ public class MorePeripheralsClient {
     public static void clientInit(FMLClientSetupEvent event){
 
         ComputerCraftAPIClient.registerTurtleUpgradeModeller(ComputerCraftRegister.magnet.get(), TurtleUpgradeModeller.flatItem());
+        ComputerCraftAPIClient.registerTurtleUpgradeModeller(ComputerCraftRegister.solar.get(), new SolarTurtleModeller());
 
         event.enqueueWork(() -> {
             MenuScreens.register(ContainerRegister.grinderContainer.get(), GrinderScreen::new);

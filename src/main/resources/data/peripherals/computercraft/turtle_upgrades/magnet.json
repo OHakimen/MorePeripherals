@@ -1,1 +1,3 @@
-{"type": "peripherals:magnet", "item": "minecraft:iron_ingot"}
+{
+    "type": "peripherals:magnet"
+}

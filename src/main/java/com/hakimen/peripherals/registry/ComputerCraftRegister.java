@@ -3,6 +3,7 @@ package com.hakimen.peripherals.registry;
 import com.hakimen.peripherals.MorePeripherals;
 import com.hakimen.peripherals.peripherals.*;
 import com.hakimen.peripherals.turtleUpgrades.MagneticTurtleUpgrade;
+import com.hakimen.peripherals.turtleUpgrades.SolarTurtleUpgrade;
 import dan200.computercraft.api.ForgeComputerCraftAPI;
 import dan200.computercraft.api.peripheral.IPeripheral;
 import dan200.computercraft.api.turtle.TurtleUpgradeSerialiser;
@@ -19,7 +20,8 @@ public class ComputerCraftRegister {
 
    public static final RegistryObject<TurtleUpgradeSerialiser<MagneticTurtleUpgrade>> magnet =
            SERIALISERS.register( "magnet", () -> TurtleUpgradeSerialiser.simple( MagneticTurtleUpgrade::new ) );
-
+    public static final RegistryObject<TurtleUpgradeSerialiser<SolarTurtleUpgrade>> solar =
+            SERIALISERS.register( "solar", () -> TurtleUpgradeSerialiser.simple( SolarTurtleUpgrade::new ) );
     public static void registerTurtleUpgrades(IEventBus bus){
         SERIALISERS.register(bus);
     }

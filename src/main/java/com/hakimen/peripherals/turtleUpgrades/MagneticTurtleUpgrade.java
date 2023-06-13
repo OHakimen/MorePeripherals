@@ -42,4 +42,5 @@ public class MagneticTurtleUpgrade implements ITurtleUpgrade {
     public ItemStack getCraftingItem() {
         return ItemRegister.magnet.get().getDefaultInstance();
     }
+
 }

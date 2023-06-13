@@ -55,5 +55,6 @@
   "upgrade.minecraft.wooden_hoe.adjective": "Farming",
   "upgrade.minecraft.wooden_shovel.adjective": "Digging",
 
-  "upgrade.peripherals.magnet.adjective": "Magnetic"
+  "upgrade.peripherals.magnet.adjective": "Magnetic",
+  "upgrade.peripherals.solar.adjective": "Solar"
 }

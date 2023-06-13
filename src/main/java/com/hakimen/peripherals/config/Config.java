@@ -8,7 +8,7 @@ public class Config {
     public final static ForgeConfigSpec.DoubleValue mobDataCaptureChance;
     public final static ForgeConfigSpec.IntValue conversionRate;
     public final static ForgeConfigSpec.IntValue extractRate;
-
+    public final static ForgeConfigSpec.IntValue solarChargeRate;
     public final static ForgeConfigSpec.IntValue maxMagnetRange;
     public final static ForgeConfigSpec.BooleanValue magnetConsumesFuel;
 
@@ -25,6 +25,9 @@ public class Config {
 
         maxMagnetRange = commonConfigBuilder.comment("Max Range for Magnetic Turtles")
                 .defineInRange("maxRangeMagnet",8,1,32);
+
+        solarChargeRate = commonConfigBuilder.comment("Defines how many seconds between a solar turtle recharges 1 fuel to itself")
+                .defineInRange("solarChargeRate",4,1,60);
 
         magnetConsumesFuel = commonConfigBuilder.comment("Does Magnetic Turtle uses fuel")
                         .define("magnetConsumesFuel", true);
