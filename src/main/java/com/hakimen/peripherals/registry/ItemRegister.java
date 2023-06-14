@@ -1,6 +1,7 @@
 package com.hakimen.peripherals.registry;
 
 import com.hakimen.peripherals.MorePeripherals;
+import com.hakimen.peripherals.items.MagnetItem;
 import com.hakimen.peripherals.items.MagneticCardItem;
 import com.hakimen.peripherals.items.MobDataCardItem;
 import net.minecraft.core.registries.Registries;
@@ -20,8 +21,8 @@ public class ItemRegister {
         return new MobDataCardItem(new Item.Properties());
     });
 
-    public static final RegistryObject<Item> magnet = ItemRegister.ITEMS.register("magnet",()->{
-        return new Item(new Item.Properties());
+    public static final RegistryObject<MagnetItem> magnet = ItemRegister.ITEMS.register("magnet",()->{
+        return new MagnetItem(new Item.Properties().stacksTo(1));
     });
     public static final RegistryObject<Item> magnetic_card = ItemRegister.ITEMS.register("magnetic_card",()->{
         return new MagneticCardItem(new Item.Properties().stacksTo(1));
