@@ -1,5 +1,6 @@
 package com.hakimen.peripherals.turtleUpgrades;
 
+import com.hakimen.peripherals.items.MagnetItem;
 import com.hakimen.peripherals.peripherals.turtle.MagnetTurtlePeripheral;
 import com.hakimen.peripherals.registry.ItemRegister;
 import dan200.computercraft.api.peripheral.IPeripheral;
@@ -43,4 +44,8 @@ public class MagneticTurtleUpgrade implements ITurtleUpgrade {
         return ItemRegister.magnet.get().getDefaultInstance();
     }
 
+    @Override
+    public boolean isItemSuitable(ItemStack stack) {
+        return stack.getItem() instanceof MagnetItem;
+    }
 }
