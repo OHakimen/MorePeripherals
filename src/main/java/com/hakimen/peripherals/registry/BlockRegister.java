@@ -69,7 +69,17 @@ public class BlockRegister {
     });
 
 
+    public static final RegistryObject<BeehiveInterfaceBlock> beehiveInterface = BLOCKS.register("beehive_interface",
+            BeehiveInterfaceBlock::new);
 
+    public static final RegistryObject<Item> beehiveInterfaceItem = ItemRegister.ITEMS.register("beehive_interface",()->{
+        return new BlockItem(beehiveInterface.get(), new Item.Properties());
+    });
+    public static final RegistryObject<SpawnerInterfaceBlock> spawnerInterfaceBlock = BLOCKS.register("spawner_interface",
+            SpawnerInterfaceBlock::new);
+    public static final RegistryObject<Item> spawnerInterfaceBlockItem = ItemRegister.ITEMS.register("spawner_interface",()->{
+        return new BlockItem(spawnerInterfaceBlock.get(),new Item.Properties());
+    });
 
     public static void register(IEventBus bus){
         BLOCKS.register(bus);

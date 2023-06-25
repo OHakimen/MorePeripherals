@@ -36,6 +36,11 @@ public class BlockEntityRegister {
     public static final RegistryObject<BlockEntityType<MagneticCardManiputalorEntity>> magneticCardManipulator = BLOCK_ENTITY.register("magnetic_card_manipulator_entity",
             () -> BlockEntityType.Builder.of(MagneticCardManiputalorEntity::new,BlockRegister.magneticCardManipulator.get()).build(null));
 
+    public static final RegistryObject<BlockEntityType<BeehiveInterfaceEntity>> beehiveInterfaceEntity = BLOCK_ENTITY.register("beehive_interface_entity",
+            () -> BlockEntityType.Builder.of(BeehiveInterfaceEntity::new,BlockRegister.beehiveInterface.get()).build(null));
+
+    public static final RegistryObject<BlockEntityType<SpawnerInterfaceEntity>> spawnerInterfaceEntity = BLOCK_ENTITY.register("spawner_interface_entity",
+            () -> BlockEntityType.Builder.of(SpawnerInterfaceEntity::new,BlockRegister.spawnerInterfaceBlock.get()).build(null));
 
     public static void register(IEventBus bus){
         BLOCK_ENTITY.register(bus);

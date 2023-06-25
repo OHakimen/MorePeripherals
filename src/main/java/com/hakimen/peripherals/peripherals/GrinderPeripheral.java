@@ -37,7 +37,6 @@ public class GrinderPeripheral implements IPeripheral {
     public GrinderPeripheral(GrinderEntity tileEntity) {
         this.tileEntity = tileEntity;
         fakePlayer = new FakePlayer((ServerLevel) tileEntity.getLevel(),new GameProfile(UUID.randomUUID(),"Grinder"));
-
     }
 
     @NotNull
