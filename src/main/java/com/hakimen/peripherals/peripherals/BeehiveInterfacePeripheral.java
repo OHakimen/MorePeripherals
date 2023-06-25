@@ -1,22 +1,16 @@
 package com.hakimen.peripherals.peripherals;
 
+import com.hakimen.peripherals.blocks.tile_entities.BeehiveInterfaceEntity;
 import com.hakimen.peripherals.utils.Utils;
 import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.lua.LuaFunction;
 import dan200.computercraft.api.peripheral.IComputerAccess;
 import dan200.computercraft.api.peripheral.IPeripheral;
-import dan200.computercraft.api.peripheral.IPeripheralProvider;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BeehiveBlock;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.entity.BeehiveBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
@@ -25,12 +19,16 @@ import net.minecraftforge.items.wrapper.InvWrapper;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
-public class BeehiveInterfacePeripheral implements IPeripheral, IPeripheralProvider {
+public class BeehiveInterfacePeripheral implements IPeripheral {
 
-    BeehiveBlockEntity beehive;
-    BlockState beehiveBlock;
+    BeehiveInterfaceEntity beehive;
+
+    public BeehiveInterfacePeripheral(BeehiveInterfaceEntity beehive) {
+        this.beehive = beehive;
+    }
 
     @NotNull
     @Override
@@ -45,17 +43,17 @@ public class BeehiveInterfacePeripheral implements IPeripheral, IPeripheralProvi
 
     @LuaFunction(mainThread = true)
     public final boolean hasBees() throws LuaException{
-        return !beehive.isEmpty();
+        return !beehive.beehiveBlockEntity.isEmpty();
     }
 
     @LuaFunction(mainThread = true)
     public final int getBeeCount() throws LuaException{
-        return beehive.getOccupantCount();
+        return beehive.beehiveBlockEntity.getOccupantCount();
     }
 
     @LuaFunction(mainThread = true)
     public final boolean gotFireNear() throws LuaException{
-        return beehive.isFireNearby();
+        return beehive.beehiveBlockEntity.isFireNearby();
     }
 
     @LuaFunction(mainThread = true)
@@ -63,7 +61,7 @@ public class BeehiveInterfacePeripheral implements IPeripheral, IPeripheralProvi
         if (!hasBees()) {
             throw new LuaException("there is no bees in the hive");
         }
-        var bees = beehive.writeBees();
+        var bees = beehive.beehiveBlockEntity.writeBees();
         var data = new HashMap<Integer,Map<String,Object>>();
         for (int i = 0; i < bees.size(); i++) {
             var currentBeeData = new HashMap<String,Object>();
@@ -87,7 +85,7 @@ public class BeehiveInterfacePeripheral implements IPeripheral, IPeripheralProvi
 
     @LuaFunction(mainThread = true)
     public int getHoneyLevel(){
-        return beehiveBlock.getValue(BeehiveBlock.HONEY_LEVEL);
+        return beehive.beehive.getValue(BeehiveBlock.HONEY_LEVEL);
     }
     @LuaFunction(mainThread = true)
     public void collectHoney(IComputerAccess computer, String resources, String to, boolean bottled) throws LuaException {
@@ -159,7 +157,7 @@ public class BeehiveInterfacePeripheral implements IPeripheral, IPeripheralProvi
         if(!passed){
             throw new LuaException("the destination inventory is full");
         }
-        var state = beehiveBlock.setValue(BeehiveBlock.HONEY_LEVEL,0);
+        var state = beehive.beehive.setValue(BeehiveBlock.HONEY_LEVEL,0);
         var pos = beehive.getBlockPos();
 
         beehive.getLevel().setBlockAndUpdate(pos,state);
@@ -181,16 +179,4 @@ public class BeehiveInterfacePeripheral implements IPeripheral, IPeripheralProvi
         return null;
     }
 
-    @NotNull
-    @Override
-    public LazyOptional<IPeripheral> getPeripheral(@NotNull Level world, @NotNull BlockPos pos, @NotNull Direction side) {
-        if(world.getBlockState(pos).getBlock().equals(Blocks.BEEHIVE)||
-                world.getBlockState(pos).getBlock().equals(Blocks.BEE_NEST)){
-
-            beehive = (BeehiveBlockEntity) world.getBlockEntity(pos);
-            beehiveBlock = world.getBlockState(pos);
-            return LazyOptional.of(() -> this);
-        }
-        return LazyOptional.empty();
-    }
 }

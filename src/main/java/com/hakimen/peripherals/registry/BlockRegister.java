@@ -2,12 +2,9 @@ package com.hakimen.peripherals.registry;
 
 import com.hakimen.peripherals.MorePeripherals;
 import com.hakimen.peripherals.blocks.*;
-import dan200.computercraft.shared.peripheral.modem.wired.BlockCable;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.material.Material;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -21,7 +18,7 @@ public class BlockRegister {
             TradingInterfaceBlock::new);
 
     public static final RegistryObject<Item> tradingInterfaceItem = ItemRegister.ITEMS.register("trading_interface",()->{
-       return new BlockItem(tradingInterface.get(),new Item.Properties().tab(MorePeripherals.tab));
+        return new BlockItem(tradingInterface.get(),new Item.Properties().tab(MorePeripherals.tab));
     });
 
     public static final RegistryObject<XPCollectorBlock> xpCollector = BLOCKS.register("xp_collector",
@@ -72,7 +69,17 @@ public class BlockRegister {
     });
 
 
+    public static final RegistryObject<BeehiveInterfaceBlock> beehiveInterface = BLOCKS.register("beehive_interface",
+            BeehiveInterfaceBlock::new);
 
+    public static final RegistryObject<Item> beehiveInterfaceItem = ItemRegister.ITEMS.register("beehive_interface",()->{
+        return new BlockItem(beehiveInterface.get(), new Item.Properties().tab(MorePeripherals.tab));
+    });
+    public static final RegistryObject<SpawnerInterfaceBlock> spawnerInterfaceBlock = BLOCKS.register("spawner_interface",
+            SpawnerInterfaceBlock::new);
+    public static final RegistryObject<Item> spawnerInterfaceBlockItem = ItemRegister.ITEMS.register("spawner_interface",()->{
+        return new BlockItem(spawnerInterfaceBlock.get(),new Item.Properties().tab(MorePeripherals.tab));
+    });
 
     public static void register(IEventBus bus){
         BLOCKS.register(bus);
