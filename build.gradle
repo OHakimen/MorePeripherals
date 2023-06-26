@@ -15,7 +15,7 @@ apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'org.spongepowered.mixin'
 
 group = 'MorePeripherals'
-version = '1.10'
+version = '1.9.1'
 
 java {
     archivesBaseName = 'MorePeripherals'
@@ -199,6 +199,7 @@ dependencies {
 }
 // Example for how to get properties into the manifest for reading at runtime.
 jar {
+    jar.archiveFileName = "MorePeripherals_${mc_version}-${version}.jar"
     manifest {
         attributes([
                 "Specification-Title"     : "moreperipherals",
