@@ -2,10 +2,6 @@ package com.hakimen.peripherals.registry;
 
 import com.hakimen.peripherals.peripherals.*;
 import dan200.computercraft.api.ForgeComputerCraftAPI;
-import dan200.computercraft.api.peripheral.IPeripheral;
-import dan200.computercraft.shared.Capabilities;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraftforge.common.util.LazyOptional;
 
 
 public class ComputerCraftRegister {
@@ -22,16 +18,15 @@ public class ComputerCraftRegister {
         ForgeComputerCraftAPI.registerPeripheralProvider(new EnchantingTablePeripheral());
         ForgeComputerCraftAPI.registerPeripheralProvider(new GrindstonePeripheral());
         ForgeComputerCraftAPI.registerPeripheralProvider(new LoomInterfacePeripheral());
-        ForgeComputerCraftAPI.registerPeripheralProvider(((world, blockPos, direction) -> {
-            BlockEntity te = world.getBlockEntity(blockPos);
-            if(te == null) {
-                return LazyOptional.empty();
-            }
-            LazyOptional<IPeripheral> capabilityLazyOptional = te.getCapability(Capabilities.CAPABILITY_PERIPHERAL);
-            if(capabilityLazyOptional.isPresent()){
-                return capabilityLazyOptional;
-            }
-            return LazyOptional.empty();
-        }));
+
+        ForgeComputerCraftAPI.registerPeripheralProvider(new XPCollectorPeripheral());
+        ForgeComputerCraftAPI.registerPeripheralProvider(new XPBottlerPeripheral());
+        ForgeComputerCraftAPI.registerPeripheralProvider(new TradingInterfacePeripheral());
+        ForgeComputerCraftAPI.registerPeripheralProvider(new SpawnerPeripheral());
+        ForgeComputerCraftAPI.registerPeripheralProvider(new MagneticCardManiputalorPeripheral());
+        ForgeComputerCraftAPI.registerPeripheralProvider(new GrinderPeripheral());
+        ForgeComputerCraftAPI.registerPeripheralProvider(new DiskRaidPeripheral());
+        ForgeComputerCraftAPI.registerPeripheralProvider(new BeehiveInterfacePeripheral());
+        ForgeComputerCraftAPI.registerPeripheralProvider(new AdvancedDiskRaidPeripheral());
     }
 }

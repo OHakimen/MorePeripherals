@@ -1,25 +1,26 @@
 package com.hakimen.peripherals.peripherals;
 
 import com.hakimen.peripherals.blocks.tile_entities.MagneticCardManiputalorEntity;
+import com.hakimen.peripherals.registry.BlockRegister;
 import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.lua.LuaFunction;
 import dan200.computercraft.api.peripheral.IComputerAccess;
 import dan200.computercraft.api.peripheral.IPeripheral;
+import dan200.computercraft.api.peripheral.IPeripheralProvider;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.level.Level;
+import net.minecraftforge.common.util.LazyOptional;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class MagneticCardManiputalorPeripheral implements IPeripheral {
+public class MagneticCardManiputalorPeripheral implements IPeripheral, IPeripheralProvider {
 
 
-    private final MagneticCardManiputalorEntity tileEntity;
-
-
-    public MagneticCardManiputalorPeripheral(MagneticCardManiputalorEntity tileEntity) {
-        this.tileEntity = tileEntity;
-    }
+    private MagneticCardManiputalorEntity tileEntity;
 
     @NotNull
     @Override
@@ -57,8 +58,7 @@ public class MagneticCardManiputalorPeripheral implements IPeripheral {
     @LuaFunction(mainThread = true)
     public final void writeCard(String data) throws LuaException {
         if (!tileEntity.inventory.getStackInSlot(0).getItem().equals(Items.AIR)) {
-            System.out.println(data);
-            tileEntity.inventory.getStackInSlot(0).getOrCreateTag().putString("data", data);
+             tileEntity.inventory.getStackInSlot(0).getOrCreateTag().putString("data", data);
         } else {
             throw new LuaException("No card found");
         }
@@ -116,4 +116,13 @@ public class MagneticCardManiputalorPeripheral implements IPeripheral {
         }
     }
 
+    @NotNull
+    @Override
+    public LazyOptional<IPeripheral> getPeripheral(@NotNull Level world, @NotNull BlockPos pos, @NotNull Direction side) {
+        if(world.getBlockState(pos).getBlock().equals(BlockRegister.magneticCardManipulator.get())){
+            this.tileEntity = (MagneticCardManiputalorEntity) world.getBlockEntity(pos);
+            return LazyOptional.of(() -> this);
+        }
+        return LazyOptional.empty();
+    }
 }

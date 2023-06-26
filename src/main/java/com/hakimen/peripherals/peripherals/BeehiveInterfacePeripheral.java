@@ -1,14 +1,19 @@
 package com.hakimen.peripherals.peripherals;
 
 import com.hakimen.peripherals.blocks.tile_entities.BeehiveInterfaceEntity;
+import com.hakimen.peripherals.registry.BlockRegister;
 import com.hakimen.peripherals.utils.Utils;
 import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.lua.LuaFunction;
 import dan200.computercraft.api.peripheral.IComputerAccess;
 import dan200.computercraft.api.peripheral.IPeripheral;
+import dan200.computercraft.api.peripheral.IPeripheralProvider;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BeehiveBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
@@ -22,13 +27,9 @@ import org.jetbrains.annotations.Nullable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class BeehiveInterfacePeripheral implements IPeripheral {
+public class BeehiveInterfacePeripheral implements IPeripheral, IPeripheralProvider {
 
-    BeehiveInterfaceEntity beehive;
-
-    public BeehiveInterfacePeripheral(BeehiveInterfaceEntity beehive) {
-        this.beehive = beehive;
-    }
+    BeehiveInterfaceEntity tileEntity;
 
     @NotNull
     @Override
@@ -43,17 +44,17 @@ public class BeehiveInterfacePeripheral implements IPeripheral {
 
     @LuaFunction(mainThread = true)
     public final boolean hasBees() throws LuaException{
-        return !beehive.beehiveBlockEntity.isEmpty();
+        return !tileEntity.beehiveBlockEntity.isEmpty();
     }
 
     @LuaFunction(mainThread = true)
     public final int getBeeCount() throws LuaException{
-        return beehive.beehiveBlockEntity.getOccupantCount();
+        return tileEntity.beehiveBlockEntity.getOccupantCount();
     }
 
     @LuaFunction(mainThread = true)
     public final boolean gotFireNear() throws LuaException{
-        return beehive.beehiveBlockEntity.isFireNearby();
+        return tileEntity.beehiveBlockEntity.isFireNearby();
     }
 
     @LuaFunction(mainThread = true)
@@ -61,7 +62,7 @@ public class BeehiveInterfacePeripheral implements IPeripheral {
         if (!hasBees()) {
             throw new LuaException("there is no bees in the hive");
         }
-        var bees = beehive.beehiveBlockEntity.writeBees();
+        var bees = tileEntity.beehiveBlockEntity.writeBees();
         var data = new HashMap<Integer,Map<String,Object>>();
         for (int i = 0; i < bees.size(); i++) {
             var currentBeeData = new HashMap<String,Object>();
@@ -85,7 +86,7 @@ public class BeehiveInterfacePeripheral implements IPeripheral {
 
     @LuaFunction(mainThread = true)
     public int getHoneyLevel(){
-        return beehive.beehive.getValue(BeehiveBlock.HONEY_LEVEL);
+        return tileEntity.beehive.getValue(BeehiveBlock.HONEY_LEVEL);
     }
     @LuaFunction(mainThread = true)
     public void collectHoney(IComputerAccess computer, String resources, String to, boolean bottled) throws LuaException {
@@ -147,7 +148,7 @@ public class BeehiveInterfacePeripheral implements IPeripheral {
                 ItemStack outputStack = outputHandler.getStackInSlot(i);
                 if(outputStack.isEmpty() || outputStack.getItem() == Items.HONEYCOMB && outputStack.getCount() < outputStack.getMaxStackSize()){
                     var stack = Items.HONEYCOMB.getDefaultInstance();
-                    stack.setCount(beehive.getLevel().random.nextInt(1,4));
+                    stack.setCount(tileEntity.getLevel().random.nextInt(1,4));
                     outputHandler.insertItem(i,stack,false);
                     passed = true;
                     break;
@@ -157,10 +158,10 @@ public class BeehiveInterfacePeripheral implements IPeripheral {
         if(!passed){
             throw new LuaException("the destination inventory is full");
         }
-        var state = beehive.beehive.setValue(BeehiveBlock.HONEY_LEVEL,0);
-        var pos = beehive.getBlockPos();
+        var state = tileEntity.beehive.setValue(BeehiveBlock.HONEY_LEVEL,0);
+        var pos = tileEntity.getBlockPos();
 
-        beehive.getLevel().setBlockAndUpdate(pos,state);
+        tileEntity.getLevel().setBlockAndUpdate(pos,state);
 
     }
 
@@ -179,4 +180,13 @@ public class BeehiveInterfacePeripheral implements IPeripheral {
         return null;
     }
 
+    @NotNull
+    @Override
+    public LazyOptional<IPeripheral> getPeripheral(@NotNull Level world, @NotNull BlockPos pos, @NotNull Direction side) {
+        if(world.getBlockState(pos).getBlock().equals(BlockRegister.beehiveInterface.get())){
+            this.tileEntity = (BeehiveInterfaceEntity) world.getBlockEntity(pos);
+            return LazyOptional.of(() -> this);
+        }
+        return LazyOptional.empty();
+    }
 }

@@ -1,17 +1,22 @@
 package com.hakimen.peripherals.peripherals;
 
 import com.hakimen.peripherals.blocks.tile_entities.TradingInterfaceEntity;
+import com.hakimen.peripherals.registry.BlockRegister;
 import com.hakimen.peripherals.utils.Utils;
 import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.lua.LuaFunction;
 import dan200.computercraft.api.peripheral.IComputerAccess;
 import dan200.computercraft.api.peripheral.IPeripheral;
+import dan200.computercraft.api.peripheral.IPeripheralProvider;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.trading.MerchantOffer;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
@@ -28,17 +33,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class TradingInterfacePeripheral implements IPeripheral {
+public class TradingInterfacePeripheral implements IPeripheral, IPeripheralProvider {
 
 
 
-    private final TradingInterfaceEntity tileEntity;
+    private TradingInterfaceEntity tileEntity;
 
-
-    public TradingInterfacePeripheral(TradingInterfaceEntity tileEntity) {
-        this.tileEntity = tileEntity;
-
-    }
 
     @NotNull
     @Override
@@ -218,4 +218,15 @@ public class TradingInterfacePeripheral implements IPeripheral {
         // about that.
         from.extractItem( fromSlot, inserted, false );
         return inserted;
-    }}
+    }
+
+    @NotNull
+    @Override
+    public LazyOptional<IPeripheral> getPeripheral(@NotNull Level world, @NotNull BlockPos pos, @NotNull Direction side) {
+        if(world.getBlockState(pos).getBlock().equals(BlockRegister.tradingInterface.get())){
+            this.tileEntity = (TradingInterfaceEntity) world.getBlockEntity(pos);
+            return LazyOptional.of(() -> this);
+        }
+        return LazyOptional.empty();
+    }
+}

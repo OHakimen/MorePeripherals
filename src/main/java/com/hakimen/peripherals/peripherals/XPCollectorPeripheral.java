@@ -1,18 +1,20 @@
 package com.hakimen.peripherals.peripherals;
 
 import com.hakimen.peripherals.blocks.tile_entities.XPCollectorEntity;
+import com.hakimen.peripherals.registry.BlockRegister;
 import dan200.computercraft.api.lua.LuaFunction;
 import dan200.computercraft.api.peripheral.IPeripheral;
+import dan200.computercraft.api.peripheral.IPeripheralProvider;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.level.Level;
+import net.minecraftforge.common.util.LazyOptional;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class XPCollectorPeripheral implements IPeripheral {
+public class XPCollectorPeripheral implements IPeripheral, IPeripheralProvider {
 
     public XPCollectorEntity tileEntity;
-
-    public XPCollectorPeripheral(XPCollectorEntity tileEntity){
-        this.tileEntity = tileEntity;
-    }
 
     @LuaFunction(mainThread = true)
     public int getCurrentXP(){
@@ -34,5 +36,15 @@ public class XPCollectorPeripheral implements IPeripheral {
     @Override
     public boolean equals(@Nullable IPeripheral other) {
         return other instanceof XPCollectorPeripheral;
+    }
+
+    @NotNull
+    @Override
+    public LazyOptional<IPeripheral> getPeripheral(@NotNull Level world, @NotNull BlockPos pos, @NotNull Direction side) {
+        if(world.getBlockState(pos).getBlock().equals(BlockRegister.xpCollector.get())){
+            this.tileEntity = (XPCollectorEntity) world.getBlockEntity(pos);
+            return LazyOptional.of(() -> this);
+        }
+        return LazyOptional.empty();
     }
 }

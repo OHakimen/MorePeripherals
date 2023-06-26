@@ -2,11 +2,15 @@ package com.hakimen.peripherals.peripherals;
 
 import com.hakimen.peripherals.blocks.tile_entities.SpawnerInterfaceEntity;
 import com.hakimen.peripherals.items.MobDataCardItem;
+import com.hakimen.peripherals.registry.BlockRegister;
 import com.hakimen.peripherals.utils.Utils;
 import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.lua.LuaFunction;
 import dan200.computercraft.api.peripheral.IComputerAccess;
 import dan200.computercraft.api.peripheral.IPeripheral;
+import dan200.computercraft.api.peripheral.IPeripheralProvider;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.Container;
@@ -14,6 +18,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
@@ -25,13 +30,9 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 
-public class SpawnerPeripheral implements IPeripheral {
+public class SpawnerPeripheral implements IPeripheral, IPeripheralProvider {
 
-    SpawnerInterfaceEntity entity;
-
-    public SpawnerPeripheral(SpawnerInterfaceEntity entity) {
-        this.entity = entity;
-    }
+    SpawnerInterfaceEntity tileEntity;
 
     @NotNull
     @Override
@@ -55,8 +56,8 @@ public class SpawnerPeripheral implements IPeripheral {
             if(slot < 0 || slot > handler.getSlots()) throw new LuaException("Slot out of range");
             var stack = handler.getStackInSlot(slot);
             if(stack.hasTag() && stack.getItem() instanceof MobDataCardItem){
-                var previousMob = entity.saveWithFullMetadata().getCompound("SpawnData").getCompound("entity").getString("id");
-                entity.entity.getSpawner().setEntityId(EntityType.byString(stack.getTag().getString("mob")).get());
+                var previousMob = tileEntity.saveWithFullMetadata().getCompound("SpawnData").getCompound("entity").getString("id");
+                tileEntity.entity.getSpawner().setEntityId(EntityType.byString(stack.getTag().getString("mob")).get());
                 if(force.isPresent() && force.get()){
                     stack.getTag().remove("mob");
                 }else{
@@ -66,10 +67,10 @@ public class SpawnerPeripheral implements IPeripheral {
                 }
                 stack.resetHoverName();
                 CompoundTag tag = new CompoundTag();
-                var saved = entity.entity.getSpawner().save(tag);
-                entity.entity.getSpawner().load(entity.getLevel(),entity.getBlockPos(),saved);
-                entity.setChanged();
-                entity.entity.getSpawner().getSpawnerEntity();
+                var saved = tileEntity.entity.getSpawner().save(tag);
+                tileEntity.entity.getSpawner().load(tileEntity.getLevel(), tileEntity.getBlockPos(),saved);
+                tileEntity.setChanged();
+                tileEntity.entity.getSpawner().getSpawnerEntity();
                 return true;
             }
         }else{
@@ -82,7 +83,7 @@ public class SpawnerPeripheral implements IPeripheral {
     @LuaFunction(mainThread = true)
     public final String getCurrentlySpawningMob(){
         CompoundTag tag = new CompoundTag();
-        tag = entity.entity.getSpawner().save(tag);
+        tag = tileEntity.entity.getSpawner().save(tag);
         return tag.getCompound("SpawnData").getCompound("entity").getString("id");
     }
 
@@ -92,7 +93,7 @@ public class SpawnerPeripheral implements IPeripheral {
         ItemStack spawnerBlock = new ItemStack(Items.SPAWNER);
 
         CompoundTag tag = new CompoundTag();
-        var saved = entity.entity.getSpawner().save(tag);
+        var saved = tileEntity.entity.getSpawner().save(tag);
         if(lastTime + 50 >= System.currentTimeMillis())
             return false;
         if(inv.isPresent()){
@@ -107,9 +108,9 @@ public class SpawnerPeripheral implements IPeripheral {
                     if(stack.getItem() instanceof MobDataCardItem){
                         stack.getOrCreateTag().putString("mob",saved.getCompound("SpawnData").getCompound("entity").getString("id"));
                         stack.setHoverName(Component.translatable("item.peripherals.mob_data_card").append(" ("+stack.getOrCreateTag().getString("mob")+")"));
-                        var blockPos = entity.getBlockPos();
-                        entity.getLevel().addFreshEntity(new ItemEntity(entity.getLevel(),blockPos.getX(),blockPos.getY(),blockPos.getZ(),spawnerBlock));
-                        entity.getLevel().destroyBlock(blockPos,false);
+                        var blockPos = tileEntity.getBlockPos();
+                        tileEntity.getLevel().addFreshEntity(new ItemEntity(tileEntity.getLevel(),blockPos.getX(),blockPos.getY(),blockPos.getZ(),spawnerBlock));
+                        tileEntity.getLevel().destroyBlock(blockPos,false);
                         lastTime = System.currentTimeMillis();
                         return true;
                     }
@@ -118,9 +119,9 @@ public class SpawnerPeripheral implements IPeripheral {
                 throw new LuaException("This block requires a vanilla inventory");
             }
         }else if(saved.getCompound("SpawnData").getCompound("entity").getString("id").equals("minecraft:pig")){
-            var blockPos = entity.getBlockPos();
-            entity.getLevel().addFreshEntity(new ItemEntity(entity.getLevel(),blockPos.getX(),blockPos.getY(),blockPos.getZ(),spawnerBlock));
-            entity.getLevel().destroyBlock(blockPos,false);
+            var blockPos = tileEntity.getBlockPos();
+            tileEntity.getLevel().addFreshEntity(new ItemEntity(tileEntity.getLevel(),blockPos.getX(),blockPos.getY(),blockPos.getZ(),spawnerBlock));
+            tileEntity.getLevel().destroyBlock(blockPos,false);
             lastTime = System.currentTimeMillis();
             return true;
         }
@@ -139,5 +140,15 @@ public class SpawnerPeripheral implements IPeripheral {
         if (object instanceof IItemHandler handler) return handler;
         if (object instanceof Container container) return new InvWrapper(container);
         return null;
+    }
+
+    @NotNull
+    @Override
+    public LazyOptional<IPeripheral> getPeripheral(@NotNull Level world, @NotNull BlockPos pos, @NotNull Direction side) {
+        if(world.getBlockState(pos).getBlock().equals(BlockRegister.spawnerInterfaceBlock.get())){
+            this.tileEntity = (SpawnerInterfaceEntity) world.getBlockEntity(pos);
+            return LazyOptional.of(() -> this);
+        }
+        return LazyOptional.empty();
     }
 }
