@@ -15,7 +15,7 @@ apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'org.spongepowered.mixin'
 
 group = 'MorePeripherals'
-version = '1.7.3'
+version = '1.8.4'
 
 java {
     archivesBaseName = 'MorePeripherals'
@@ -175,6 +175,7 @@ repositories {
 }
 
 dependencies {
+
     // Specify the version of Minecraft to use. If this is any group other than 'net.minecraft' it is assumed
     // that the dep is a ForgeGradle 'patcher' dependency, and its patches will be applied.
     // The userdev artifact is a special name and will get all sorts of transformations applied to it.
@@ -196,6 +197,7 @@ dependencies {
 }
 // Example for how to get properties into the manifest for reading at runtime.
 jar {
+    jar.archiveFileName = "MorePeripherals_${mc_version}-${version}.jar"
     manifest {
         attributes([
                 "Specification-Title"     : "moreperipherals",
