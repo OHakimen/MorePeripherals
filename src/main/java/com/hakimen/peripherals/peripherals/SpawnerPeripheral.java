@@ -3,9 +3,8 @@ package com.hakimen.peripherals.peripherals;
 import com.hakimen.peripherals.blocks.tile_entities.SpawnerInterfaceEntity;
 import com.hakimen.peripherals.items.MobDataCardItem;
 import com.hakimen.peripherals.registry.BlockRegister;
-import com.hakimen.peripherals.utils.Utils;
-import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.lua.LuaFunction;
+import dan200.computercraft.api.lua.MethodResult;
 import dan200.computercraft.api.peripheral.IComputerAccess;
 import dan200.computercraft.api.peripheral.IPeripheral;
 import dan200.computercraft.api.peripheral.IPeripheralProvider;
@@ -46,86 +45,83 @@ public class SpawnerPeripheral implements IPeripheral, IPeripheralProvider {
     }
 
     @LuaFunction(mainThread = true)
-    public final boolean changeSpawner(IComputerAccess computer, String inv, int slot, Optional<Boolean> force) throws LuaException {
-        slot = slot-1;
+    public final MethodResult changeSpawner(IComputerAccess computer, String inv, int slot, Optional<Boolean> force) {
+        slot = slot - 1;
         IPeripheral peripheral = computer.getAvailablePeripheral(inv);
-        if (inv == null) throw new LuaException("the input " + inv + " was not found");
+        if (inv == null)
+            return MethodResult.of(false, "the input " + inv + " was not found");
         IItemHandler handler = extractHandler(peripheral.getTarget());
 
-        if(Utils.isFromMinecraft(computer,inv)){
-            if(slot < 0 || slot > handler.getSlots()) throw new LuaException("Slot out of range");
-            var stack = handler.getStackInSlot(slot);
-            if(stack.hasTag() && stack.getItem() instanceof MobDataCardItem){
-                var previousMob = tileEntity.saveWithFullMetadata().getCompound("SpawnData").getCompound("entity").getString("id");
-                tileEntity.entity.getSpawner().setEntityId(EntityType.byString(stack.getTag().getString("mob")).get(), tileEntity.getLevel(), tileEntity.getLevel().getRandom(), tileEntity.getBlockPos());
-                if(force.isPresent() && force.get()){
-                    stack.getTag().remove("mob");
-                }else{
-                    if(!previousMob.equals("minecraft:pig")){
-                        stack.getTag().putString("mob",previousMob);
-                    }
+        if (slot < 0 || slot > handler.getSlots())
+            return MethodResult.of(false, "slot out of range");
+        var stack = handler.getStackInSlot(slot);
+        if (stack.hasTag() && stack.getItem() instanceof MobDataCardItem) {
+            var previousMob = tileEntity.saveWithFullMetadata().getCompound("SpawnData").getCompound("entity").getString("id");
+            tileEntity.entity.getSpawner().setEntityId(EntityType.byString(stack.getTag().getString("mob")).get(), tileEntity.getLevel(), tileEntity.getLevel().getRandom(), tileEntity.getBlockPos());
+            if (force.isPresent() && force.get()) {
+                stack.getTag().remove("mob");
+            } else {
+                if (!previousMob.equals("minecraft:pig")) {
+                    stack.getTag().putString("mob", previousMob);
                 }
-                stack.resetHoverName();
-                CompoundTag tag = new CompoundTag();
-                var saved = tileEntity.entity.getSpawner().save(tag);
-                tileEntity.entity.getSpawner().load(tileEntity.getLevel(), tileEntity.getBlockPos(),saved);
-                tileEntity.setChanged();
-                tileEntity.entity.getSpawner().getSpawnerEntity();
-                return true;
             }
-        }else{
-            throw new LuaException("This block requires a vanilla inventory");
+            stack.resetHoverName();
+            CompoundTag tag = new CompoundTag();
+            var saved = tileEntity.entity.getSpawner().save(tag);
+            tileEntity.entity.getSpawner().load(tileEntity.getLevel(), tileEntity.getBlockPos(), saved);
+            tileEntity.setChanged();
+            tileEntity.entity.getSpawner().getSpawnerEntity();
+            return MethodResult.of(true);
         }
-        return false;
+        return MethodResult.of(false);
     }
 
 
     @LuaFunction(mainThread = true)
-    public final String getCurrentlySpawningMob(){
+    public final MethodResult getCurrentlySpawningMob() {
         CompoundTag tag = new CompoundTag();
         tag = tileEntity.entity.getSpawner().save(tag);
-        return tag.getCompound("SpawnData").getCompound("entity").getString("id");
+        return MethodResult.of(tag.getCompound("SpawnData").getCompound("entity").getString("id"));
     }
 
     long lastTime;
+
     @LuaFunction(mainThread = true)
-    public final boolean captureSpawner(IComputerAccess computer, Optional<String> inv, Optional<Integer> slot) throws LuaException {
+    public final MethodResult captureSpawner(IComputerAccess computer, Optional<String> inv, Optional<Integer> slot) {
         ItemStack spawnerBlock = new ItemStack(Items.SPAWNER);
 
         CompoundTag tag = new CompoundTag();
         var saved = tileEntity.entity.getSpawner().save(tag);
-        if(lastTime + 50 >= System.currentTimeMillis())
-            return false;
-        if(inv.isPresent()){
+        if (lastTime + 50 >= System.currentTimeMillis())
+            return MethodResult.of(false);
+        if (inv.isPresent()) {
             IPeripheral peripheral = computer.getAvailablePeripheral(inv.get());
-            if (inv.get() == null) throw new LuaException("the input " + inv.get() + " was not found");
+            if (inv.get() == null)
+                return MethodResult.of(false, "the input " + inv.get() + " was not found");
             IItemHandler handler = extractHandler(peripheral.getTarget());
-            if(Utils.isFromMinecraft(computer,inv.get())) {
-                if (slot.isPresent()){
-                    slot = Optional.of(slot.get()-1);
-                    if (slot.get() < 0 || slot.get() > handler.getSlots()) throw new LuaException("Slot out of range");
-                    var stack = handler.getStackInSlot(slot.get());
-                    if(stack.getItem() instanceof MobDataCardItem){
-                        stack.getOrCreateTag().putString("mob",saved.getCompound("SpawnData").getCompound("entity").getString("id"));
-                        stack.setHoverName(Component.translatable("item.peripherals.mob_data_card").append(" ("+stack.getOrCreateTag().getString("mob")+")"));
-                        var blockPos = tileEntity.getBlockPos();
-                        tileEntity.getLevel().addFreshEntity(new ItemEntity(tileEntity.getLevel(),blockPos.getX(),blockPos.getY(),blockPos.getZ(),spawnerBlock));
-                        tileEntity.getLevel().destroyBlock(blockPos,false);
-                        lastTime = System.currentTimeMillis();
-                        return true;
-                    }
+            if (slot.isPresent()) {
+                slot = Optional.of(slot.get() - 1);
+                if (slot.get() < 0 || slot.get() > handler.getSlots())
+                    return MethodResult.of(false, "slot out of range");
+                var stack = handler.getStackInSlot(slot.get());
+                if (stack.getItem() instanceof MobDataCardItem) {
+                    stack.getOrCreateTag().putString("mob", saved.getCompound("SpawnData").getCompound("entity").getString("id"));
+                    stack.setHoverName(Component.translatable("item.peripherals.mob_data_card").append(" (" + stack.getOrCreateTag().getString("mob") + ")"));
+                    var blockPos = tileEntity.getBlockPos();
+                    tileEntity.getLevel().addFreshEntity(new ItemEntity(tileEntity.getLevel(), blockPos.getX(), blockPos.getY(), blockPos.getZ(), spawnerBlock));
+                    tileEntity.getLevel().destroyBlock(blockPos, false);
+                    lastTime = System.currentTimeMillis();
+                    return MethodResult.of(true);
                 }
-            }else{
-                throw new LuaException("This block requires a vanilla inventory");
             }
-        }else if(saved.getCompound("SpawnData").getCompound("entity").getString("id").equals("minecraft:pig")){
-                var blockPos = tileEntity.getBlockPos();
-                tileEntity.getLevel().addFreshEntity(new ItemEntity(tileEntity.getLevel(),blockPos.getX(),blockPos.getY(),blockPos.getZ(),spawnerBlock));
-                tileEntity.getLevel().destroyBlock(blockPos,false);
-                lastTime = System.currentTimeMillis();
-                return true;
+        } else if (saved.getCompound("SpawnData").getCompound("entity").getString("id").equals("minecraft:pig")) {
+            var blockPos = tileEntity.getBlockPos();
+            tileEntity.getLevel().addFreshEntity(new ItemEntity(tileEntity.getLevel(), blockPos.getX(), blockPos.getY(), blockPos.getZ(), spawnerBlock));
+            tileEntity.getLevel().destroyBlock(blockPos, false);
+            lastTime = System.currentTimeMillis();
+            return MethodResult.of(true);
         }
-        return false;
+        return MethodResult.of(false);
     }
 
     @javax.annotation.Nullable
@@ -144,7 +140,7 @@ public class SpawnerPeripheral implements IPeripheral, IPeripheralProvider {
 
     @Override
     public LazyOptional<IPeripheral> getPeripheral(Level world, BlockPos pos, Direction side) {
-        if(world.getBlockState(pos).getBlock().equals(BlockRegister.spawnerInterfaceBlock.get())){
+        if (world.getBlockState(pos).getBlock().equals(BlockRegister.spawnerInterfaceBlock.get())) {
             this.tileEntity = (SpawnerInterfaceEntity) world.getBlockEntity(pos);
             return LazyOptional.of(() -> this);
         }

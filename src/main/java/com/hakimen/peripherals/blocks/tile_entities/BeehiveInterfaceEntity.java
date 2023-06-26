@@ -56,6 +56,9 @@ public class BeehiveInterfaceEntity extends BlockEntity {
             beehive = level.getBlockState(getBlockPos().below());
             beehiveBlockEntity = (BeehiveBlockEntity) level.getBlockEntity(getBlockPos().below());
             return;
+        }else{
+            beehive = null;
+            beehiveBlockEntity = null;
         }
     }
 }

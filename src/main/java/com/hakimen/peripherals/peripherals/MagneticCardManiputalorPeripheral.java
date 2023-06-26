@@ -2,8 +2,8 @@ package com.hakimen.peripherals.peripherals;
 
 import com.hakimen.peripherals.blocks.tile_entities.MagneticCardManiputalorEntity;
 import com.hakimen.peripherals.registry.BlockRegister;
-import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.lua.LuaFunction;
+import dan200.computercraft.api.lua.MethodResult;
 import dan200.computercraft.api.peripheral.IComputerAccess;
 import dan200.computercraft.api.peripheral.IPeripheral;
 import dan200.computercraft.api.peripheral.IPeripheralProvider;
@@ -45,31 +45,31 @@ public class MagneticCardManiputalorPeripheral implements IPeripheral, IPeripher
     }
 
     @LuaFunction(mainThread = true)
-    public final String readCard() throws LuaException {
+    public final MethodResult readCard(){
         if (!tileEntity.inventory.getStackInSlot(0).getItem().equals(Items.AIR)) {
-            return tileEntity.inventory.getStackInSlot(0).getOrCreateTag().getString("data");
+            return MethodResult.of(tileEntity.inventory.getStackInSlot(0).getOrCreateTag().getString("data"));
         } else {
-            throw new LuaException("No card found");
+            return MethodResult.of(false,"no card found");
         }
     }
 
     @LuaFunction(mainThread = true)
-    public final void writeCard(String data) throws LuaException {
+    public final MethodResult writeCard(String data)  {
         if (!tileEntity.inventory.getStackInSlot(0).getItem().equals(Items.AIR)) {
-            System.out.println(data);
             tileEntity.inventory.getStackInSlot(0).getOrCreateTag().putString("data", data);
+            return MethodResult.of(true);
         } else {
-            throw new LuaException("No card found");
+            return MethodResult.of(false,"no card found");
         }
     }
 
     @LuaFunction(mainThread = true)
-    public final boolean hasCard(){
-        return !tileEntity.inventory.getStackInSlot(0).getItem().equals(Items.AIR);
+    public final MethodResult hasCard(){
+        return MethodResult.of(!tileEntity.inventory.getStackInSlot(0).getItem().equals(Items.AIR));
     }
 
     @LuaFunction(mainThread = true)
-    public final boolean ejectCard(IComputerAccess computer) {
+    public final MethodResult ejectCard(IComputerAccess computer) {
         if (!tileEntity.inventory.getStackInSlot(0).getItem().equals(Items.AIR)) {
             tileEntity.getLevel().addFreshEntity(new ItemEntity(
                     tileEntity.getLevel(),
@@ -79,39 +79,40 @@ public class MagneticCardManiputalorPeripheral implements IPeripheral, IPeripher
                     tileEntity.inventory.extractItem(0, 1, false)
             ));
             computer.queueEvent("card_remove");
-            return true;
+            return MethodResult.of(true);
         }
-        return false;
+        return MethodResult.of(false);
     }
 
     @LuaFunction(mainThread = true)
-    public final boolean setLabel(String label) {
+    public final MethodResult setLabel(String label) {
         if (!tileEntity.inventory.getStackInSlot(0).getItem().equals(Items.AIR)) {
             if (label.equals("")) {
                 tileEntity.inventory.getStackInSlot(0).resetHoverName();
             } else {
                 tileEntity.inventory.getStackInSlot(0).setHoverName(Component.literal(label));
             }
-            return true;
+            return MethodResult.of(true);
         }
-        return false;
+        return MethodResult.of(false);
     }
 
     @LuaFunction(mainThread = true)
-    public final String getLabel() throws LuaException {
+    public final MethodResult getLabel()  {
         if (!tileEntity.inventory.getStackInSlot(0).getItem().equals(Items.AIR)) {
-            return tileEntity.inventory.getStackInSlot(0).getHoverName().getString();
+            return MethodResult.of(tileEntity.inventory.getStackInSlot(0).getHoverName().getString());
         } else {
-            throw new LuaException("No card found");
+            return MethodResult.of(false,"no card found");
         }
     }
 
     @LuaFunction(mainThread = true)
-    public final void setSecure(boolean sensibility) throws LuaException {
+    public final MethodResult setSecure(boolean sensibility)  {
         if (!tileEntity.inventory.getStackInSlot(0).getItem().equals(Items.AIR)) {
             tileEntity.inventory.getStackInSlot(0).getOrCreateTag().putBoolean("sensible", sensibility);
+            return MethodResult.of(true);
         }else{
-            throw new LuaException("No card found");
+            return MethodResult.of(false,"no card found");
         }
     }
 

@@ -3,8 +3,8 @@ package com.hakimen.peripherals.peripherals;
 import com.hakimen.peripherals.blocks.tile_entities.GrinderEntity;
 import com.hakimen.peripherals.registry.BlockRegister;
 import com.mojang.authlib.GameProfile;
-import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.lua.LuaFunction;
+import dan200.computercraft.api.lua.MethodResult;
 import dan200.computercraft.api.peripheral.IComputerAccess;
 import dan200.computercraft.api.peripheral.IPeripheral;
 import dan200.computercraft.api.peripheral.IPeripheralProvider;
@@ -67,32 +67,35 @@ public class GrinderPeripheral implements IPeripheral, IPeripheralProvider {
     }
 
     @LuaFunction(mainThread = true)
-    public final boolean hasSword(){
-        return tileEntity.inventory.getStackInSlot(0).getItem() instanceof SwordItem;
+    public final MethodResult hasSword(){
+        return MethodResult.of(true,tileEntity.inventory.getStackInSlot(0).getItem() instanceof SwordItem);
     }
     @LuaFunction(mainThread = true)
-    public final boolean pushSword(IComputerAccess computer,String from, int slot) throws LuaException {
+    public final MethodResult pushSword(IComputerAccess computer,String from, int slot) {
         IPeripheral input = computer.getAvailablePeripheral(from);
-        if (input == null) throw new LuaException("the input " + from + " was not found");
+        if (input == null)
+            return MethodResult.of(false,"the input " + from + " was not found");
         IItemHandler inputHandler = extractHandler(input.getTarget());
-        if(slot < 0 || slot > inputHandler.getSlots()) throw new LuaException("slot out of range");
+        if(slot < 0 || slot > inputHandler.getSlots())
+            return MethodResult.of(false,"slot out of range");
         var stack = inputHandler.getStackInSlot(slot);
         if(stack.getItem() instanceof SwordItem){
             if(!(tileEntity.inventory.getStackInSlot(0).getItem() instanceof SwordItem)){
                 tileEntity.inventory.setStackInSlot(0,stack.copy());
                 inputHandler.extractItem(slot,1,false);
-                return true;
+                return MethodResult.of(true);
             }else{
-                throw new LuaException("there is a sword in the grinder already");
+                return MethodResult.of(false,"there is a sword in the grinder already");
             }
         }else{
-            return false;
+            return MethodResult.of(false);
         }
     }
     @LuaFunction(mainThread = true)
-    public final void pullSword(IComputerAccess computer,String to) throws LuaException {
+    public final MethodResult pullSword(IComputerAccess computer,String to) {
         IPeripheral input = computer.getAvailablePeripheral(to);
-        if (input == null) throw new LuaException("the output " + to + " was not found");
+        if (input == null)
+            return MethodResult.of(false,"the output " + to + " was not found");
         IItemHandler inputHandler = extractHandler(input.getTarget());
 
         var stack = tileEntity.inventory.getStackInSlot(0).copy();
@@ -106,8 +109,9 @@ public class GrinderPeripheral implements IPeripheral, IPeripheralProvider {
             }
         }
         if(!sent){
-           throw new LuaException("target inventory is full");
+           return MethodResult.of(false,"target inventory is full");
         }
+        return MethodResult.of(true);
     }
 
 

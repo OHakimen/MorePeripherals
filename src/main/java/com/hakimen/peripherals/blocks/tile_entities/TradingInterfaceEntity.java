@@ -32,8 +32,7 @@ public class TradingInterfaceEntity extends BlockEntity {
 
     public void tick(){
         boolean found = false;
-        List<Entity> entities = level.getEntities(null,new AABB(getBlockPos().below().north().east(2),
-                getBlockPos().above(2).south(2).west(2)));
+        List<Entity> entities = level.getEntities(null, new AABB(getBlockPos()).inflate(1, 1, 1));
         for (Entity entity:entities){
             if(entity instanceof Villager){
                 villager = (Villager) entity;

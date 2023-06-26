@@ -1,8 +1,8 @@
 package com.hakimen.peripherals.peripherals;
 
-import com.hakimen.peripherals.utils.Utils;
 import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.lua.LuaFunction;
+import dan200.computercraft.api.lua.MethodResult;
 import dan200.computercraft.api.peripheral.IComputerAccess;
 import dan200.computercraft.api.peripheral.IPeripheral;
 import dan200.computercraft.api.peripheral.IPeripheralProvider;
@@ -46,15 +46,7 @@ public class AnvilPeripheral implements IPeripheral, IPeripheralProvider {
     }
 
     @LuaFunction(mainThread = true)
-    public boolean combine(IComputerAccess computer, String from, int fromSlot, String resource, int resourceSlot, String xpSource) throws LuaException {
-
-        if(!Utils.isFromMinecraft(computer,from)){
-            throw new LuaException("This method requires a vanilla inventory");
-        }
-        if(!Utils.isFromMinecraft(computer,resource)){
-            throw new LuaException("This method requires a vanilla inventory");
-        }
-
+    public MethodResult combine(IComputerAccess computer, String from, int fromSlot, String resource, int resourceSlot, String xpSource) {
 
         fromSlot -= 1;
         resourceSlot -= 1; //Java starts counting at zero, but lua starts at 1
@@ -62,21 +54,27 @@ public class AnvilPeripheral implements IPeripheral, IPeripheralProvider {
         int j = 0;
         int k = 0;
 
-        if(from.matches(resource) && fromSlot == resourceSlot) throw new LuaException("Can't combine item with itself");
+        if(from.matches(resource) && fromSlot == resourceSlot)
+            return MethodResult.of(false,"Can't combine item with itself");
         IPeripheral input = computer.getAvailablePeripheral(from);
-        if (input == null) throw new LuaException("the input " + from + " was not found");
+        if (input == null)
+            return MethodResult.of(false,"the input " + from + " was not found");
         IItemHandler inputHandler = extractHandler(input.getTarget());
-        if(fromSlot < 0 || fromSlot > inputHandler.getSlots()) throw new LuaException("from slot out of range");
+        if(fromSlot < 0 || fromSlot > inputHandler.getSlots())
+            return MethodResult.of(false,"from slot out of range");
         ItemStack itemstack = inputHandler.getStackInSlot(fromSlot);
 
         IPeripheral resourcesInput = computer.getAvailablePeripheral(resource);
-        if (resourcesInput == null) throw new LuaException("the resources input " + resource + " was not found");
+        if (resourcesInput == null)
+            return MethodResult.of(false,"the resources input " + resource + " was not found");
         IItemHandler resourcesInputHandler = extractHandler(resourcesInput.getTarget());
-        if(resourceSlot < 0 || resourceSlot > resourcesInputHandler.getSlots()) throw new LuaException("resource slot out of range");
+        if(resourceSlot < 0 || resourceSlot > resourcesInputHandler.getSlots())
+            return MethodResult.of(false,"resource slot out of range");
         ItemStack itemstack2 = resourcesInputHandler.getStackInSlot(resourceSlot);
 
         IPeripheral xpInput = computer.getAvailablePeripheral(xpSource);
-        if (xpInput == null) throw new LuaException("the xp input " + xpSource + " was not found");
+        if (xpInput == null)
+            return MethodResult.of(false,"the xp input " + xpSource + " was not found");
         IItemHandler xpInputHandler = extractHandler(xpInput.getTarget());
         var bottlesNeeded = 8;
         int xpSlot=-1;
@@ -86,7 +84,8 @@ public class AnvilPeripheral implements IPeripheral, IPeripheralProvider {
                     break;
                 }
         }
-        if(xpSlot < 0) throw new LuaException("Not enough bottles found");
+        if(xpSlot < 0)
+            return MethodResult.of(false,"not enough bottles found");
 
         ItemStack itemstack1 = itemstack.copy();
         Map<Enchantment, Integer> map = EnchantmentHelper.getEnchantments(itemstack1);
@@ -97,7 +96,8 @@ public class AnvilPeripheral implements IPeripheral, IPeripheralProvider {
         flag = itemstack2.getItem() == Items.ENCHANTED_BOOK && !EnchantedBookItem.getEnchantments(itemstack2).isEmpty();
         if (itemstack1.isDamageableItem() && itemstack1.getItem().isValidRepairItem(itemstack, itemstack2)) {
             int l2 = Math.min(itemstack1.getDamageValue(), itemstack1.getMaxDamage() / 4);
-            if (l2 <= 0) throw new LuaException("Item doesn't need repairing");
+            if (l2 <= 0)
+                return MethodResult.of(false,"item doesn't need repairing");
 
             int i3;
             for(i3 = 0; l2 > 0 && i3 < itemstack2.getCount(); ++i3) {
@@ -110,7 +110,7 @@ public class AnvilPeripheral implements IPeripheral, IPeripheralProvider {
             repairItemCountCost = i3;
         } else {
             if (!flag && (!itemstack1.is(itemstack2.getItem()) || !itemstack1.isDamageableItem())) {
-                throw new LuaException("Item can't be combined this way");
+                return MethodResult.of(false,"Item can't be combined this way");
             }
 
             if (itemstack1.isDamageableItem() && !flag) {
@@ -187,10 +187,11 @@ public class AnvilPeripheral implements IPeripheral, IPeripheralProvider {
             }
 
             if (flag3 && !flag2) {
-                throw new LuaException("Enchantments are not compatible");
+                return MethodResult.of(false,"enchantments are not compatible");
             }
         }
-        if (flag && !itemstack1.isBookEnchantable(itemstack2)) throw new LuaException("Item is not enchantable with this book");
+        if (flag && !itemstack1.isBookEnchantable(itemstack2))
+            return MethodResult.of(false,"item is not enchantable with this book");
         int k2 = itemstack1.getBaseRepairCost();
         if (!itemstack2.isEmpty() && k2 < itemstack2.getBaseRepairCost()) {
             k2 = itemstack2.getBaseRepairCost();
@@ -208,22 +209,20 @@ public class AnvilPeripheral implements IPeripheral, IPeripheralProvider {
         xpInputHandler.extractItem(xpSlot,8,false);
         inputHandler.insertItem(fromSlot,itemstack1,false);
 
-        return true;
+        return MethodResult.of(true);
     }
 
     @LuaFunction(mainThread = true)
-    public void rename(IComputerAccess computer, String from, int slot, String name) throws LuaException {
-
-        if(!Utils.isFromMinecraft(computer,from)){
-            throw new LuaException("This method requires a vanilla inventory");
-        }
+    public MethodResult rename(IComputerAccess computer, String from, int slot, String name) throws LuaException {
 
         slot -= 1;
 
         IPeripheral input = computer.getAvailablePeripheral(from);
-        if (input == null) throw new LuaException("the input " + from + " was not found");
+        if (input == null)
+            return MethodResult.of(false,"the input " + from + " was not found");
         IItemHandler inputHandler = extractHandler(input.getTarget());
-        if(slot < 0 || slot > inputHandler.getSlots()) throw new LuaException("from slot out of range");
+        if(slot < 0 || slot > inputHandler.getSlots())
+            return MethodResult.of(false,"from slot out of range");
         ItemStack itemstack = inputHandler.getStackInSlot(slot);
 
         if(name.matches("")) {
@@ -231,7 +230,7 @@ public class AnvilPeripheral implements IPeripheral, IPeripheralProvider {
         } else {
             itemstack.setHoverName(Component.literal(name));
         }
-
+        return MethodResult.of(true);
     }
 
     @javax.annotation.Nullable

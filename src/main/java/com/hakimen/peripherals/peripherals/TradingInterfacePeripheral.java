@@ -2,9 +2,8 @@ package com.hakimen.peripherals.peripherals;
 
 import com.hakimen.peripherals.blocks.tile_entities.TradingInterfaceEntity;
 import com.hakimen.peripherals.registry.BlockRegister;
-import com.hakimen.peripherals.utils.Utils;
-import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.lua.LuaFunction;
+import dan200.computercraft.api.lua.MethodResult;
 import dan200.computercraft.api.peripheral.IComputerAccess;
 import dan200.computercraft.api.peripheral.IPeripheral;
 import dan200.computercraft.api.peripheral.IPeripheralProvider;
@@ -52,16 +51,17 @@ public class TradingInterfacePeripheral implements IPeripheral, IPeripheralProvi
     }
 
     @LuaFunction(mainThread = true)
-    public final String getProfession() throws LuaException{
-
-        if(tileEntity.villager == null) throw new LuaException("villager not in range");
-        return tileEntity.villager.getVillagerData().getProfession().name();
+    public final MethodResult getProfession() {
+        if(tileEntity.villager == null)
+            return MethodResult.of(false,"villager not in range");
+        return MethodResult.of(true,tileEntity.villager.getVillagerData().getProfession().name());
     }
 
 
     @LuaFunction(mainThread = true)
-    public final List<Map<String,Map<String,Map<String,?>>>> getTrades() throws LuaException{
-        if(tileEntity.villager == null) throw new LuaException("villager not in range");
+    public final MethodResult getTrades() {
+        if(tileEntity.villager == null)
+            return MethodResult.of(false,"villager not in range");
         List<Map<String,Map<String,Map<String,?>>>> offerList = new ArrayList<>();
         List<MerchantOffer> offers = tileEntity.villager.getOffers().stream().toList();
         offers.forEach(offer -> {
@@ -91,24 +91,25 @@ public class TradingInterfacePeripheral implements IPeripheral, IPeripheralProvi
 
             offerList.add(map);
         });
-        return offerList;
+        return MethodResult.of(true,offerList);
     }
 
     @LuaFunction(mainThread = true)
-    public final boolean trade(IComputerAccess computer,String from,String to,int trade) throws LuaException {
-        if(!Utils.isFromMinecraft(computer,from)){
-            throw new LuaException("this method needs a vanilla inventory as input");
-        }
-        if(tileEntity.villager == null) throw new LuaException("villager not in range");
-        if(trade-1 < 0 || trade-1 > tileEntity.villager.getOffers().stream().toList().size()) throw new LuaException("trade index out of range");
+    public final MethodResult trade(IComputerAccess computer,String from,String to,int trade)  {
+        if(tileEntity.villager == null)
+            return MethodResult.of(false,"villager not in range");
+        if(trade-1 < 0 || trade-1 > tileEntity.villager.getOffers().stream().toList().size())
+            return MethodResult.of(false,"trade index out of range");
         MerchantOffer offer = tileEntity.villager.getOffers().stream().toList().get(trade-1);
 
         IPeripheral inputLocation = computer.getAvailablePeripheral(from);
-        if(inputLocation == null) throw new LuaException("the input "+from+" was not found");
+        if(inputLocation == null)
+            return MethodResult.of(false,"the input "+from+" was not found");
         var input = extractHandler(inputLocation.getTarget());
 
         IPeripheral outlocation = computer.getAvailablePeripheral(to);
-        if(outlocation == null) throw new LuaException("the input "+to+" was not found");
+        if(outlocation == null)
+            return MethodResult.of(false,"the input "+to+" was not found");
         var result = extractHandler(outlocation.getTarget());
 
         boolean validA = false;
@@ -150,23 +151,26 @@ public class TradingInterfacePeripheral implements IPeripheral, IPeripheralProvi
                 if (validB) {
                     input.getStackInSlot(slots[1]).shrink(offer.getCostB().getCount());
                 }
-                return true;
+                return MethodResult.of(true);
             } else
-                throw new LuaException("destination inventory full");
+                return MethodResult.of(false,"destination inventory full");
         }
-        return false;
+        return MethodResult.of(false);
     }
     @LuaFunction(mainThread = true)
-    public final void restock() throws LuaException{
-        if(tileEntity.villager == null) throw new LuaException("villager not in range");
+    public final MethodResult restock() {
+        if(tileEntity.villager == null)
+            return MethodResult.of(false,"villager not in range");
         tileEntity.villager.restock();
+        return MethodResult.of(true);
     }
     long lastTime;
     @LuaFunction(mainThread = true)
-    public final void cycleTrades() throws LuaException{
+    public final MethodResult cycleTrades() {
         if(lastTime + 50 >= System.currentTimeMillis()) // Slow the trade cycling down a bit, because it can lead to crashes in servers if done too fast
-            return;
-        if(tileEntity.villager == null) throw new LuaException("villager not in range");
+            return MethodResult.of();
+        if(tileEntity.villager == null)
+            return MethodResult.of(false,"villager not in range");
         var lastProfession = tileEntity.villager.getVillagerData().getProfession();
 
         tileEntity.villager.setVillagerData(tileEntity.villager.getVillagerData().setProfession(VillagerProfession.NONE));
@@ -174,13 +178,14 @@ public class TradingInterfacePeripheral implements IPeripheral, IPeripheralProvi
         tileEntity.villager.setVillagerXp(0);
         tileEntity.villager.setVillagerData(tileEntity.villager.getVillagerData().setProfession(lastProfession));
         lastTime = System.currentTimeMillis();
+        return MethodResult.of(true);
     }
 
     private static HashMap<String,Object> getItemInfo(Map<Enchantment,Integer> enchants,int count){
         var itemSetDetails = new HashMap<String,Object>();
         var enchantList = new HashMap<String,Integer>();
         enchants.forEach((e,i)->{
-            enchantList.put(e.getDescriptionId(),i);
+            enchantList.put(ForgeRegistries.ENCHANTMENTS.getKey(e).toString(),i);
         });
         itemSetDetails.put("enchants",enchantList);
         itemSetDetails.put("count",count);
