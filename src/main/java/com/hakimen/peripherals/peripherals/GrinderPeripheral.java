@@ -1,11 +1,15 @@
 package com.hakimen.peripherals.peripherals;
 
 import com.hakimen.peripherals.blocks.tile_entities.GrinderEntity;
+import com.hakimen.peripherals.registry.BlockRegister;
 import com.mojang.authlib.GameProfile;
 import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.lua.LuaFunction;
 import dan200.computercraft.api.peripheral.IComputerAccess;
 import dan200.computercraft.api.peripheral.IPeripheral;
+import dan200.computercraft.api.peripheral.IPeripheralProvider;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.Container;
@@ -14,6 +18,7 @@ import net.minecraft.world.damagesource.DamageSources;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.SwordItem;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
@@ -28,16 +33,10 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 import java.util.UUID;
 
-public class GrinderPeripheral implements IPeripheral {
+public class GrinderPeripheral implements IPeripheral, IPeripheralProvider {
+    private GrinderEntity tileEntity;
+    private FakePlayer fakePlayer;
 
-
-    private final GrinderEntity tileEntity;
-    private final FakePlayer fakePlayer;
-
-    public GrinderPeripheral(GrinderEntity tileEntity) {
-        this.tileEntity = tileEntity;
-        fakePlayer = new FakePlayer((ServerLevel) tileEntity.getLevel(),new GameProfile(UUID.randomUUID(),"Grinder"));
-    }
 
     @NotNull
     @Override
@@ -124,5 +123,15 @@ public class GrinderPeripheral implements IPeripheral {
         if (object instanceof IItemHandler handler) return handler;
         if (object instanceof Container container) return new InvWrapper(container);
         return null;
+    }
+
+    @Override
+    public LazyOptional<IPeripheral> getPeripheral(Level world, BlockPos pos, Direction side) {
+        if(world.getBlockState(pos).getBlock().equals(BlockRegister.grinder.get())){
+            this.tileEntity = (GrinderEntity) world.getBlockEntity(pos);
+            this.fakePlayer = new FakePlayer((ServerLevel) world,new GameProfile(UUID.randomUUID(),"Grinder"));
+            return LazyOptional.of(() -> this);
+        }
+        return LazyOptional.empty();
     }
 }

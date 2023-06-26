@@ -1,17 +1,22 @@
 package com.hakimen.peripherals.peripherals;
 
 import com.hakimen.peripherals.blocks.tile_entities.DiskRaidEntity;
+import com.hakimen.peripherals.registry.BlockRegister;
 import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.lua.LuaFunction;
 import dan200.computercraft.api.media.IMedia;
 import dan200.computercraft.api.peripheral.IComputerAccess;
 import dan200.computercraft.api.peripheral.IPeripheral;
+import dan200.computercraft.api.peripheral.IPeripheralProvider;
 import dan200.computercraft.core.util.StringUtil;
 import dan200.computercraft.impl.MediaProviders;
 import dan200.computercraft.shared.media.items.DiskItem;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
@@ -23,15 +28,11 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 
-public class DiskRaidPeripheral implements IPeripheral {
+public class DiskRaidPeripheral implements IPeripheral, IPeripheralProvider {
 
 
-    private final DiskRaidEntity tileEntity;
+    private DiskRaidEntity tileEntity;
 
-
-    public DiskRaidPeripheral(DiskRaidEntity tileEntity) {
-        this.tileEntity = tileEntity;
-    }
 
     @NotNull
     @Override
@@ -134,4 +135,12 @@ public class DiskRaidPeripheral implements IPeripheral {
         return null;
     }
 
+    @Override
+    public LazyOptional<IPeripheral> getPeripheral(Level world, BlockPos pos, Direction side) {
+        if(world.getBlockState(pos).getBlock().equals(BlockRegister.diskRaid.get())){
+            this.tileEntity = (DiskRaidEntity) world.getBlockEntity(pos);
+            return LazyOptional.of(() -> this);
+        }
+        return LazyOptional.empty();
+    }
 }

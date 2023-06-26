@@ -9,10 +9,8 @@ import dan200.computercraft.api.media.IMedia;
 import dan200.computercraft.api.peripheral.IComputerAccess;
 import dan200.computercraft.api.peripheral.IPeripheral;
 import dan200.computercraft.impl.MediaProviders;
-import dan200.computercraft.shared.Capabilities;
 import dan200.computercraft.shared.media.items.DiskItem;
 import dan200.computercraft.shared.pocket.items.PocketComputerItem;
-import dan200.computercraft.shared.util.InventoryUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
@@ -27,7 +25,6 @@ import net.minecraft.world.phys.AABB;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.event.TagsUpdatedEvent;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
@@ -44,7 +41,6 @@ public class DiskRaidEntity extends BlockEntity {
 
     public final ItemStackHandler inventory = createHandler();
 
-    public LazyOptional<IPeripheral> peripheral = LazyOptional.of(() -> new DiskRaidPeripheral(this));
     public final LazyOptional<IItemHandler> handler = LazyOptional.of(() -> inventory);
 
     public DiskRaidEntity(BlockPos pos, BlockState state) {
@@ -165,9 +161,6 @@ public class DiskRaidEntity extends BlockEntity {
 
     @Override
     public @NotNull <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap) {
-        if (cap == Capabilities.CAPABILITY_PERIPHERAL) {
-            return (LazyOptional<T>) peripheral;
-        }
         if (cap == ForgeCapabilities.ITEM_HANDLER) {
             return (LazyOptional<T>) handler;
         }

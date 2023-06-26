@@ -1,25 +1,24 @@
 package com.hakimen.peripherals.peripherals;
 
 import com.hakimen.peripherals.blocks.tile_entities.MagneticCardManiputalorEntity;
+import com.hakimen.peripherals.registry.BlockRegister;
 import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.lua.LuaFunction;
 import dan200.computercraft.api.peripheral.IComputerAccess;
 import dan200.computercraft.api.peripheral.IPeripheral;
+import dan200.computercraft.api.peripheral.IPeripheralProvider;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.level.Level;
+import net.minecraftforge.common.util.LazyOptional;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class MagneticCardManiputalorPeripheral implements IPeripheral {
-
-
-    private final MagneticCardManiputalorEntity tileEntity;
-
-
-    public MagneticCardManiputalorPeripheral(MagneticCardManiputalorEntity tileEntity) {
-        this.tileEntity = tileEntity;
-    }
+public class MagneticCardManiputalorPeripheral implements IPeripheral, IPeripheralProvider {
+    private MagneticCardManiputalorEntity tileEntity;
 
     @NotNull
     @Override
@@ -116,4 +115,12 @@ public class MagneticCardManiputalorPeripheral implements IPeripheral {
         }
     }
 
+    @Override
+    public LazyOptional<IPeripheral> getPeripheral(Level world, BlockPos pos, Direction side) {
+        if(world.getBlockState(pos).getBlock().equals(BlockRegister.magneticCardManipulator.get())){
+            this.tileEntity = (MagneticCardManiputalorEntity) world.getBlockEntity(pos);
+            return LazyOptional.of(() -> this);
+        }
+        return LazyOptional.empty();
+    }
 }

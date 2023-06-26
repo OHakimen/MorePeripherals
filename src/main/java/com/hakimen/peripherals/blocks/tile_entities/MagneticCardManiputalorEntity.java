@@ -1,22 +1,16 @@
 package com.hakimen.peripherals.blocks.tile_entities;
 
 import com.hakimen.peripherals.items.MagneticCardItem;
-import com.hakimen.peripherals.peripherals.MagneticCardManiputalorPeripheral;
 import com.hakimen.peripherals.registry.BlockEntityRegister;
 import com.hakimen.peripherals.registry.ItemRegister;
 import dan200.computercraft.api.peripheral.IComputerAccess;
-import dan200.computercraft.api.peripheral.IPeripheral;
-import dan200.computercraft.shared.Capabilities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.SwordItem;
-import net.minecraft.world.level.ColorResolver;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.WoolCarpetBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
@@ -32,8 +26,6 @@ import java.util.ArrayList;
 
 
 public class MagneticCardManiputalorEntity extends BlockEntity {
-
-    public LazyOptional<IPeripheral> peripheral = LazyOptional.of(() -> new MagneticCardManiputalorPeripheral(this));
 
     public final ItemStackHandler inventory = createHandler();
     public final ArrayList<IComputerAccess> computers = new ArrayList<>();
@@ -72,9 +64,6 @@ public class MagneticCardManiputalorEntity extends BlockEntity {
     }
     @Override
     public @NotNull <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap) {
-        if (cap == Capabilities.CAPABILITY_PERIPHERAL) {
-            return peripheral.cast();
-        }
         if (cap == ForgeCapabilities.ITEM_HANDLER) {
             return (LazyOptional<T>) handler;
         }

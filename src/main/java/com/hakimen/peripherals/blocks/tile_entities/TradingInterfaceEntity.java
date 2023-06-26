@@ -1,26 +1,18 @@
 package com.hakimen.peripherals.blocks.tile_entities;
 
-import com.hakimen.peripherals.peripherals.TradingInterfacePeripheral;
 import com.hakimen.peripherals.registry.BlockEntityRegister;
-import dan200.computercraft.api.peripheral.IPeripheral;
-import dan200.computercraft.shared.Capabilities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.Tag;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.util.LazyOptional;
-import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
 
 
 public class TradingInterfaceEntity extends BlockEntity {
-
-    public LazyOptional<IPeripheral> peripheral = LazyOptional.of(() -> new TradingInterfacePeripheral(this));
 
     public TradingInterfaceEntity( BlockPos pos, BlockState state) {
         super(BlockEntityRegister.tradingInterfaceEntity.get(), pos, state);
@@ -51,16 +43,6 @@ public class TradingInterfaceEntity extends BlockEntity {
         }
         if(!found){
             villager = null;
-        }
-    }
-
-    @NotNull
-    @Override
-    public <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap) {
-        if(cap == Capabilities.CAPABILITY_PERIPHERAL){
-            return (LazyOptional<T>) peripheral;
-        }else {
-            return super.getCapability(cap);
         }
     }
 }

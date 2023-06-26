@@ -1,9 +1,6 @@
 package com.hakimen.peripherals.blocks.tile_entities;
 
-import com.hakimen.peripherals.peripherals.XPCollectorPeripheral;
 import com.hakimen.peripherals.registry.BlockEntityRegister;
-import dan200.computercraft.api.peripheral.IPeripheral;
-import dan200.computercraft.shared.Capabilities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
@@ -15,17 +12,12 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.util.LazyOptional;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
 public class XPCollectorEntity extends BlockEntity {
-
-    public LazyOptional<IPeripheral> peripheral = LazyOptional.of(() -> new XPCollectorPeripheral(this));
-
     public int xpPoints;
 
     public XPCollectorEntity(BlockPos p_155229_, BlockState p_155230_) {
@@ -73,16 +65,5 @@ public class XPCollectorEntity extends BlockEntity {
     public void setChanged() {
         super.setChanged();
         getLevel().sendBlockUpdated( getBlockPos(), getBlockState(), getBlockState(), Block.UPDATE_ALL );
-    }
-
-
-    @NotNull
-    @Override
-    public <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap) {
-        if(cap == Capabilities.CAPABILITY_PERIPHERAL){
-            return peripheral.cast();
-        }else {
-            return super.getCapability(cap);
-        }
     }
 }

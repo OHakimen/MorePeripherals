@@ -1,27 +1,15 @@
 package com.hakimen.peripherals.blocks.tile_entities;
 
-import com.hakimen.peripherals.peripherals.BeehiveInterfacePeripheral;
-import com.hakimen.peripherals.peripherals.EnchantingTablePeripheral;
 import com.hakimen.peripherals.registry.BlockEntityRegister;
-import dan200.computercraft.api.peripheral.IPeripheral;
-import dan200.computercraft.shared.Capabilities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.level.block.BeehiveBlock;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.EnchantmentTableBlock;
 import net.minecraft.world.level.block.entity.BeehiveBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.util.LazyOptional;
-import org.jetbrains.annotations.NotNull;
 
 
 public class BeehiveInterfaceEntity extends BlockEntity {
-
-    public LazyOptional<IPeripheral> peripheral = LazyOptional.of(() -> new BeehiveInterfacePeripheral(this));
-
     public BeehiveInterfaceEntity(BlockPos pos, BlockState state) {
         super(BlockEntityRegister.beehiveInterfaceEntity.get(), pos, state);
     }
@@ -68,16 +56,6 @@ public class BeehiveInterfaceEntity extends BlockEntity {
             beehive = level.getBlockState(getBlockPos().below());
             beehiveBlockEntity = (BeehiveBlockEntity) level.getBlockEntity(getBlockPos().below());
             return;
-        }
-    }
-
-    @NotNull
-    @Override
-    public <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap) {
-        if(cap == Capabilities.CAPABILITY_PERIPHERAL){
-            return (LazyOptional<T>) peripheral;
-        }else {
-            return super.getCapability(cap);
         }
     }
 }

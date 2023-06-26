@@ -1,12 +1,17 @@
 package com.hakimen.peripherals.peripherals;
 
 import com.hakimen.peripherals.blocks.tile_entities.XPBottlerEntity;
+import com.hakimen.peripherals.registry.BlockRegister;
 import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.lua.LuaFunction;
 import dan200.computercraft.api.peripheral.IComputerAccess;
 import dan200.computercraft.api.peripheral.IPeripheral;
+import dan200.computercraft.api.peripheral.IPeripheralProvider;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
@@ -16,16 +21,10 @@ import net.minecraftforge.items.wrapper.InvWrapper;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class XPBottlerPeripheral implements IPeripheral {
+public class XPBottlerPeripheral implements IPeripheral, IPeripheralProvider {
 
 
-    private final XPBottlerEntity tileEntity;
-
-
-    public XPBottlerPeripheral(XPBottlerEntity tileEntity) {
-        this.tileEntity = tileEntity;
-
-    }
+    private XPBottlerEntity tileEntity;
 
     @NotNull
     @Override
@@ -101,5 +100,14 @@ public class XPBottlerPeripheral implements IPeripheral {
     }
 
 
+    @NotNull
+    @Override
+    public LazyOptional<IPeripheral> getPeripheral(@NotNull Level world, @NotNull BlockPos pos, @NotNull Direction side) {
+        if(world.getBlockState(pos).getBlock().equals(BlockRegister.xpBottler.get())){
+            this.tileEntity = (XPBottlerEntity) world.getBlockEntity(pos);
+            return LazyOptional.of(() -> this);
+        }
+        return LazyOptional.empty();
+    }
 }
 

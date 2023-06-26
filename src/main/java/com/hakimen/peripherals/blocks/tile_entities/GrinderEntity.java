@@ -3,10 +3,8 @@ package com.hakimen.peripherals.blocks.tile_entities;
 import com.hakimen.peripherals.peripherals.GrinderPeripheral;
 import com.hakimen.peripherals.registry.BlockEntityRegister;
 import dan200.computercraft.api.peripheral.IPeripheral;
-import dan200.computercraft.shared.Capabilities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.item.AxeItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -23,7 +21,6 @@ import javax.annotation.Nonnull;
 
 public class GrinderEntity extends BlockEntity {
 
-    public LazyOptional<IPeripheral> peripheral = LazyOptional.of(() -> new GrinderPeripheral(this));
 
     public final ItemStackHandler inventory = createHandler();
 
@@ -55,9 +52,6 @@ public class GrinderEntity extends BlockEntity {
 
     @Override
     public @NotNull <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap) {
-        if (cap == Capabilities.CAPABILITY_PERIPHERAL) {
-            return (LazyOptional<T>) peripheral;
-        }
         if (cap == ForgeCapabilities.ITEM_HANDLER) {
             return (LazyOptional<T>) handler;
         }
