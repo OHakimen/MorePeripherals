@@ -45,46 +45,48 @@ public class BeehiveInterfacePeripheral implements IPeripheral, IPeripheralProvi
 
     @LuaFunction(mainThread = true)
     public final MethodResult hasBees(){
-        if(!hasBeehive()){
-            return MethodResult.of(false,"no beehive present");
-        }
-
         if(hasMultipleBeehives()) {
             return MethodResult.of(false,"more than one beehive connected");
+        }
+        if(!hasBeehive()){
+            return MethodResult.of(false,"no beehive present");
         }
         return MethodResult.of(!tileEntity.beehiveBlockEntity.isEmpty());
     }
 
     @LuaFunction(mainThread = true)
     public final MethodResult getBeeCount(){
-        if(!hasBeehive()){
-            return MethodResult.of(false,"no beehive present");
-        }
         if(hasMultipleBeehives()) {
             return MethodResult.of(false,"more than one beehive connected");
         }
+        if(!hasBeehive()){
+            return MethodResult.of(false,"no beehive present");
+        }
+
         return  MethodResult.of(true,tileEntity.beehiveBlockEntity.getOccupantCount());
     }
 
     @LuaFunction(mainThread = true)
     public final MethodResult gotFireNear(){
-        if(!hasBeehive()){
-            return MethodResult.of(false,"no beehive present");
-        }
         if(hasMultipleBeehives()) {
             return MethodResult.of(false,"more than one beehive connected");
         }
+        if(!hasBeehive()){
+            return MethodResult.of(false,"no beehive present");
+        }
+
         return MethodResult.of(true,tileEntity.beehiveBlockEntity.isFireNearby());
     }
 
     @LuaFunction(mainThread = true)
     public final MethodResult getBees(){
-        if(!hasBeehive()){
-            return MethodResult.of(false,"no beehive present");
-        }
         if(hasMultipleBeehives()) {
             return MethodResult.of(false,"more than one beehive connected");
         }
+        if(!hasBeehive()){
+            return MethodResult.of(false,"no beehive present");
+        }
+
 
         if (tileEntity.beehiveBlockEntity.isEmpty()) {
             return MethodResult.of(false,"there is no bees in the hive");
@@ -113,21 +115,22 @@ public class BeehiveInterfacePeripheral implements IPeripheral, IPeripheralProvi
 
     @LuaFunction(mainThread = true)
     public MethodResult getHoneyLevel() {
-        if(!hasBeehive()){
-            return MethodResult.of(false,"no beehive present");
-        }
         if(hasMultipleBeehives()) {
             return MethodResult.of(false,"more than one beehive connected");
         }
+        if(!hasBeehive()){
+            return MethodResult.of(false,"no beehive present");
+        }
+
         return MethodResult.of(true,tileEntity.beehive.getValue(BeehiveBlock.HONEY_LEVEL));
     }
     @LuaFunction(mainThread = true)
     public MethodResult collectHoney(IComputerAccess computer, String resources, String to, boolean bottled) throws LuaException {
-        if(!hasBeehive()){
-            return MethodResult.of(false,"no beehive present");
-        }
         if(hasMultipleBeehives()) {
             return MethodResult.of(false,"more than one beehive connected");
+        }
+        if(!hasBeehive()){
+            return MethodResult.of(false,"no beehive present");
         }
 
         if (tileEntity.beehive.getValue(BeehiveBlock.HONEY_LEVEL) < 5) {

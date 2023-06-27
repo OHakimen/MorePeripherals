@@ -46,6 +46,13 @@ public class SpawnerPeripheral implements IPeripheral, IPeripheralProvider {
 
     @LuaFunction(mainThread = true)
     public final MethodResult changeSpawner(IComputerAccess computer, String inv, int slot, Optional<Boolean> force) {
+        if(hasMultipleSpawners()){
+            return MethodResult.of(false, "more than one spawner present");
+        }
+        if(!hasSpawner()){
+            return MethodResult.of(false, "no spawner present");
+        }
+
         slot = slot - 1;
         IPeripheral peripheral = computer.getAvailablePeripheral(inv);
         if (inv == null)
@@ -78,6 +85,12 @@ public class SpawnerPeripheral implements IPeripheral, IPeripheralProvider {
 
     @LuaFunction(mainThread = true)
     public final MethodResult getCurrentlySpawningMob() {
+        if(hasMultipleSpawners()){
+            return MethodResult.of(false, "more than one spawner present");
+        }
+        if(!hasSpawner()){
+            return MethodResult.of(false, "no spawner present");
+        }
         CompoundTag tag = new CompoundTag();
         tag = tileEntity.entity.getSpawner().save(tag);
         return MethodResult.of(tag.getCompound("SpawnData").getCompound("entity").getString("id"));
@@ -87,6 +100,13 @@ public class SpawnerPeripheral implements IPeripheral, IPeripheralProvider {
 
     @LuaFunction(mainThread = true)
     public final MethodResult captureSpawner(IComputerAccess computer, Optional<String> inv, Optional<Integer> slot) {
+        if(hasMultipleSpawners()){
+            return MethodResult.of(false, "more than one spawner present");
+        }
+        if(!hasSpawner()){
+            return MethodResult.of(false, "no spawner present");
+        }
+
         ItemStack spawnerBlock = new ItemStack(Items.SPAWNER);
 
         CompoundTag tag = new CompoundTag();
@@ -121,6 +141,14 @@ public class SpawnerPeripheral implements IPeripheral, IPeripheralProvider {
             return MethodResult.of(true);
         }
         return MethodResult.of(false);
+    }
+
+    public boolean hasSpawner(){
+        return tileEntity.entity != null;
+    }
+
+    public boolean hasMultipleSpawners() {
+        return tileEntity.hasMultipleSpawners;
     }
 
     @javax.annotation.Nullable
