@@ -63,6 +63,8 @@ public class SpawnerPeripheral implements IPeripheral, IPeripheralProvider {
             } else {
                 if (!previousMob.equals("minecraft:pig")) {
                     stack.getTag().putString("mob", previousMob);
+                }else{
+                    stack.getTag().remove("mob");
                 }
             }
             stack.resetHoverName();
