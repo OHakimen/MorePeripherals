@@ -17,6 +17,8 @@ public class BeehiveInterfaceEntity extends BlockEntity {
     public BlockState beehive = null;
     public BeehiveBlockEntity beehiveBlockEntity = null;
 
+    public boolean hasMultipleBeehives = false;
+
     @Override
     public void load(CompoundTag tag) {
         super.load(tag);
@@ -28,37 +30,43 @@ public class BeehiveInterfaceEntity extends BlockEntity {
     }
 
     public void tick(){
+        int amountOfBeehives = 0;
         if(level.getBlockState(getBlockPos().above()).is(Blocks.BEEHIVE)){
             beehive = level.getBlockState(getBlockPos().above());
             beehiveBlockEntity = (BeehiveBlockEntity) level.getBlockEntity(getBlockPos().above());
-            return;
+            amountOfBeehives++;
         }
-        else if(level.getBlockState(getBlockPos().east()).is(Blocks.BEEHIVE)){
+        if(level.getBlockState(getBlockPos().east()).is(Blocks.BEEHIVE)){
             beehive = level.getBlockState(getBlockPos().east());
             beehiveBlockEntity = (BeehiveBlockEntity) level.getBlockEntity(getBlockPos().east());
-            return;
+            amountOfBeehives++;
         }
-        else if(level.getBlockState(getBlockPos().west()).is(Blocks.BEEHIVE)){
+        if(level.getBlockState(getBlockPos().west()).is(Blocks.BEEHIVE)){
             beehive = level.getBlockState(getBlockPos().west());
             beehiveBlockEntity = (BeehiveBlockEntity) level.getBlockEntity(getBlockPos().west());
-            return;
+            amountOfBeehives++;
         }
-        else if(level.getBlockState(getBlockPos().south()).is(Blocks.BEEHIVE)){
+        if(level.getBlockState(getBlockPos().south()).is(Blocks.BEEHIVE)){
             beehive = level.getBlockState(getBlockPos().south());
             beehiveBlockEntity = (BeehiveBlockEntity) level.getBlockEntity(getBlockPos().south());
-            return;
+            amountOfBeehives++;
         }
-        else if(level.getBlockState(getBlockPos().north()).is(Blocks.BEEHIVE)){
+        if(level.getBlockState(getBlockPos().north()).is(Blocks.BEEHIVE)){
             beehive = level.getBlockState(getBlockPos().north());
             beehiveBlockEntity = (BeehiveBlockEntity) level.getBlockEntity(getBlockPos().north());
-            return;
-        }else if(level.getBlockState(getBlockPos().below()).is(Blocks.BEEHIVE)){
+            amountOfBeehives++;
+        }
+        if(level.getBlockState(getBlockPos().below()).is(Blocks.BEEHIVE)){
             beehive = level.getBlockState(getBlockPos().below());
             beehiveBlockEntity = (BeehiveBlockEntity) level.getBlockEntity(getBlockPos().below());
-            return;
-        }else{
+            amountOfBeehives++;
+        }
+        if (amountOfBeehives < 1){
             beehive = null;
             beehiveBlockEntity = null;
         }
+
+        hasMultipleBeehives = amountOfBeehives > 1;
+
     }
 }
