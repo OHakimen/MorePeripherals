@@ -1,9 +1,8 @@
 package com.hakimen.peripherals.peripherals;
 
 import com.hakimen.peripherals.client.containers.CrafterContainer;
-import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.lua.LuaFunction;
-
+import dan200.computercraft.api.lua.MethodResult;
 import dan200.computercraft.api.peripheral.IComputerAccess;
 import dan200.computercraft.api.peripheral.IPeripheral;
 import dan200.computercraft.api.peripheral.IPeripheralProvider;
@@ -23,9 +22,7 @@ import net.minecraftforge.items.wrapper.InvWrapper;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-
 import java.util.ArrayList;
-
 import java.util.Map;
 
 public class CrafterPeripheral implements IPeripheral, IPeripheralProvider {
@@ -44,13 +41,15 @@ public class CrafterPeripheral implements IPeripheral, IPeripheralProvider {
     }
 
     @LuaFunction(mainThread = true)
-    public final void craft(IComputerAccess computer, String fromName, String toName, Map<?, ?> craftingParameters) throws LuaException {
+    public final MethodResult craft(IComputerAccess computer, String fromName, String toName, Map<?, ?> craftingParameters){
         IPeripheral from = computer.getAvailablePeripheral(fromName);
-        if (from == null) throw new LuaException("the input " + fromName + " was not found");
+        if (from == null)
+            return MethodResult.of(false,"the input " + fromName + " was not found");
         IItemHandler fromHandler = extractHandler(from.getTarget());
 
         IPeripheral to = computer.getAvailablePeripheral(toName);
-        if (to == null) throw new LuaException("the input " + toName + " was not found");
+        if (to == null)
+            return MethodResult.of(false,"the input " + toName + " was not found");
         IItemHandler toHandler = extractHandler(to.getTarget());
 
 
@@ -115,10 +114,10 @@ public class CrafterPeripheral implements IPeripheral, IPeripheralProvider {
                 }
             }
             if(!placed && !canPlaceAllRemainders){
-                throw new LuaException("Failed to Craft");
+                return MethodResult.of(false,"failed to Craft");
             }
         }
-
+        return MethodResult.of(true);
     }
 
 

@@ -10,7 +10,6 @@ import net.minecraft.world.level.block.state.BlockState;
 
 
 public class BeehiveInterfaceEntity extends BlockEntity {
-
     public BeehiveInterfaceEntity(BlockPos pos, BlockState state) {
         super(BlockEntityRegister.beehiveInterfaceEntity.get(), pos, state);
     }
@@ -57,6 +56,9 @@ public class BeehiveInterfaceEntity extends BlockEntity {
             beehive = level.getBlockState(getBlockPos().below());
             beehiveBlockEntity = (BeehiveBlockEntity) level.getBlockEntity(getBlockPos().below());
             return;
+        }else{
+            beehive = null;
+            beehiveBlockEntity = null;
         }
     }
 }

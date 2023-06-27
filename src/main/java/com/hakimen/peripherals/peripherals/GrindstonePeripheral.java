@@ -1,8 +1,7 @@
 package com.hakimen.peripherals.peripherals;
 
-import com.hakimen.peripherals.utils.Utils;
-import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.lua.LuaFunction;
+import dan200.computercraft.api.lua.MethodResult;
 import dan200.computercraft.api.peripheral.IComputerAccess;
 import dan200.computercraft.api.peripheral.IPeripheral;
 import dan200.computercraft.api.peripheral.IPeripheralProvider;
@@ -44,28 +43,26 @@ public class GrindstonePeripheral implements IPeripheral, IPeripheralProvider {
     }
 
     @LuaFunction(mainThread = true)
-    public boolean combine(IComputerAccess computer, String from, int fromSlot, String resource, int resourceSlot) throws LuaException {
-
-        if(!Utils.isFromMinecraft(computer,from)){
-            throw new LuaException("This method requires a vanilla inventory");
-        }
-        if(!Utils.isFromMinecraft(computer,resource)){
-            throw new LuaException("This method requires a vanilla inventory");
-        }
+    public MethodResult combine(IComputerAccess computer, String from, int fromSlot, String resource, int resourceSlot){
 
         fromSlot -= 1;
         resourceSlot -= 1; //Java starts counting at zero, but lua starts at 1
-        if(from.matches(resource) && fromSlot == resourceSlot) throw new LuaException("Can't combine item with itself");
+        if (from.matches(resource) && fromSlot == resourceSlot)
+            return MethodResult.of(false, "can't combine item with itself");
         IPeripheral input = computer.getAvailablePeripheral(from);
-        if (input == null) throw new LuaException("the input " + from + " was not found");
+        if (input == null)
+            return MethodResult.of(false, "the input " + from + " was not found");
         IItemHandler inputHandler = extractHandler(input.getTarget());
-        if(fromSlot < 0 || fromSlot > inputHandler.getSlots()) throw new LuaException("from slot out of range");
+        if (fromSlot < 0 || fromSlot > inputHandler.getSlots())
+            return MethodResult.of(false, "from slot out of range");
         ItemStack itemstack = inputHandler.getStackInSlot(fromSlot);
 
         IPeripheral resourcesInput = computer.getAvailablePeripheral(resource);
-        if (resourcesInput == null) throw new LuaException("the resources input " + resource + " was not found");
+        if (resourcesInput == null)
+            return MethodResult.of(false, "the resources input " + resource + " was not found");
         IItemHandler resourcesInputHandler = extractHandler(resourcesInput.getTarget());
-        if(resourceSlot < 0 || resourceSlot > resourcesInputHandler.getSlots()) throw new LuaException("resource slot out of range");
+        if (resourceSlot < 0 || resourceSlot > resourcesInputHandler.getSlots())
+            return MethodResult.of(false, "resource slot out of range");
         ItemStack itemstack1 = resourcesInputHandler.getStackInSlot(resourceSlot);
 
         int j = 1;
@@ -73,9 +70,9 @@ public class GrindstonePeripheral implements IPeripheral, IPeripheralProvider {
         ItemStack itemstack2;
 
         if (!itemstack.is(itemstack1.getItem())) {
-            inputHandler.insertItem(fromSlot,itemstack,false);
-            resourcesInputHandler.insertItem(resourceSlot,itemstack1,false);
-            throw new LuaException("Items aren't the same type");
+            inputHandler.insertItem(fromSlot, itemstack, false);
+            resourcesInputHandler.insertItem(resourceSlot, itemstack1, false);
+            return MethodResult.of(false, "items aren't the same type");
         }
 
         int k = itemstack.getMaxDamage() - itemstack.getDamageValue();
@@ -85,51 +82,47 @@ public class GrindstonePeripheral implements IPeripheral, IPeripheralProvider {
         itemstack2 = this.mergeEnchants(itemstack, itemstack1);
         if (!itemstack2.isRepairable()) i = itemstack.getDamageValue();
         if (!itemstack2.isDamageableItem() || !itemstack2.isRepairable()) {
-           if (!ItemStack.matches(itemstack, itemstack1)) {
-               inputHandler.insertItem(fromSlot,itemstack,false);
-               resourcesInputHandler.insertItem(resourceSlot,itemstack1,false);
-               throw new LuaException("items don't match");
-           }
+            if (!ItemStack.matches(itemstack, itemstack1)) {
+                inputHandler.insertItem(fromSlot, itemstack, false);
+                resourcesInputHandler.insertItem(resourceSlot, itemstack1, false);
+                return MethodResult.of(false, "items don't match");
+            }
 
-           j = 2;
+            j = 2;
         }
-        inputHandler.extractItem(fromSlot,1,false);
-        resourcesInputHandler.extractItem(resourceSlot,1,false);
+        inputHandler.extractItem(fromSlot, 1, false);
+        resourcesInputHandler.extractItem(resourceSlot, 1, false);
         itemstack2.setDamageValue(i);
-        inputHandler.insertItem(fromSlot,itemstack2,false);
-        return true;
+        inputHandler.insertItem(fromSlot, itemstack2, false);
+        return MethodResult.of(true);
     }
 
     @LuaFunction(mainThread = true)
-    public void disenchant(IComputerAccess computer, String from, int slot, Optional<String> collector) throws LuaException {
+    public MethodResult disenchant(IComputerAccess computer, String from, int slot, Optional<String> collector) {
 
-        if(!Utils.isFromMinecraft(computer,from)){
-            throw new LuaException("This method requires a vanilla inventory");
-        }
-
-        slot = slot+1;
+        slot = slot + 1;
         IPeripheral input = computer.getAvailablePeripheral(from);
-        if (input == null) throw new LuaException("the input " + from + " was not found");
+        if (input == null) return MethodResult.of(false, "the input " + from + " was not found");
         IItemHandler inputHandler = extractHandler(input.getTarget());
-        if(slot < 1 || slot > inputHandler.getSlots()) throw new LuaException("slot out of range");
+        if (slot < 1 || slot > inputHandler.getSlots()) return MethodResult.of(false, "slot out of range");
 
         IPeripheral collectorInput;
         XPCollectorPeripheral collectorPeripheral;
 
-        if(inputHandler.getStackInSlot(slot).is(Items.ENCHANTED_BOOK)){
-            inputHandler.extractItem(slot,1,false);
-            inputHandler.insertItem(slot,Items.BOOK.getDefaultInstance(),false);
-        }else{
+        if (inputHandler.getStackInSlot(slot).is(Items.ENCHANTED_BOOK)) {
+            inputHandler.extractItem(slot, 1, false);
+            inputHandler.insertItem(slot, Items.BOOK.getDefaultInstance(), false);
+        } else {
             inputHandler.getStackInSlot(slot).removeTagKey("Enchantments");
         }
 
-        if(collector.isPresent()) {
+        if (collector.isPresent()) {
             collectorInput = computer.getAvailablePeripheral(collector.get());
             collectorPeripheral = (XPCollectorPeripheral) collectorInput;
 
             collectorPeripheral.tileEntity.xpPoints += 8;
         }
-
+        return MethodResult.of(true);
     }
 
     @javax.annotation.Nullable
@@ -166,17 +159,17 @@ public class GrindstonePeripheral implements IPeripheral, IPeripheralProvider {
     }
 
     private ItemStack mergeEnchants(ItemStack p_39591_, ItemStack p_39592_) {
-      ItemStack itemstack = p_39591_.copy();
-      Map<Enchantment, Integer> map = EnchantmentHelper.getEnchantments(p_39592_);
+        ItemStack itemstack = p_39591_.copy();
+        Map<Enchantment, Integer> map = EnchantmentHelper.getEnchantments(p_39592_);
 
-      for(Map.Entry<Enchantment, Integer> entry : map.entrySet()) {
-         Enchantment enchantment = entry.getKey();
-         if (!enchantment.isCurse() || EnchantmentHelper.getItemEnchantmentLevel(enchantment, itemstack) == 0) {
-            itemstack.enchant(enchantment, entry.getValue());
-         }
-      }
+        for (Map.Entry<Enchantment, Integer> entry : map.entrySet()) {
+            Enchantment enchantment = entry.getKey();
+            if (!enchantment.isCurse() || EnchantmentHelper.getItemEnchantmentLevel(enchantment, itemstack) == 0) {
+                itemstack.enchant(enchantment, entry.getValue());
+            }
+        }
 
-      return itemstack;
+        return itemstack;
     }
 
     private ItemStack removeNonCurses(ItemStack p_39580_, int p_39581_, int p_39582_) {
@@ -202,7 +195,7 @@ public class GrindstonePeripheral implements IPeripheral, IPeripheralProvider {
             }
         }
 
-        for(int i = 0; i < map.size(); ++i) {
+        for (int i = 0; i < map.size(); ++i) {
             itemstack.setRepairCost(AnvilMenu.calculateIncreasedRepairCost(itemstack.getBaseRepairCost()));
         }
 
@@ -212,7 +205,7 @@ public class GrindstonePeripheral implements IPeripheral, IPeripheralProvider {
     @NotNull
     @Override
     public LazyOptional<IPeripheral> getPeripheral(@NotNull Level world, @NotNull BlockPos pos, @NotNull Direction side) {
-        if(world.getBlockState(pos).getBlock().equals(Blocks.GRINDSTONE)){
+        if (world.getBlockState(pos).getBlock().equals(Blocks.GRINDSTONE)) {
 
             return LazyOptional.of(() -> this);
         }

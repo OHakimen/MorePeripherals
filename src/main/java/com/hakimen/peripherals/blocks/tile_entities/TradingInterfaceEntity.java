@@ -18,11 +18,11 @@ public class TradingInterfaceEntity extends BlockEntity {
         super(BlockEntityRegister.tradingInterfaceEntity.get(), pos, state);
     }
 
-    public Villager villager;
+    public Villager villager = null;
 
     @Override
     public void load(CompoundTag tag) {
-        super.load(tag);
+       super.load(tag);
     }
 
     @Override
@@ -30,18 +30,17 @@ public class TradingInterfaceEntity extends BlockEntity {
         super.saveAdditional(tag);
     }
 
-    public void tick() {
+    public void tick(){
         boolean found = false;
-        List<Entity> entities = level.getEntities(null, new AABB(getBlockPos().below().north().east(2),
-                getBlockPos().above(2).south(2).west(2)));
-        for (Entity entity : entities) {
-            if (entity instanceof Villager) {
+        List<Entity> entities = level.getEntities(null, new AABB(getBlockPos()).inflate(1, 1, 1));
+        for (Entity entity:entities){
+            if(entity instanceof Villager){
                 villager = (Villager) entity;
                 found = true;
                 break;
             }
         }
-        if (!found) {
+        if(!found){
             villager = null;
         }
     }

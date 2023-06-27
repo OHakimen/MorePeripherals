@@ -1,8 +1,7 @@
 package com.hakimen.peripherals.peripherals;
 
-import com.hakimen.peripherals.utils.Utils;
-import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.lua.LuaFunction;
+import dan200.computercraft.api.lua.MethodResult;
 import dan200.computercraft.api.peripheral.IComputerAccess;
 import dan200.computercraft.api.peripheral.IPeripheral;
 import dan200.computercraft.api.peripheral.IPeripheralProvider;
@@ -14,19 +13,18 @@ import net.minecraft.world.Container;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.entity.*;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.items.wrapper.InvWrapper;
-import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import static net.minecraft.core.Registry.BANNER_PATTERN;
-
 
 public class LoomInterfacePeripheral implements IPeripheral, IPeripheralProvider {
 
@@ -42,33 +40,30 @@ public class LoomInterfacePeripheral implements IPeripheral, IPeripheralProvider
     }
 
     @LuaFunction(mainThread = true)
-    public void paintBanner(IComputerAccess computer, String from, int slotBanner, int slotDye, int pattern) throws LuaException {
-        if(!Utils.isFromMinecraft(computer,from)){
-            throw new LuaException("this method needs a vanilla inventory as input");
-        }
+    public MethodResult paintBanner(IComputerAccess computer, String from, int slotBanner, int slotDye, int pattern)  {
 
 
         IPeripheral inputPeripheral = computer.getAvailablePeripheral(from);
-        if (inputPeripheral == null) throw new LuaException("the input " + from + " was not found");
+        if (inputPeripheral == null) return MethodResult.of(false,"the input " + from + " was not found");
         var input = extractHandler(inputPeripheral.getTarget());
 
-        if(slotBanner < 0 || slotBanner > input.getSlots()) throw new LuaException("banner slot out of range");
-        if(slotDye < 0 || slotDye > input.getSlots()) throw new LuaException("dye slot out of range");
+        if(slotBanner < 0 || slotBanner > input.getSlots()) return MethodResult.of(false,"banner slot out of range");
+        if(slotDye < 0 || slotDye > input.getSlots()) return MethodResult.of(false,"dye slot out of range");
 
         var banner = input.getStackInSlot(slotBanner);
         var dye = input.getStackInSlot(slotDye);
 
         if (!(banner.getItem() instanceof BannerItem)) {
-            throw new LuaException("the item in " + slotBanner + " is not a banner");
+            return MethodResult.of(false,"the item in " + slotBanner + " is not a banner");
         }
         if (!(dye.getItem() instanceof DyeItem)) {
-            throw new LuaException("the item in " + slotDye + " is not a dye");
+            return MethodResult.of(false,"the item in " + slotDye + " is not a dye");
         }
         if (dye.getCount() < banner.getCount()) {
-           throw new LuaException("not enough dye");
+           return MethodResult.of(false,"not enough dye");
         }
         if(pattern > BANNER_PATTERN.stream().toList().size() || pattern < 0) {
-            throw new LuaException("invalid pattern");
+            return MethodResult.of(false,"invalid pattern");
         }
         var patternTag = new CompoundTag();
         patternTag.putString("Pattern", BANNER_PATTERN.stream().toList().get(pattern).getHashname());
@@ -89,22 +84,23 @@ public class LoomInterfacePeripheral implements IPeripheral, IPeripheralProvider
         }
         ListPatterns.add(patternTag);
         BlockItem.setBlockEntityData(banner, BlockEntityType.BANNER, blockEntityData);
-
+        return MethodResult.of(true);
     }
 
     @LuaFunction(mainThread = true)
-    public void clearBanner(IComputerAccess computer,String from,int slot) throws LuaException {
+    public MethodResult clearBanner(IComputerAccess computer,String from,int slot)  {
 
 
         IPeripheral inputPeripheral = computer.getAvailablePeripheral(from);
-        if (inputPeripheral == null) throw new LuaException("the input " + from + " was not found");
+        if (inputPeripheral == null) return MethodResult.of(false,"the input " + from + " was not found");
         var input = extractHandler(inputPeripheral.getTarget());
-        if(slot < 0 || slot > input.getSlots()) throw new LuaException("slot out of range");
+        if(slot < 0 || slot > input.getSlots()) return MethodResult.of(false,"slot out of range");
         var banner = input.getStackInSlot(slot);
         if(!(banner.getItem() instanceof BannerItem)){
-            throw new LuaException("not a banner");
+            return MethodResult.of(false,"not a banner");
         }
         BlockItem.setBlockEntityData(banner,BlockEntityType.BANNER,new CompoundTag());
+        return MethodResult.of(true);
     }
 
     @javax.annotation.Nullable

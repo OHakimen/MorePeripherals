@@ -2,8 +2,8 @@ package com.hakimen.peripherals.peripherals;
 
 import com.hakimen.peripherals.blocks.tile_entities.XPBottlerEntity;
 import com.hakimen.peripherals.registry.BlockRegister;
-import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.lua.LuaFunction;
+import dan200.computercraft.api.lua.MethodResult;
 import dan200.computercraft.api.peripheral.IComputerAccess;
 import dan200.computercraft.api.peripheral.IPeripheral;
 import dan200.computercraft.api.peripheral.IPeripheralProvider;
@@ -26,7 +26,6 @@ public class XPBottlerPeripheral implements IPeripheral, IPeripheralProvider {
 
     private XPBottlerEntity tileEntity;
 
-
     @NotNull
     @Override
     public String getType() {
@@ -39,16 +38,19 @@ public class XPBottlerPeripheral implements IPeripheral, IPeripheralProvider {
     }
 
     @LuaFunction(mainThread = true)
-    public boolean bottleXP(IComputerAccess computer,String from,String to,String xp_collector) throws LuaException {
+    public MethodResult bottleXP(IComputerAccess computer, String from, String to, String xp_collector)  {
 
         IPeripheral inputPeripheral = computer.getAvailablePeripheral(from);
-        if(inputPeripheral == null) throw new LuaException("the input "+from+" was not found");
+        if(inputPeripheral == null)
+            return MethodResult.of(false,"the input "+from+" was not found");
         var input = extractHandler(inputPeripheral.getTarget());
 
         IPeripheral xpCollectorPeripheral = computer.getAvailablePeripheral(xp_collector);
-        if(xpCollectorPeripheral == null) throw new LuaException("the xp collector "+xp_collector+" was not found");
+        if(xpCollectorPeripheral == null)
+            return MethodResult.of(false,"the xp collector "+xp_collector+" was not found");
         IPeripheral outPeripheral = computer.getAvailablePeripheral(to);
-        if(outPeripheral == null) throw new LuaException("the output "+outPeripheral+" was not found");
+        if(outPeripheral == null)
+            return MethodResult.of(false,"the output "+outPeripheral+" was not found");
 
         var output = extractHandler(outPeripheral.getTarget());
 
@@ -57,7 +59,7 @@ public class XPBottlerPeripheral implements IPeripheral, IPeripheralProvider {
         int bottles = xp/8;
 
         if(bottles == 0){
-            return false;
+            return MethodResult.of(false,"not enough experience in collector");
         }
         for (int bottle = 0; bottle < bottles ; bottle++) {
             var hasBottle = false;
@@ -70,7 +72,7 @@ public class XPBottlerPeripheral implements IPeripheral, IPeripheralProvider {
             }
             if(hasBottle){
                 for (int i = 0; i < output.getSlots(); i++) {
-                    if((output.getStackInSlot(i).getCount() < output.getSlotLimit(i) && output.getStackInSlot(i).sameItem(Items.EXPERIENCE_BOTTLE.getDefaultInstance())) || output.getStackInSlot(i).isEmpty()){
+                    if((output.getStackInSlot(i).getCount() < output.getSlotLimit(i) && output.getStackInSlot(i).equals(Items.EXPERIENCE_BOTTLE.getDefaultInstance())) || output.getStackInSlot(i).isEmpty()){
                         output.insertItem(i,Items.EXPERIENCE_BOTTLE.getDefaultInstance(),false);
                         collector.tileEntity.xpPoints-=8;
                         collector.tileEntity.setChanged();
@@ -78,11 +80,11 @@ public class XPBottlerPeripheral implements IPeripheral, IPeripheralProvider {
                     }
                 }
             }else{
-                throw new LuaException("no bottles found in input");
+                return MethodResult.of(false,"no bottles found in input");
             }
         }
         collector.tileEntity.setChanged();
-        return true;
+        return MethodResult.of(true);
     }
 
 

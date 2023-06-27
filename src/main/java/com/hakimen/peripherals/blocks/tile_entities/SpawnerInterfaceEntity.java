@@ -12,7 +12,6 @@ public class SpawnerInterfaceEntity extends BlockEntity {
     public BlockState spawner;
     public SpawnerBlockEntity entity;
 
-
     public SpawnerInterfaceEntity(BlockPos pos, BlockState state) {
         super(BlockEntityRegister.spawnerInterfaceEntity.get(), pos, state);
     }
@@ -42,10 +41,14 @@ public class SpawnerInterfaceEntity extends BlockEntity {
             spawner = level.getBlockState(getBlockPos().north());
             entity = (SpawnerBlockEntity) level.getBlockEntity(getBlockPos().north());
             return;
-        }else if(level.getBlockState(getBlockPos().below()).getBlock() instanceof SpawnerBlock){
+        }
+        else if(level.getBlockState(getBlockPos().below()).getBlock() instanceof SpawnerBlock){
             spawner = level.getBlockState(getBlockPos().below());
             entity = (SpawnerBlockEntity) level.getBlockEntity(getBlockPos().below());
             return;
+        }else{
+            spawner = null;
+            entity = null;
         }
     }
 }
