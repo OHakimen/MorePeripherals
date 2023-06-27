@@ -46,6 +46,12 @@ public class SpawnerPeripheral implements IPeripheral, IPeripheralProvider {
 
     @LuaFunction(mainThread = true)
     public final MethodResult changeSpawner(IComputerAccess computer, String inv, int slot, Optional<Boolean> force) {
+        if(!hasSpawner()){
+            return MethodResult.of(false, "no spawner present");
+        }
+        if(hasMultipleSpawners()){
+            return MethodResult.of(false, "more than one spawner present");
+        }
         slot = slot - 1;
         IPeripheral peripheral = computer.getAvailablePeripheral(inv);
         if (inv == null)
@@ -57,7 +63,7 @@ public class SpawnerPeripheral implements IPeripheral, IPeripheralProvider {
         var stack = handler.getStackInSlot(slot);
         if (stack.hasTag() && stack.getItem() instanceof MobDataCardItem) {
             var previousMob = tileEntity.entity.saveWithFullMetadata().getCompound("SpawnData").getCompound("entity").getString("id");
-            tileEntity.entity.getSpawner().setEntityId(EntityType.byString(stack.getTag().getString("mob")).get(), tileEntity.getLevel(), tileEntity.getLevel().getRandom(), tileEntity.getBlockPos());
+            tileEntity.entity.getSpawner().setEntityId(EntityType.byString(stack.getTag().getString("mob")).get());
             if (force.isPresent() && force.get()) {
                 stack.getTag().remove("mob");
             } else {
@@ -78,6 +84,12 @@ public class SpawnerPeripheral implements IPeripheral, IPeripheralProvider {
 
     @LuaFunction(mainThread = true)
     public final MethodResult getCurrentlySpawningMob() {
+        if(!hasSpawner()){
+            return MethodResult.of(false, "no spawner present");
+        }
+        if(hasMultipleSpawners()){
+            return MethodResult.of(false, "more than one spawner present");
+        }
         CompoundTag tag = new CompoundTag();
         tag = tileEntity.entity.getSpawner().save(tag);
         return MethodResult.of(tag.getCompound("SpawnData").getCompound("entity").getString("id"));
@@ -87,6 +99,12 @@ public class SpawnerPeripheral implements IPeripheral, IPeripheralProvider {
 
     @LuaFunction(mainThread = true)
     public final MethodResult captureSpawner(IComputerAccess computer, Optional<String> inv, Optional<Integer> slot) {
+        if(!hasSpawner()){
+            return MethodResult.of(false, "no spawner present");
+        }
+        if(hasMultipleSpawners()){
+            return MethodResult.of(false, "more than one spawner present");
+        }
         ItemStack spawnerBlock = new ItemStack(Items.SPAWNER);
 
         CompoundTag tag = new CompoundTag();
@@ -121,6 +139,14 @@ public class SpawnerPeripheral implements IPeripheral, IPeripheralProvider {
             return MethodResult.of(true);
         }
         return MethodResult.of(false);
+    }
+
+    public boolean hasSpawner(){
+        return tileEntity.entity != null;
+    }
+
+    public boolean hasMultipleSpawners() {
+        return tileEntity.hasMultipleSpawners;
     }
 
     @javax.annotation.Nullable
