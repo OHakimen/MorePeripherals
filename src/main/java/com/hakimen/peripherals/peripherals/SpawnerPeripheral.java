@@ -56,14 +56,12 @@ public class SpawnerPeripheral implements IPeripheral, IPeripheralProvider {
             return MethodResult.of(false, "slot out of range");
         var stack = handler.getStackInSlot(slot);
         if (stack.hasTag() && stack.getItem() instanceof MobDataCardItem) {
-            var previousMob = tileEntity.saveWithFullMetadata().getCompound("SpawnData").getCompound("entity").getString("id");
+            var previousMob = tileEntity.entity.saveWithFullMetadata().getCompound("SpawnData").getCompound("entity").getString("id");
             tileEntity.entity.getSpawner().setEntityId(EntityType.byString(stack.getTag().getString("mob")).get(), tileEntity.getLevel(), tileEntity.getLevel().getRandom(), tileEntity.getBlockPos());
             if (force.isPresent() && force.get()) {
                 stack.getTag().remove("mob");
             } else {
-                if (!previousMob.equals("minecraft:pig")) {
-                    stack.getTag().putString("mob", previousMob);
-                }
+                stack.getTag().putString("mob", previousMob);
             }
             stack.resetHoverName();
             CompoundTag tag = new CompoundTag();
@@ -71,6 +69,7 @@ public class SpawnerPeripheral implements IPeripheral, IPeripheralProvider {
             tileEntity.entity.getSpawner().load(tileEntity.getLevel(), tileEntity.getBlockPos(), saved);
             tileEntity.setChanged();
             tileEntity.entity.getSpawner().getSpawnerEntity();
+            tileEntity.getLevel().sendBlockUpdated(tileEntity.entity.getBlockPos(),tileEntity.spawner,tileEntity.spawner, 3);
             return MethodResult.of(true);
         }
         return MethodResult.of(false);
@@ -106,8 +105,8 @@ public class SpawnerPeripheral implements IPeripheral, IPeripheralProvider {
                 var stack = handler.getStackInSlot(slot.get());
                 if (stack.getItem() instanceof MobDataCardItem) {
                     stack.getOrCreateTag().putString("mob", saved.getCompound("SpawnData").getCompound("entity").getString("id"));
-                    stack.setHoverName(Component.translatable("item.peripherals.mob_data_card").append(" (" + stack.getOrCreateTag().getString("mob") + ")"));
-                    var blockPos = tileEntity.getBlockPos();
+                    stack.setHoverName(Component.translatable("item.peripherals.spawner_card").append(" (" + stack.getOrCreateTag().getString("mob") + ")"));
+                    var blockPos = tileEntity.entity.getBlockPos();
                     tileEntity.getLevel().addFreshEntity(new ItemEntity(tileEntity.getLevel(), blockPos.getX(), blockPos.getY(), blockPos.getZ(), spawnerBlock));
                     tileEntity.getLevel().destroyBlock(blockPos, false);
                     lastTime = System.currentTimeMillis();
