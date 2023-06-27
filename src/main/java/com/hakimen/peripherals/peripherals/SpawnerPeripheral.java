@@ -56,7 +56,7 @@ public class SpawnerPeripheral implements IPeripheral, IPeripheralProvider {
             return MethodResult.of(false, "slot out of range");
         var stack = handler.getStackInSlot(slot);
         if (stack.hasTag() && stack.getItem() instanceof MobDataCardItem) {
-            var previousMob = tileEntity.saveWithFullMetadata().getCompound("SpawnData").getCompound("entity").getString("id");
+            var previousMob = tileEntity.entity.saveWithFullMetadata().getCompound("SpawnData").getCompound("entity").getString("id");
             tileEntity.entity.getSpawner().setEntityId(EntityType.byString(stack.getTag().getString("mob")).get());
             if (force.isPresent() && force.get()) {
                 stack.getTag().remove("mob");
@@ -67,9 +67,10 @@ public class SpawnerPeripheral implements IPeripheral, IPeripheralProvider {
             }
             stack.resetHoverName();
             CompoundTag tag = new CompoundTag();
-            var saved = tileEntity.entity.getSpawner().save(tag);
-            tileEntity.entity.getSpawner().load(tileEntity.getLevel(), tileEntity.getBlockPos(), saved);
-            tileEntity.setChanged();
+            tileEntity.entity.getSpawner().save(tag);
+            tileEntity.entity.getSpawner().load(tileEntity.getLevel(), tileEntity.getBlockPos(), tag);
+            tileEntity.entity.setChanged();
+            tileEntity.getLevel().sendBlockUpdated(tileEntity.entity.getBlockPos(),tileEntity.spawner,tileEntity.spawner, 3);
             tileEntity.entity.getSpawner().getSpawnerEntity();
             return MethodResult.of(true);
         }
