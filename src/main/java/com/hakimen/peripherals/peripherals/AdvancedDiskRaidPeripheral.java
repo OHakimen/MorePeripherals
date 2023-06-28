@@ -138,8 +138,9 @@ public class AdvancedDiskRaidPeripheral implements IPeripheral, IPeripheralProvi
     @Override
     public LazyOptional<IPeripheral> getPeripheral(Level world, BlockPos pos, Direction side) {
         if(world.getBlockState(pos).getBlock().equals(BlockRegister.advancedDiskRaid.get())){
-            this.tileEntity = (AdvancedDiskRaidEntity) world.getBlockEntity(pos);
-            return LazyOptional.of(() -> this);
+            var peripheral = new AdvancedDiskRaidPeripheral();
+            peripheral.tileEntity = (AdvancedDiskRaidEntity) world.getBlockEntity(pos);
+            return LazyOptional.of(() -> peripheral);
         }
         return LazyOptional.empty();
     }

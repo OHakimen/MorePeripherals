@@ -107,8 +107,9 @@ public class XPBottlerPeripheral implements IPeripheral, IPeripheralProvider {
     @Override
     public LazyOptional<IPeripheral> getPeripheral(@NotNull Level world, @NotNull BlockPos pos, @NotNull Direction side) {
         if(world.getBlockState(pos).getBlock().equals(BlockRegister.xpBottler.get())){
-            this.tileEntity = (XPBottlerEntity) world.getBlockEntity(pos);
-            return LazyOptional.of(() -> this);
+            var peripheral = new XPBottlerPeripheral();
+            peripheral.tileEntity = (XPBottlerEntity) world.getBlockEntity(pos);
+            return LazyOptional.of(() -> peripheral);
         }
         return LazyOptional.empty();
     }

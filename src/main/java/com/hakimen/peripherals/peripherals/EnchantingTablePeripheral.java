@@ -193,7 +193,6 @@ public class EnchantingTablePeripheral implements IPeripheral, IPeripheralProvid
     public LazyOptional<IPeripheral> getPeripheral(@NotNull Level world, @NotNull BlockPos pos, @NotNull Direction side) {
         level = world;
         if (world.getBlockState(pos).getBlock().equals(Blocks.ENCHANTING_TABLE)) {
-
             return LazyOptional.of(() -> this);
         }
         return LazyOptional.empty();

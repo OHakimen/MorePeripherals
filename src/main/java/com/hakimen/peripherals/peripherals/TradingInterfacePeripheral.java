@@ -229,8 +229,9 @@ public class TradingInterfacePeripheral implements IPeripheral, IPeripheralProvi
     @Override
     public LazyOptional<IPeripheral> getPeripheral(@NotNull Level world, @NotNull BlockPos pos, @NotNull Direction side) {
         if(world.getBlockState(pos).getBlock().equals(BlockRegister.tradingInterface.get())){
-            this.tileEntity = (TradingInterfaceEntity) world.getBlockEntity(pos);
-            return LazyOptional.of(() -> this);
+            var peripheral = new TradingInterfacePeripheral();
+            peripheral.tileEntity = (TradingInterfaceEntity) world.getBlockEntity(pos);
+            return LazyOptional.of(() -> peripheral);
         }
         return LazyOptional.empty();
     }

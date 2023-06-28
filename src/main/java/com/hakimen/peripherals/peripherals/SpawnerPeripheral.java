@@ -168,8 +168,9 @@ public class SpawnerPeripheral implements IPeripheral, IPeripheralProvider {
     @Override
     public LazyOptional<IPeripheral> getPeripheral(Level world, BlockPos pos, Direction side) {
         if (world.getBlockState(pos).getBlock().equals(BlockRegister.spawnerInterfaceBlock.get())) {
-            this.tileEntity = (SpawnerInterfaceEntity) world.getBlockEntity(pos);
-            return LazyOptional.of(() -> this);
+            var peripheral = new SpawnerPeripheral();
+            peripheral.tileEntity = (SpawnerInterfaceEntity) world.getBlockEntity(pos);
+            return LazyOptional.of(() -> peripheral);
         }
         return LazyOptional.empty();
     }

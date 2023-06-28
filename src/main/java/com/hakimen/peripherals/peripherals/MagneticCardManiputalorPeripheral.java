@@ -119,8 +119,9 @@ public class MagneticCardManiputalorPeripheral implements IPeripheral, IPeripher
     @Override
     public LazyOptional<IPeripheral> getPeripheral(Level world, BlockPos pos, Direction side) {
         if(world.getBlockState(pos).getBlock().equals(BlockRegister.magneticCardManipulator.get())){
-            this.tileEntity = (MagneticCardManiputalorEntity) world.getBlockEntity(pos);
-            return LazyOptional.of(() -> this);
+            var peripheral = new MagneticCardManiputalorPeripheral();
+            peripheral.tileEntity = (MagneticCardManiputalorEntity) world.getBlockEntity(pos);
+            return LazyOptional.of(() -> peripheral);
         }
         return LazyOptional.empty();
     }
