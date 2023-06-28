@@ -230,8 +230,9 @@ public class BeehiveInterfacePeripheral implements IPeripheral, IPeripheralProvi
     @Override
     public LazyOptional<IPeripheral> getPeripheral(Level world, BlockPos pos, Direction side) {
         if(world.getBlockState(pos).getBlock().equals(BlockRegister.beehiveInterface.get())){
-            this.tileEntity = (BeehiveInterfaceEntity) world.getBlockEntity(pos);
-            return LazyOptional.of(() -> this);
+            var peripheral = new BeehiveInterfacePeripheral();
+            peripheral.tileEntity = (BeehiveInterfaceEntity) world.getBlockEntity(pos);
+            return LazyOptional.of(() -> peripheral);
         }
         return LazyOptional.empty();
     }

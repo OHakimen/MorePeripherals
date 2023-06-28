@@ -42,8 +42,9 @@ public class XPCollectorPeripheral implements IPeripheral, IPeripheralProvider {
     @Override
     public LazyOptional<IPeripheral> getPeripheral(@NotNull Level world, @NotNull BlockPos pos, @NotNull Direction side) {
         if(world.getBlockState(pos).getBlock().equals(BlockRegister.xpCollector.get())){
-            this.tileEntity = (XPCollectorEntity) world.getBlockEntity(pos);
-            return LazyOptional.of(() -> this);
+            var peripheral = new XPCollectorPeripheral();
+            peripheral.tileEntity = (XPCollectorEntity) world.getBlockEntity(pos);
+            return LazyOptional.of(() -> peripheral);
         }
         return LazyOptional.empty();
     }

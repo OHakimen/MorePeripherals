@@ -138,8 +138,10 @@ public class DiskRaidPeripheral implements IPeripheral, IPeripheralProvider {
     @Override
     public LazyOptional<IPeripheral> getPeripheral(@NotNull Level world, @NotNull BlockPos pos, @NotNull Direction side) {
         if(world.getBlockState(pos).getBlock().equals(BlockRegister.diskRaid.get())){
-            this.tileEntity = (DiskRaidEntity) world.getBlockEntity(pos);
-            return LazyOptional.of(() -> this);
+            var peripheral = new DiskRaidPeripheral();
+            peripheral.tileEntity = (DiskRaidEntity) world.getBlockEntity(pos);
+
+            return LazyOptional.of(() -> peripheral);
         }
         return LazyOptional.empty();
     }

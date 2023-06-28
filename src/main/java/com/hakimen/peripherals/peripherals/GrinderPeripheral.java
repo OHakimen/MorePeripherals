@@ -131,9 +131,10 @@ public class GrinderPeripheral implements IPeripheral, IPeripheralProvider {
     @Override
     public LazyOptional<IPeripheral> getPeripheral(Level world, BlockPos pos, Direction side) {
         if(world.getBlockState(pos).getBlock().equals(BlockRegister.grinder.get())){
-            this.tileEntity = (GrinderEntity) world.getBlockEntity(pos);
-            this.fakePlayer = new FakePlayer((ServerLevel) world,new GameProfile(UUID.randomUUID(),"Grinder"));
-            return LazyOptional.of(() -> this);
+            var peripheral = new GrinderPeripheral();
+            peripheral.tileEntity = (GrinderEntity) world.getBlockEntity(pos);
+            peripheral.fakePlayer = new FakePlayer((ServerLevel) world,new GameProfile(UUID.randomUUID(),"Grinder"));
+            return LazyOptional.of(() -> peripheral);
         }
         return LazyOptional.empty();
     }
