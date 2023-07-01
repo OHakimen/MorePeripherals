@@ -119,14 +119,14 @@ public class TradingInterfacePeripheral implements IPeripheral, IPeripheralProvi
             var test = input.getStackInSlot(slot);
             if(!validA){
                 if(test.getCount() >= offer.getBaseCostA().getCount() &&
-                        test.equals(offer.getBaseCostA())){
+                        ItemStack.isSame(test,offer.getBaseCostA())){
                     validA = true;
                     slots[0] = slot;
                 }
             }
             if(!validB){
                 if(test.getCount() >= offer.getCostB().getCount() &&
-                        test.equals(offer.getCostB())){
+                        ItemStack.isSame(test,offer.getCostB())){
                     validB = true;
                     slots[1] = slot;
                 }
