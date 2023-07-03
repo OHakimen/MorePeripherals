@@ -1,11 +1,13 @@
 package com.hakimen.peripherals;
 
 import com.hakimen.peripherals.client.ber.AdvancedDiskRaidRenderer;
+import com.hakimen.peripherals.client.ber.CableFacadeRenderer;
 import com.hakimen.peripherals.client.ber.DiskRaidRenderer;
 import com.hakimen.peripherals.client.ber.MagneticCardManipulatorRenderer;
 import com.hakimen.peripherals.config.Config;
 import com.hakimen.peripherals.registry.*;
 import com.hakimen.peripherals.utils.EnchantUtils;
+import dan200.computercraft.shared.ModRegistry;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -58,6 +60,7 @@ public class MorePeripherals {
             event.registerBlockEntityRenderer(BlockEntityRegister.diskRaidEntity.get(), DiskRaidRenderer::new);
             event.registerBlockEntityRenderer(BlockEntityRegister.advancedDiskRaidEntity.get(), AdvancedDiskRaidRenderer::new);
             event.registerBlockEntityRenderer(BlockEntityRegister.magneticCardManipulator.get(), MagneticCardManipulatorRenderer::new);
+            event.registerBlockEntityRenderer(ModRegistry.BlockEntities.CABLE.get(), CableFacadeRenderer::new);
 
         }
     }

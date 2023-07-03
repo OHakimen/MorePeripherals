@@ -5,6 +5,8 @@
     "compatibilityLevel": "JAVA_8",
     "refmap": "moreperipherals.refmap.json",
     "mixins": [
+        "CableBlockMixin",
+        "CableFacadeMixin"
     ],
     "client": [
     ],

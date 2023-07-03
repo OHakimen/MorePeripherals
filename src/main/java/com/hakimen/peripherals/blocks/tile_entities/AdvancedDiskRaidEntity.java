@@ -79,7 +79,6 @@ public class AdvancedDiskRaidEntity extends BlockEntity {
     }
 
 
-
     public void tick() {
         level.sendBlockUpdated(getBlockPos(),getBlockState(),getBlockState(),Block.UPDATE_ALL);
     }

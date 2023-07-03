@@ -19,6 +19,7 @@
   "item.peripherals.spawner_card": "Spawner Card",
   "item.peripherals.magnetic_card": "Magnetic Card",
   "item.peripherals.magnet": "Magnet",
+  "item.peripherals.facade_tool": "Facade Tool",
 
   "gui.peripherals.grinder.name": "Grinder",
   "gui.peripherals.diskraid.name": "Drive Raid",
