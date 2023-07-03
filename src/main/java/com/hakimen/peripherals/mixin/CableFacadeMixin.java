@@ -20,7 +20,7 @@ import org.spongepowered.asm.mixin.Shadow;
 @Mixin(value = CableBlockEntity.class, remap = false)
 public abstract class CableFacadeMixin extends BlockEntity{
 
-    public String facade = "";
+    public CompoundTag facade = new CompoundTag();
 
     @Shadow @Final private static String NBT_PERIPHERAL_ENABLED;
 
@@ -41,7 +41,7 @@ public abstract class CableFacadeMixin extends BlockEntity{
     public void load(CompoundTag nbt) {
         super.load(nbt);
         // Fallback to the previous (incorrect) key
-        facade = nbt.getString("facade");
+        facade = nbt.getCompound("facade");
         peripheralAccessAllowed = nbt.getBoolean(NBT_PERIPHERAL_ENABLED) || nbt.getBoolean("PeirpheralAccess");
         peripheral.read(nbt, "");
     }
@@ -53,7 +53,7 @@ public abstract class CableFacadeMixin extends BlockEntity{
     @Overwrite
     public void saveAdditional(CompoundTag nbt) {
         nbt.putBoolean(NBT_PERIPHERAL_ENABLED, peripheralAccessAllowed);
-        nbt.putString("facade",facade);
+        nbt.put("facade",facade);
         peripheral.write(nbt, "");
         super.saveAdditional(nbt);
     }

@@ -33,7 +33,7 @@ public class CableBlockMixin extends Block implements SimpleWaterloggedBlock, En
     public VoxelShape getShape(BlockState state, BlockGetter getter, BlockPos pos, CollisionContext context) {
         var blockEntity = getter.getBlockEntity(pos);
         var data = blockEntity != null ? blockEntity.saveWithFullMetadata() : new CompoundTag();
-        return (data.contains("facade") && !data.getString("facade").equals("")) ?
+        return (data.contains("facade") && !data.getCompound("facade").equals(new CompoundTag())) ?
                 Block.box(0,0,0,16,16,16) : CableShapes.getShape(state);
     }
 
