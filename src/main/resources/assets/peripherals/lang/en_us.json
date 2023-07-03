@@ -20,6 +20,8 @@
   "item.peripherals.magnetic_card": "Magnetic Card",
   "item.peripherals.magnet": "Magnet",
   "item.peripherals.facade_tool": "Facade Tool",
+  "item.peripherals.facade_tool.desc": "Shift Click to copy a block state",
+  "item.peripherals.facade_tool.desc_has_block": "Click on a cable to set a facade, and Shift click a cable to remove the facade",
 
   "gui.peripherals.grinder.name": "Grinder",
   "gui.peripherals.diskraid.name": "Drive Raid",

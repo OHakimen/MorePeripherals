@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " @e",
+    " x@",
+    "x  "
+  ],
+  "key": {
+    "@": {
+      "item": "minecraft:amethyst_shard"
+    },
+    "e": {
+      "item": "minecraft:ender_eye"
+    },
+    "x": {
+      "item": "minecraft:iron_ingot"
+    }
+  },
+  "result": {
+    "item": "peripherals:facade_tool"
+  }
+}

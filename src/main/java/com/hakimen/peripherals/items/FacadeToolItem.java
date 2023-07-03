@@ -49,6 +49,11 @@ public class FacadeToolItem extends Item {
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> components, TooltipFlag flag) {
         var data =  (stack.getOrCreateTag().get("block") != null ? NBTUtils.readBlockState(stack.getTag().getCompound("block")).toString().replaceAll("Block\\{","").replaceAll("\\}"," "): "Empty");
         components.add(Component.literal(data).setStyle(Style.EMPTY.withColor(0x838383)));
+        if(data.equals("Empty")){
+            components.add(Component.translatable("item.peripherals.facade_tool.desc").setStyle(Style.EMPTY.withColor(0xa3a3a3)));
+        }else{
+            components.add(Component.translatable("item.peripherals.facade_tool.desc_has_block").setStyle(Style.EMPTY.withColor(0xa3a3a3)));
+        }
         super.appendHoverText(stack, level, components, flag);
     }
 
