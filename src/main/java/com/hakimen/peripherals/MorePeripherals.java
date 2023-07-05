@@ -1,15 +1,21 @@
 package com.hakimen.peripherals;
 
+import com.hakimen.peripherals.blocks.FacadedBlockEntity;
 import com.hakimen.peripherals.client.ber.AdvancedDiskRaidRenderer;
-import com.hakimen.peripherals.client.ber.CableFacadeRenderer;
 import com.hakimen.peripherals.client.ber.DiskRaidRenderer;
 import com.hakimen.peripherals.client.ber.MagneticCardManipulatorRenderer;
+import com.hakimen.peripherals.client.model.CableBakedModel;
 import com.hakimen.peripherals.config.Config;
 import com.hakimen.peripherals.registry.*;
 import com.hakimen.peripherals.utils.EnchantUtils;
+import dan200.computercraft.api.ComputerCraftAPI;
 import dan200.computercraft.shared.ModRegistry;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
+import net.minecraftforge.client.event.ModelEvent;
+import net.minecraftforge.client.event.RegisterColorHandlersEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
@@ -49,7 +55,7 @@ public class MorePeripherals {
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> bus.addListener(MorePeripheralsClient::clientInit));
     }
 
-    @Mod.EventBusSubscriber(modid = mod_id, bus = Mod.EventBusSubscriber.Bus.MOD)
+    @Mod.EventBusSubscriber(modid = mod_id, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
     public static class ClientModEvents {
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event) {
@@ -60,8 +66,25 @@ public class MorePeripherals {
             event.registerBlockEntityRenderer(BlockEntityRegister.diskRaidEntity.get(), DiskRaidRenderer::new);
             event.registerBlockEntityRenderer(BlockEntityRegister.advancedDiskRaidEntity.get(), AdvancedDiskRaidRenderer::new);
             event.registerBlockEntityRenderer(BlockEntityRegister.magneticCardManipulator.get(), MagneticCardManipulatorRenderer::new);
-            event.registerBlockEntityRenderer(ModRegistry.BlockEntities.CABLE.get(), CableFacadeRenderer::new);
+        }
 
+        @SubscribeEvent
+        public static void onModifyBakingEvent(ModelEvent.ModifyBakingResult event) {
+            for (var entry : event.getModels().entrySet()) {
+                if (entry.getKey() instanceof ModelResourceLocation location && location.getNamespace().equals(ComputerCraftAPI.MOD_ID) && location.getPath().equals("cable")) {
+                    event.getModels().put(entry.getKey(), new CableBakedModel(entry.getValue()));
+                }
+            }
+        }
+
+        @SubscribeEvent
+        public static void registerColours(RegisterColorHandlersEvent.Block event) {
+            event.register((state, level, pos, layer) ->
+                level != null && pos != null && level.getBlockEntity(pos) instanceof FacadedBlockEntity facaded && !facaded.getFacade().isAir()
+                    ? Minecraft.getInstance().getBlockColors().getColor(facaded.getFacade(), level, pos, layer)
+                    : -1,
+                ModRegistry.Blocks.CABLE.get()
+            );
         }
     }
     private void setup(final FMLCommonSetupEvent event) {
