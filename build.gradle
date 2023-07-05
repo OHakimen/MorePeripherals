@@ -1,5 +1,3 @@
-import java.text.SimpleDateFormat
-
 buildscript {
     repositories {
         // These repositories are only for Gradle plugins, put any other repositories in the repository block further below
@@ -225,21 +223,6 @@ dependencies {
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 }
 
-changelog {
-    version = "${project.version}"
-    path = "${project.projectDir}/changelog.md"
-    header = "[${mc_version}-${-> version.get()}] - ${new SimpleDateFormat("yyyy-MM-dd").format(new Date())}"
-    //Valid patterns would be
-    //1.16.5-1.1.1.1b
-    //1.18-1.0r
-    //1.19-1.0.0a
-    headerParserRegex = ~/\d+(\.\d+){1,2}-\d+(\.\d+){1,3}\w/
-    itemPrefix = "-"
-    keepUnreleasedSection = true
-    unreleasedTerm = "[Unreleased]"
-    groups = []
-}
-
 // Example for how to get properties into the manifest for reading at runtime.
 jar {
     jar.archiveFileName = "MorePeripherals_${mc_version}-${version}.jar"
@@ -273,8 +256,7 @@ curseforge {
         }
         addGameVersion "${mc_version}"
         try {
-            changelog = "${project.changelog.get("${mc_version}-${project.version}").withHeader(false).toText()}"
-            changelogType = "markdown"
+            changelog = "Changelogs for : https://github.com/JheffersonMarques/MorePeripherals/blob/${branch}/changelog.md#${mc_version.replaceAll(".","")}-#${version.replaceAll(".","")}"
         } catch (err) {
             System.out.println(err)
             changelog = ""
@@ -292,7 +274,7 @@ modrinth {
     gameVersions = [mc_version]
     loaders = ["forge"]
     try {
-        changelog = "${project.changelog.get("${mc_version}-${project.version}")}"
+        changelog = "Changelogs for : https://github.com/JheffersonMarques/MorePeripherals/blob/${branch}/changelog.md#${mc_version.replaceAll(".","")}-#${version.replaceAll(".","")}"
     } catch (err) {
         System.out.println(err)
         changelog = ""
