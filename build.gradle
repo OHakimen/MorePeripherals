@@ -1,3 +1,5 @@
+import java.text.SimpleDateFormat
+
 buildscript {
     repositories {
         // These repositories are only for Gradle plugins, put any other repositories in the repository block further below
@@ -11,6 +13,13 @@ buildscript {
     }
 }
 
+plugins {
+    id 'com.matthewprenger.cursegradle' version '1.4.0'
+    id "com.modrinth.minotaur" version "2.+"
+    id 'org.jetbrains.changelog' version '1.2.1'
+
+}
+
 apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'org.spongepowered.mixin'
 
@@ -22,6 +31,24 @@ java {
     toolchain.languageVersion = JavaLanguageVersion.of(17)
 }
 
+def static getSecrets(path = "tokens.secret"){
+    def secrets = [:]
+
+    def file = new File(path)
+    if (file.exists()) {
+        file.eachLine { line ->
+            def (name, value) = line.tokenize(",")
+            if (value != null) {
+                secrets[name.trim()] = value.trim()
+            }
+        }
+    }
+    return secrets;
+}
+
+def secrets = getSecrets();
+def curseKey = secrets["CURSE_TOKEN"];
+def modrinthKey = secrets["MODRINTH_TOKEN"]
 minecraft {
     // The mappings can be changed at any time and must be in the following format.
     // Channel:   Version:
@@ -197,6 +224,22 @@ dependencies {
 
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 }
+
+changelog {
+    version = "${project.version}"
+    path = "${project.projectDir}/changelog.md"
+    header = "[${mc_version}-${-> version.get()}] - ${new SimpleDateFormat("yyyy-MM-dd").format(new Date())}"
+    //Valid patterns would be
+    //1.16.5-1.1.1.1b
+    //1.18-1.0r
+    //1.19-1.0.0a
+    headerParserRegex = ~/\d+(\.\d+){1,2}-\d+(\.\d+){1,3}\w/
+    itemPrefix = "-"
+    keepUnreleasedSection = true
+    unreleasedTerm = "[Unreleased]"
+    groups = []
+}
+
 // Example for how to get properties into the manifest for reading at runtime.
 jar {
     jar.archiveFileName = "MorePeripherals_${mc_version}-${version}.jar"
@@ -214,3 +257,44 @@ jar {
 }
 
 jar.finalizedBy('reobfJar')
+
+
+curseforge {
+    apiKey = curseKey
+
+    project {
+        id = "570908"
+        releaseType = release_type
+        mainArtifact(jar) {
+            displayName = "[${mc_version}] More Peripherals ${version}"
+            relations {
+                requiredDependency 'cc-tweaked'
+            }
+        }
+        addGameVersion "${mc_version}"
+        try {
+            changelog = "${project.changelog.get("${mc_version}-${project.version}").withHeader(false).toText()}"
+            changelogType = "markdown"
+        } catch (err) {
+            System.out.println(err)
+            changelog = ""
+        }
+    }
+}
+
+modrinth {
+    token = modrinthKey
+    projectId = '7ACsQCnG'
+    versionNumber = "${mc_version}-${project.version}"
+    versionName = "[${mc_version}] More Peripherals ${version}"
+    versionType = release_type
+    uploadFile = jar
+    gameVersions = [mc_version]
+    loaders = ["forge"]
+    try {
+        changelog = "${project.changelog.get("${mc_version}-${project.version}")}"
+    } catch (err) {
+        System.out.println(err)
+        changelog = ""
+    }
+}

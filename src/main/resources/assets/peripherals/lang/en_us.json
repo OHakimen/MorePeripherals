@@ -17,12 +17,17 @@
   "block.peripherals.magnetic_card_manipulator" : "Magnetic Card Manipulator",
 
   "item.peripherals.spawner_card": "Spawner Card",
+
   "item.peripherals.magnetic_card": "Magnetic Card",
+  "item.peripherals.magnetic_card.sensible": "Sensible Data",
+
   "item.peripherals.magnet": "Magnet",
+  "item.peripherals.magnet.active": "Active",
+
   "item.peripherals.facade_tool": "Facade Tool",
   "item.peripherals.facade_tool.desc": "Shift Click to copy a block state",
   "item.peripherals.facade_tool.desc_has_block": "Click on a cable to set a facade, and Shift click a cable to remove the facade",
-
+  "item.peripherals.desc.empty":"Empty",
   "gui.peripherals.grinder.name": "Grinder",
   "gui.peripherals.diskraid.name": "Drive Raid",
   "gui.peripherals.advanceddiskraid.name": "Advanced Drive Raid",

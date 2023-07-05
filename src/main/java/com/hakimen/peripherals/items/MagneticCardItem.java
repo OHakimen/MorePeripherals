@@ -1,15 +1,10 @@
 package com.hakimen.peripherals.items;
 
 import com.hakimen.peripherals.blocks.tile_entities.MagneticCardManiputalorEntity;
-import com.mojang.authlib.minecraft.client.MinecraftClient;
 import dan200.computercraft.api.peripheral.IComputerAccess;
-import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
-import net.minecraft.network.chat.TextColor;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.DyeableLeatherItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -26,12 +21,12 @@ public class MagneticCardItem extends Item {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> components, TooltipFlag flag) {
-        var data =  (stack.getOrCreateTag().get("data") != null ? stack.getTag().getString("data") : "Empty");
+        var data = stack.getOrCreateTag().get("data") != null ? Component.literal(stack.getTag().getString("data")) : Component.translatable("item.peripherals.desc.empty");
         var isSensible = (stack.getOrCreateTag().get("sensible") != null && stack.getTag().getBoolean("sensible"));
         if(!isSensible){
-            components.add(Component.literal(data).setStyle(Style.EMPTY.withColor(0x838383)));
+            components.add(data.setStyle(Style.EMPTY.withColor(0x838383)));
         }else{
-            components.add(Component.literal("Sensible Data").setStyle(Style.EMPTY.withColor(0x838383)));
+            components.add(Component.translatable("item.peripherals.magnetic_card.sensible").setStyle(Style.EMPTY.withColor(0x838383)));
         }
         super.appendHoverText(stack, level, components, flag);
     }

@@ -1,19 +1,16 @@
 package com.hakimen.peripherals.items;
 
 import com.hakimen.peripherals.config.Config;
-import com.mojang.authlib.GameProfile;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
-import net.minecraft.network.chat.TextColor;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.*;
-import net.minecraft.world.item.context.UseOnContext;
-import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
-import org.w3c.dom.Text;
 
 import java.util.List;
 import java.util.Random;
@@ -43,7 +40,9 @@ public class MobDataCardItem extends Item {
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> components, TooltipFlag flag) {
         stack.getOrCreateTag();
         if (stack.getTag() != null){
-            components.add(Component.literal((stack.getTag().get("mob") != null ? stack.getTag().getString("mob") : "Empty")).setStyle(Style.EMPTY.withColor(0x838383)));
+            components.add((stack.getTag().get("mob") != null ?
+                    Component.literal(stack.getTag().getString("mob")).setStyle(Style.EMPTY.withColor(0x838383))
+                    : Component.translatable("item.peripherals.desc.empty").setStyle(Style.EMPTY.withColor(0x838383))));
         }
         super.appendHoverText(stack, level, components, flag);
     }

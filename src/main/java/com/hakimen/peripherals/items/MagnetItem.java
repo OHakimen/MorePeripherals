@@ -41,7 +41,7 @@ public class MagnetItem extends Item {
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> components, TooltipFlag tooltipFlag) {
         if(stack.getOrCreateTag().contains(ACTIVE) && stack.getOrCreateTag().getBoolean(ACTIVE)) {
-            components.add(Component.literal("Active").setStyle(Style.EMPTY.withColor(0x838383)));
+            components.add(Component.translatable("item.peripherals.magnet.active").setStyle(Style.EMPTY.withColor(0x838383)));
         }
         super.appendHoverText(stack, level, components, tooltipFlag);
     }
