@@ -1,10 +1,12 @@
 package com.hakimen.peripherals.items;
 
+import com.hakimen.peripherals.blocks.FacadedBlockEntity;
 import com.hakimen.peripherals.utils.NBTUtils;
 import dan200.computercraft.shared.ModRegistry;
 import dan200.computercraft.shared.peripheral.modem.wired.CableBlockEntity;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
+import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.world.InteractionResult;
@@ -14,6 +16,8 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -25,22 +29,17 @@ public class FacadeToolItem extends Item {
 
     @Override
     public InteractionResult useOn(UseOnContext context) {
+        var level = context.getLevel();
         var pos = context.getClickedPos();
-        var block = context.getLevel().getBlockState(pos);
-        if(block.is(ModRegistry.Blocks.CABLE.get())){
-            var blockEntity = (CableBlockEntity) context.getLevel().getBlockEntity(pos);
-            CompoundTag tag = blockEntity.saveWithFullMetadata();
-            if(context.getItemInHand().getOrCreateTag().contains("block") && !context.getPlayer().isCrouching()){
-                tag.put("facade",context.getItemInHand().getOrCreateTag().getCompound("block"));
-            }else if(tag.contains("facade")){
-                tag.remove("facade");
+        var block = level.getBlockState(pos);
+        if(level.getBlockEntity(pos) instanceof FacadedBlockEntity facaded) {
+            if(!level.isClientSide) {
+                facaded.setFacade(context.isSecondaryUseActive() ? Blocks.AIR.defaultBlockState() : getFacade(context.getItemInHand()));
             }
-            blockEntity.load(tag);
-            blockEntity.setChanged();
-            return InteractionResult.SUCCESS;
-        } else if(!block.is(ModRegistry.Blocks.CABLE.get()) && block.getShape(context.getLevel(),pos) == Block.box(0,0,0,16,16,16) && context.getPlayer().isCrouching()) {
+            return InteractionResult.sidedSuccess(level.isClientSide);
+        } else if(Block.isShapeFullBlock(block.getShape(level, pos)) && context.isSecondaryUseActive()) {
             context.getItemInHand().getOrCreateTag().put("block", NbtUtils.writeBlockState(block));
-            return InteractionResult.SUCCESS;
+            return InteractionResult.sidedSuccess(level.isClientSide);
         }
         return super.useOn(context);
     }
@@ -55,6 +54,13 @@ public class FacadeToolItem extends Item {
             components.add(Component.translatable("item.peripherals.facade_tool.desc_has_block").setStyle(Style.EMPTY.withColor(0xa3a3a3)));
         }
         super.appendHoverText(stack, level, components, flag);
+    }
+
+    private static BlockState getFacade(ItemStack stack) {
+        var tag = stack.getTag();
+        return tag != null && tag.contains("block", Tag.TAG_COMPOUND)
+            ? NBTUtils.readBlockState(tag.getCompound("block"))
+            : Blocks.AIR.defaultBlockState();
     }
 
 }
