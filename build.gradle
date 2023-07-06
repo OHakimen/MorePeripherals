@@ -167,7 +167,7 @@ minecraft {
 }
 
 mixin {
-    add sourceSets.main, "MorePeripherals.refmap.json"
+    add sourceSets.main, "moreperipherals.refmap.json"
 
     config "MorePeripherals.mixins.json"
 }

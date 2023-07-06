@@ -16,7 +16,7 @@ import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 
-@Mixin(CableBlock.class)
+@Mixin(value = CableBlock.class)
 abstract class CableBlockMixin extends Block {
     public CableBlockMixin(Properties properties) {
         super(properties);

@@ -23,7 +23,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(CableBlockEntity.class)
+@Mixin(value = CableBlockEntity.class)
 abstract class CableFacadeMixin extends BlockEntity implements FacadedBlockEntity {
     public BlockState facade = Blocks.AIR.defaultBlockState();
 
