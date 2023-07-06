@@ -1,3 +1,10 @@
+1.20.1-1.10.1
+---
+
+## Fixed
+
+Cable facades are now rendered as part of the cable model 
+
 1.20.1-1.10
 ---
 

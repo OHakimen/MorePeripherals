@@ -22,7 +22,7 @@ apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'org.spongepowered.mixin'
 
 group = 'MorePeripherals'
-version = '1.10'
+version = '1.10.1'
 
 java {
     archivesBaseName = 'MorePeripherals'
@@ -255,12 +255,7 @@ curseforge {
             }
         }
         addGameVersion "${mc_version}"
-        try {
-            changelog = "Changelogs for : https://github.com/JheffersonMarques/MorePeripherals/blob/${branch}/changelog.md#${mc_version.replaceAll(".","")}-#${version.replaceAll(".","")}"
-        } catch (err) {
-            System.out.println(err)
-            changelog = ""
-        }
+        changelog = "Changelogs for : https://github.com/JheffersonMarques/MorePeripherals/blob/${branch}/changelog.md"
     }
 }
 
@@ -273,10 +268,9 @@ modrinth {
     uploadFile = jar
     gameVersions = [mc_version]
     loaders = ["forge"]
-    try {
-        changelog = "Changelogs for : https://github.com/JheffersonMarques/MorePeripherals/blob/${branch}/changelog.md#${mc_version.replaceAll(".","")}-#${version.replaceAll(".","")}"
-    } catch (err) {
-        System.out.println(err)
-        changelog = ""
-    }
+    changelog = "Changelogs for : https://github.com/JheffersonMarques/MorePeripherals/blob/${branch}/changelog.md"
+}
+
+task releaseAll(type: GradleBuild){
+    tasks = ['curseforge', 'modrinth']
 }

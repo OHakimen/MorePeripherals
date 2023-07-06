@@ -2,9 +2,6 @@ package com.hakimen.peripherals.items;
 
 import com.hakimen.peripherals.blocks.FacadedBlockEntity;
 import com.hakimen.peripherals.utils.NBTUtils;
-import dan200.computercraft.shared.ModRegistry;
-import dan200.computercraft.shared.peripheral.modem.wired.CableBlockEntity;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
