@@ -17,10 +17,10 @@ public class GrinderScreen extends AbstractContainerScreen<GrinderContainer> {
     }
 
     @Override
-    public void render(GuiGraphics matrixStack, int mouseX, int mouseY, float partialTicks) {
-        this.renderBackground(matrixStack);
-        super.render(matrixStack, mouseX, mouseY, partialTicks);
-        this.renderTooltip(matrixStack, mouseX, mouseY);
+    public void render(GuiGraphics gfx, int mouseX, int mouseY, float partialTicks) {
+        this.renderBackground(gfx);
+        super.render(gfx, mouseX, mouseY, partialTicks);
+        this.renderTooltip(gfx, mouseX, mouseY);
     }
 
     @Override

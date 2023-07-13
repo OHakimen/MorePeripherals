@@ -1,9 +1,6 @@
 package com.hakimen.peripherals;
 
-import com.hakimen.peripherals.client.screen.AdvancedDiskRaidScreen;
-import com.hakimen.peripherals.client.screen.DiskRaidScreen;
-import com.hakimen.peripherals.client.screen.GrinderScreen;
-import com.hakimen.peripherals.client.screen.MagneticCardManipulatorScreen;
+import com.hakimen.peripherals.client.screen.*;
 import com.hakimen.peripherals.client.turtle.SolarTurtleModeller;
 import com.hakimen.peripherals.registry.ComputerCraftRegister;
 import com.hakimen.peripherals.registry.ContainerRegister;
@@ -24,6 +21,7 @@ public class MorePeripheralsClient {
             MenuScreens.register(ContainerRegister.diskRaidContainer.get(), DiskRaidScreen::new);
             MenuScreens.register(ContainerRegister.advancedDiskRaidContainer.get(), AdvancedDiskRaidScreen::new);
             MenuScreens.register(ContainerRegister.magneticCardManipulatorContainer.get(), MagneticCardManipulatorScreen::new);
+            MenuScreens.register(ContainerRegister.keyboardContainer.get(), KeyboardScreen::new);
 
         });
 

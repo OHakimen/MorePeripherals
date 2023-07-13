@@ -26,8 +26,18 @@
 
   "item.peripherals.facade_tool": "Facade Tool",
   "item.peripherals.facade_tool.desc": "Shift Click to copy a block state",
-  "item.peripherals.facade_tool.desc_has_block": "Click on a cable to set a facade, and Shift click a cable to remove the facade",
+  "item.peripherals.facade_tool.desc_has_block": "Click on a cable to set a facade,\nand Shift click a cable to remove the facade",
+
+  "item.peripherals.keyboard": "Keyboard",
+  "item.peripherals.keyboard.bound": "Bound at %s, %s, %s",
+  "item.peripherals.keyboard.unbound": "Unbound",
+  "item.peripherals.keyboard.not_bound": "Keyboard isn't bound",
+  "item.peripherals.keyboard.not_found": "No computer found",
+  "item.peripherals.keyboard.out_of_range": "Out of range",
+  "item.peripherals.keyboard.close": "Press ESC to exit",
+
   "item.peripherals.desc.empty":"Empty",
+
   "gui.peripherals.grinder.name": "Grinder",
   "gui.peripherals.diskraid.name": "Drive Raid",
   "gui.peripherals.advanceddiskraid.name": "Advanced Drive Raid",

@@ -1,10 +1,7 @@
 package com.hakimen.peripherals.registry;
 
 import com.hakimen.peripherals.MorePeripherals;
-import com.hakimen.peripherals.items.FacadeToolItem;
-import com.hakimen.peripherals.items.MagnetItem;
-import com.hakimen.peripherals.items.MagneticCardItem;
-import com.hakimen.peripherals.items.MobDataCardItem;
+import com.hakimen.peripherals.items.*;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
@@ -31,6 +28,10 @@ public class ItemRegister {
 
     public static final RegistryObject<Item> facade_tool = ItemRegister.ITEMS.register("facade_tool",()->{
         return new FacadeToolItem(new Item.Properties().stacksTo(1));
+    });
+
+    public static final RegistryObject<Item> keyboard = ItemRegister.ITEMS.register("keyboard",()->{
+        return new KeyboardItem(new Item.Properties().stacksTo(1));
     });
 
     public static final RegistryObject<CreativeModeTab> tab = ItemRegister.TABS.register("main",()-> CreativeModeTab.builder()

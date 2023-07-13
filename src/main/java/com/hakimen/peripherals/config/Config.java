@@ -12,6 +12,8 @@ public class Config {
     public final static ForgeConfigSpec.IntValue maxMagnetRange;
     public final static ForgeConfigSpec.BooleanValue magnetConsumesFuel;
 
+    public final static ForgeConfigSpec.IntValue keyboardRange;
+
     static {
         commonConfigBuilder.push("Common Configs for More Peripherals");
         mobDataCaptureChance = commonConfigBuilder.comment("Chance to get a mobs data when hit by a Spawner Card")
@@ -31,7 +33,12 @@ public class Config {
 
         magnetConsumesFuel = commonConfigBuilder.comment("Does Magnetic Turtle uses fuel")
                         .define("magnetConsumesFuel", true);
+
+        keyboardRange = commonConfigBuilder.comment("Range for Keyboards")
+                .defineInRange("keyboardRange",32,1,128);
+
         commonConfigBuilder.pop();
+
         commonConfigSpec = commonConfigBuilder.build();
     }
 
