@@ -22,15 +22,15 @@ public class ItemRegister {
     public static final RegistryObject<MagnetItem> magnet = ItemRegister.ITEMS.register("magnet",()->{
         return new MagnetItem(new Item.Properties().stacksTo(1));
     });
-    public static final RegistryObject<Item> magnetic_card = ItemRegister.ITEMS.register("magnetic_card",()->{
+    public static final RegistryObject<MagneticCardItem> magnetic_card = ItemRegister.ITEMS.register("magnetic_card",()->{
         return new MagneticCardItem(new Item.Properties().stacksTo(1));
     });
 
-    public static final RegistryObject<Item> facade_tool = ItemRegister.ITEMS.register("facade_tool",()->{
+    public static final RegistryObject<FacadeToolItem> facade_tool = ItemRegister.ITEMS.register("facade_tool",()->{
         return new FacadeToolItem(new Item.Properties().stacksTo(1));
     });
 
-    public static final RegistryObject<Item> keyboard = ItemRegister.ITEMS.register("keyboard",()->{
+    public static final RegistryObject<KeyboardItem> keyboard = ItemRegister.ITEMS.register("keyboard",()->{
         return new KeyboardItem(new Item.Properties().stacksTo(1));
     });
 

@@ -35,7 +35,7 @@ public class Config {
                         .define("magnetConsumesFuel", true);
 
         keyboardRange = commonConfigBuilder.comment("Range for Keyboards")
-                .defineInRange("keyboardRange",32,1,128);
+                .defineInRange("keyboardRange",16,1,128);
 
         commonConfigBuilder.pop();
 

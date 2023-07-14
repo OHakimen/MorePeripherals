@@ -10,7 +10,6 @@ import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
@@ -77,8 +76,7 @@ public class MagneticCardManiputalorEntity extends BlockEntity {
         return new ItemStackHandler(1) {
             @Override
             protected void onContentsChanged(int slot) {
-                setChanged();
-                level.sendBlockUpdated(getBlockPos(),getBlockState(),getBlockState(), Block.UPDATE_ALL);
+
             }
 
 
@@ -93,7 +91,6 @@ public class MagneticCardManiputalorEntity extends BlockEntity {
 
             @Override
             public @NotNull ItemStack extractItem(int slot, int amount, boolean simulate) {
-                System.out.println(getStackInSlot(slot));
                 if(getStackInSlot(slot).getItem().equals(ItemRegister.magnetic_card.get().asItem()) && !simulate){
                     for (IComputerAccess c: computers) {
                         c.queueEvent("card_remove");
@@ -123,7 +120,6 @@ public class MagneticCardManiputalorEntity extends BlockEntity {
                 if(!isItemValid(slot, stack)) {
                     return stack;
                 }
-                setChanged();
                 return super.insertItem(slot, stack, simulate);
             }
         };

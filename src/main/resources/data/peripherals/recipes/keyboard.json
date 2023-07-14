@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "...",
+    "imi"
+  ],
+  "key": {
+    ".": {
+      "item": "minecraft:stone_button"
+    },
+    "m": {
+      "item": "computercraft:wireless_modem_normal"
+    },
+    "i": {
+      "item": "minecraft:iron_ingot"
+    }
+  },
+  "result": {
+    "item": "peripherals:keyboard"
+  }
+}

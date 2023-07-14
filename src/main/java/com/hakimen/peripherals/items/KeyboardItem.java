@@ -57,11 +57,11 @@ public class KeyboardItem extends Item {
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
         var itemStack = player.getItemInHand(hand);
-        int x = itemStack.getOrCreateTag().getCompound(BIND).getInt("x");
-        int y = itemStack.getOrCreateTag().getCompound(BIND).getInt("y");
-        int z = itemStack.getOrCreateTag().getCompound(BIND).getInt("z");
-        if(Math.floor(player.blockPosition().getCenter().distanceTo(new Vec3(x,y,z))) <= Config.keyboardRange.get()){
-            if(itemStack.getOrCreateTag().contains(BIND, Tag.TAG_COMPOUND)  && !player.isCrouching()) {
+        if(itemStack.getOrCreateTag().contains(BIND, Tag.TAG_COMPOUND)  && !player.isCrouching()) {
+            int x = itemStack.getOrCreateTag().getCompound(BIND).getInt("x");
+            int y = itemStack.getOrCreateTag().getCompound(BIND).getInt("y");
+            int z = itemStack.getOrCreateTag().getCompound(BIND).getInt("z");
+            if(Math.floor(player.blockPosition().getCenter().distanceTo(new Vec3(x,y,z))) <= Config.keyboardRange.get()){
                 if (!(level.getBlockEntity(new BlockPos(x,y,z)) instanceof AbstractComputerBlockEntity)){
                     player.displayClientMessage(Component.translatable("item.peripherals.keyboard.not_found"),true);
                 }else if (!level.isClientSide) {
@@ -78,11 +78,12 @@ public class KeyboardItem extends Item {
                     };
                     NetworkHooks.openScreen((ServerPlayer) player, containerProvider);
                 }
-            } else if(!itemStack.getOrCreateTag().contains(BIND, Tag.TAG_COMPOUND)) {
-                player.displayClientMessage(Component.translatable("item.peripherals.keyboard.not_bound"),true);
+            }else{
+                player.displayClientMessage(Component.translatable("item.peripherals.keyboard.out_of_range"),true);
             }
-        }else{
-            player.displayClientMessage(Component.translatable("item.peripherals.keyboard.out_of_range"),true);
+        }
+        else if(!itemStack.getOrCreateTag().contains(BIND, Tag.TAG_COMPOUND)) {
+            player.displayClientMessage(Component.translatable("item.peripherals.keyboard.not_bound"),true);
         }
         return InteractionResultHolder.success(itemStack);
     }
