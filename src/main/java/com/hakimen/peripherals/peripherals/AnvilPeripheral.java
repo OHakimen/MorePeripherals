@@ -224,7 +224,8 @@ public class AnvilPeripheral implements IPeripheral, IPeripheralProvider {
         if(slot < 0 || slot > inputHandler.getSlots())
             return MethodResult.of(false,"from slot out of range");
         ItemStack itemstack = inputHandler.getStackInSlot(slot);
-
+        if(ItemStack.isSameItem(itemstack,ItemStack.EMPTY))
+            return MethodResult.of(false, "No item in slot");
         if(name.matches("")) {
             itemstack.resetHoverName();
         } else {

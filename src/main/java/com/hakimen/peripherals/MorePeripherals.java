@@ -36,6 +36,7 @@ import org.apache.logging.log4j.Logger;
 public class MorePeripherals {
     public static final Logger LOGGER = LogManager.getLogger();
     public static final String mod_id = "peripherals";
+
     public MorePeripherals() {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
         EnchantUtils.init();
@@ -62,6 +63,7 @@ public class MorePeripherals {
         public static void onClientSetup(FMLClientSetupEvent event) {
 
         }
+
         @SubscribeEvent
         public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
             event.registerBlockEntityRenderer(BlockEntityRegister.diskRaidEntity.get(), DiskRaidRenderer::new);
@@ -81,13 +83,25 @@ public class MorePeripherals {
         @SubscribeEvent
         public static void registerColours(RegisterColorHandlersEvent.Block event) {
             event.register((state, level, pos, layer) ->
-                level != null && pos != null && level.getBlockEntity(pos) instanceof FacadedBlockEntity facaded && !facaded.getFacade().isAir()
-                    ? Minecraft.getInstance().getBlockColors().getColor(facaded.getFacade(), level, pos, layer)
-                    : -1,
-                ModRegistry.Blocks.CABLE.get()
+                            level != null && pos != null && level.getBlockEntity(pos) instanceof FacadedBlockEntity facaded && !facaded.getFacade().isAir()
+                                    ? Minecraft.getInstance().getBlockColors().getColor(facaded.getFacade(), level, pos, layer)
+                                    : -1,
+                    ModRegistry.Blocks.CABLE.get()
             );
         }
+
+        @SubscribeEvent
+        public static void registerColours(RegisterColorHandlersEvent.Item event) {
+            event.register((stack, layer) ->
+                    layer == 1 ?
+                            -1 :
+                            (ItemRegister.magnetic_card.get().getColor(stack) == 10511680 ?
+                                    -1 :
+                                    ItemRegister.magnetic_card.get().getColor(stack))
+                    , ItemRegister.magnetic_card.get());
+        }
     }
+
     private void setup(final FMLCommonSetupEvent event) {
 
     }

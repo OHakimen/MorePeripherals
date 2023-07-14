@@ -34,14 +34,14 @@ public class MagneticCardManiputalorPeripheral implements IPeripheral, IPeripher
 
     @Override
     public void attach(@NotNull IComputerAccess computer) {
-        tileEntity.computers.add(computer);
         IPeripheral.super.attach(computer);
+        tileEntity.computers.add(computer);
     }
 
     @Override
     public void detach(@NotNull IComputerAccess computer) {
-        tileEntity.computers.remove(computer);
         IPeripheral.super.detach(computer);
+        tileEntity.computers.remove(computer);
     }
 
     @LuaFunction(mainThread = true)
