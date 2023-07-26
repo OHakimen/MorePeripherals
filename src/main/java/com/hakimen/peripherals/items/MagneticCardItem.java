@@ -5,7 +5,6 @@ import dan200.computercraft.api.peripheral.IComputerAccess;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.item.DyeableLeatherItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -15,7 +14,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class MagneticCardItem extends Item implements DyeableLeatherItem {
+public class MagneticCardItem extends Item implements IDyedItem {
     public MagneticCardItem(Properties props) {
         super(props);
     }

@@ -95,9 +95,7 @@ public class MorePeripherals {
             event.register((stack, layer) ->
                     layer == 1 ?
                             -1 :
-                            (ItemRegister.magnetic_card.get().getColor(stack) == 10511680 ?
-                                    -1 :
-                                    ItemRegister.magnetic_card.get().getColor(stack))
+                            ItemRegister.magnetic_card.get().getColor(stack)
                     , ItemRegister.magnetic_card.get());
         }
     }

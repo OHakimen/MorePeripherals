@@ -56,7 +56,11 @@ public class MagneticCardManiputalorPeripheral implements IPeripheral, IPeripher
     @LuaFunction(mainThread = true)
     public final MethodResult writeCard(String data)  {
         if (!tileEntity.inventory.getStackInSlot(0).getItem().equals(Items.AIR)) {
-            tileEntity.inventory.getStackInSlot(0).getOrCreateTag().putString("data", data);
+            if(!data.isEmpty()) {
+                tileEntity.inventory.getStackInSlot(0).getOrCreateTag().putString("data", data);
+            }else if(tileEntity.inventory.getStackInSlot(0).getOrCreateTag().contains("data")) {
+                tileEntity.inventory.getStackInSlot(0).getOrCreateTag().remove("data");
+            }
             return MethodResult.of(true);
         } else {
             return MethodResult.of(false,"no card found");

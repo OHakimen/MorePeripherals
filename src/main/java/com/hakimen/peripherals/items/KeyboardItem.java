@@ -75,6 +75,7 @@ public class KeyboardItem extends Item {
                         public AbstractContainerMenu createMenu(int windowId, Inventory playerInventory, Player playerEntity) {
                             return new KeyboardContainer(windowId);
                         }
+
                     };
                     NetworkHooks.openScreen((ServerPlayer) player, containerProvider);
                 }
