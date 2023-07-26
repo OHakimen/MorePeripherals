@@ -38,8 +38,7 @@ public class XPCollectorEntity extends BlockEntity {
 
 
     public void tick(){
-        List<Entity> entities = level.getEntities(null,new AABB(getBlockPos().below().north().east(2),
-                getBlockPos().above(2).south(2).west(2)));
+        List<Entity> entities = level.getEntities(null,new AABB(getBlockPos()).inflate(1,1,1));
         for (Entity entity:entities){
             if(entity instanceof ExperienceOrb){
                 xpPoints += ((ExperienceOrb) entity).getValue();

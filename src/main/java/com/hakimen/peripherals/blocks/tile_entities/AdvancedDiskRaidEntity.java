@@ -189,7 +189,6 @@ public class AdvancedDiskRaidEntity extends BlockEntity {
                     // Unmount old disk
                     if( !inventory.getStackInSlot(slot).isEmpty() )
                     {
-                        // TODO: Is this iteration thread safe?
                         Set<IComputerAccess> iter = computers.keySet();
                         for( IComputerAccess computer : iter ) unmountDisk(slot, computer );
                     }
@@ -223,7 +222,6 @@ public class AdvancedDiskRaidEntity extends BlockEntity {
             public @NotNull ItemStack extractItem(int slot, int amount, boolean simulate) {
                 if( !inventory.getStackInSlot(slot).isEmpty() )
                 {
-                    // TODO: Is this iteration thread safe?
                     Set<IComputerAccess> iter = computers.keySet();
                     for( IComputerAccess computer : iter ) unmountDisk(slot, computer );
                 }

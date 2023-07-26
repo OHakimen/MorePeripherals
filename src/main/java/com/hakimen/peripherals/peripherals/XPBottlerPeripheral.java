@@ -1,6 +1,5 @@
 package com.hakimen.peripherals.peripherals;
 
-import com.hakimen.peripherals.blocks.tile_entities.XPBottlerEntity;
 import com.hakimen.peripherals.registry.BlockRegister;
 import dan200.computercraft.api.lua.LuaFunction;
 import dan200.computercraft.api.lua.MethodResult;
@@ -22,9 +21,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class XPBottlerPeripheral implements IPeripheral, IPeripheralProvider {
-
-
-    private XPBottlerEntity tileEntity;
 
     @NotNull
     @Override
@@ -108,7 +104,6 @@ public class XPBottlerPeripheral implements IPeripheral, IPeripheralProvider {
     public LazyOptional<IPeripheral> getPeripheral(@NotNull Level world, @NotNull BlockPos pos, @NotNull Direction side) {
         if(world.getBlockState(pos).getBlock().equals(BlockRegister.xpBottler.get())){
             var peripheral = new XPBottlerPeripheral();
-            peripheral.tileEntity = (XPBottlerEntity) world.getBlockEntity(pos);
             return LazyOptional.of(() -> peripheral);
         }
         return LazyOptional.empty();

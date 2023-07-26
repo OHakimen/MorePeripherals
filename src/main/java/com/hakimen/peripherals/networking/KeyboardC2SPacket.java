@@ -3,6 +3,7 @@ package com.hakimen.peripherals.networking;
 import com.hakimen.peripherals.registry.ItemRegister;
 import dan200.computercraft.shared.computer.blocks.ComputerBlockEntity;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.network.NetworkEvent;
@@ -41,9 +42,10 @@ public class KeyboardC2SPacket {
             var player = context.getSender();
             var itemInHand = player != null ? (player.getMainHandItem().getItem().equals(ItemRegister.keyboard.get()) ? player.getMainHandItem() : player.getOffhandItem()) : null;
             if(itemInHand != null && itemInHand.getOrCreateTag().contains("Bind", Tag.TAG_COMPOUND)){
-                int x = itemInHand.getOrCreateTag().getCompound("Bind").getInt("x");
-                int y = itemInHand.getOrCreateTag().getCompound("Bind").getInt("y");
-                int z = itemInHand.getOrCreateTag().getCompound("Bind").getInt("z");
+                CompoundTag bindTag = itemInHand.getOrCreateTag().getCompound("Bind");
+                int x = bindTag.getInt("x");
+                int y = bindTag.getInt("y");
+                int z = bindTag.getInt("z");
 
                 var computer = (ComputerBlockEntity)context.getSender().level().getBlockEntity(new BlockPos(x,y,z));
                 if(computer != null){

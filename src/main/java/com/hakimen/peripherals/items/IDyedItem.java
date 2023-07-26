@@ -1,6 +1,7 @@
 package com.hakimen.peripherals.items;
 
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.world.item.DyeItem;
 import net.minecraft.world.item.DyeableLeatherItem;
 import net.minecraft.world.item.Item;
@@ -15,7 +16,7 @@ public interface IDyedItem extends DyeableLeatherItem {
 
     default boolean hasCustomColor(ItemStack p_41114_) {
         CompoundTag compoundtag = p_41114_.getTagElement(TAG_DISPLAY);
-        return compoundtag != null && compoundtag.contains(TAG_COLOR, 99);
+        return compoundtag != null && compoundtag.contains(TAG_COLOR, Tag.TAG_ANY_NUMERIC);
     }
 
     default int getColor(ItemStack p_41122_) {
@@ -58,10 +59,10 @@ public interface IDyedItem extends DyeableLeatherItem {
             }
 
             for(DyeItem dyeitem : dyes) {
-                float[] afloat = dyeitem.getDyeColor().getTextureDiffuseColors();
-                int r = (int)(afloat[0] * 255.0F);
-                int g = (int)(afloat[1] * 255.0F);
-                int b = (int)(afloat[2] * 255.0F);
+                float[] dyeDiffuseRGB = dyeitem.getDyeColor().getTextureDiffuseColors();
+                int r = (int)(dyeDiffuseRGB[0] * 255.0F);
+                int g = (int)(dyeDiffuseRGB[1] * 255.0F);
+                int b = (int)(dyeDiffuseRGB[2] * 255.0F);
                 i += Math.max(r, Math.max(g, b));
                 rgb[0] += r;
                 rgb[1] += g;

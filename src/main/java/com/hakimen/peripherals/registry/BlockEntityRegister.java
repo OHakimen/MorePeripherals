@@ -18,9 +18,6 @@ public class BlockEntityRegister {
     public static final RegistryObject<BlockEntityType<XPCollectorEntity>> xpCollectorEntity = BLOCK_ENTITY.register("xp_collector_entity",
             () -> BlockEntityType.Builder.of(XPCollectorEntity::new,BlockRegister.xpCollector.get()).build(null));
 
-    public static final RegistryObject<BlockEntityType<XPBottlerEntity>> xpBottlerEntity = BLOCK_ENTITY.register("xp_bottler_entity",
-            () -> BlockEntityType.Builder.of(XPBottlerEntity::new,BlockRegister.xpBottler.get()).build(null));
-
     public static final RegistryObject<BlockEntityType<GrinderEntity>> grinderEntity = BLOCK_ENTITY.register("grinder_entity",
             () -> BlockEntityType.Builder.of(GrinderEntity::new,BlockRegister.grinder.get()).build(null));
 

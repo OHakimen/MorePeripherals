@@ -1,13 +1,11 @@
 package com.hakimen.peripherals.blocks.tile_entities;
 
-import com.hakimen.peripherals.peripherals.DiskRaidPeripheral;
 import com.hakimen.peripherals.registry.BlockEntityRegister;
 import com.hakimen.peripherals.utils.Utils;
 import dan200.computercraft.api.filesystem.Mount;
 import dan200.computercraft.api.filesystem.WritableMount;
 import dan200.computercraft.api.media.IMedia;
 import dan200.computercraft.api.peripheral.IComputerAccess;
-import dan200.computercraft.api.peripheral.IPeripheral;
 import dan200.computercraft.impl.MediaProviders;
 import dan200.computercraft.shared.media.items.DiskItem;
 import dan200.computercraft.shared.pocket.items.PocketComputerItem;
@@ -196,7 +194,6 @@ public class DiskRaidEntity extends BlockEntity {
                     // Unmount old disk
                     if( !inventory.getStackInSlot(slot).isEmpty() )
                     {
-                        // TODO: Is this iteration thread safe?
                         Set<IComputerAccess> iter = computers.keySet();
                         for( IComputerAccess computer : iter ) unmountDisk(slot, computer );
                     }
@@ -230,7 +227,6 @@ public class DiskRaidEntity extends BlockEntity {
             public @NotNull ItemStack extractItem(int slot, int amount, boolean simulate) {
                 if( !inventory.getStackInSlot(slot).isEmpty() )
                 {
-                    // TODO: Is this iteration thread safe?
                     Set<IComputerAccess> iter = computers.keySet();
                     for( IComputerAccess computer : iter ) unmountDisk(slot, computer );
                 }

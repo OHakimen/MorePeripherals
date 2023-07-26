@@ -1,6 +1,6 @@
 package com.hakimen.peripherals.mixin;
 
-import com.hakimen.peripherals.blocks.FacadedBlockEntity;
+import com.hakimen.peripherals.blocks.tile_entities.FacadedBlockEntity;
 import dan200.computercraft.shared.peripheral.modem.wired.CableBlock;
 import dan200.computercraft.shared.peripheral.modem.wired.CableShapes;
 import net.minecraft.core.BlockPos;

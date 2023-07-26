@@ -1,6 +1,6 @@
 package com.hakimen.peripherals.items;
 
-import com.hakimen.peripherals.blocks.FacadedBlockEntity;
+import com.hakimen.peripherals.blocks.tile_entities.FacadedBlockEntity;
 import com.hakimen.peripherals.utils.NBTUtils;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.nbt.Tag;

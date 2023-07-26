@@ -51,8 +51,7 @@ public class GrinderPeripheral implements IPeripheral, IPeripheralProvider {
 
     @LuaFunction(mainThread = true)
     public final void attack(){
-        List<Entity> entities = tileEntity.getLevel().getEntities(null,new AABB(tileEntity.getBlockPos().below().north().east(2),
-                tileEntity.getBlockPos().above(2).south(2).west(2)));
+        List<Entity> entities = tileEntity.getLevel().getEntities(null,new AABB(tileEntity.getBlockPos()).inflate(2,2,2));
         for (Entity entity:entities){
             if(entity instanceof LivingEntity livingEntity){
                 fakePlayer.setItemInHand(InteractionHand.MAIN_HAND,tileEntity.inventory.getStackInSlot(0));

@@ -39,31 +39,13 @@ public class InductionChargerEntity extends BlockEntity {
 
     public void tick(){
         if(getLevel().getBlockEntity(getBlockPos().above()) instanceof TurtleBlockEntity turtle){
-            if(turtle.getAccess().getFuelLevel() < turtle.getAccess().getFuelLimit()){
-                turtle.getAccess().addFuel((storage.extractEnergy(Config.extractRate.get(),false) * Config.conversionRate.get()));
-            }
-        }else if(getLevel().getBlockEntity(getBlockPos().below()) instanceof TurtleBlockEntity turtle){
-            if(turtle.getAccess().getFuelLevel() < turtle.getAccess().getFuelLimit()){
-                turtle.getAccess().addFuel((storage.extractEnergy(Config.extractRate.get(),false) * Config.conversionRate.get()));
-            }
-        }else if(getLevel().getBlockEntity(getBlockPos().east()) instanceof TurtleBlockEntity turtle){
-            if(turtle.getAccess().getFuelLevel() < turtle.getAccess().getFuelLimit()){
-                turtle.getAccess().addFuel((storage.extractEnergy(Config.extractRate.get(),false) * Config.conversionRate.get()));
-            }
-        }
-        else if(getLevel().getBlockEntity(getBlockPos().west()) instanceof TurtleBlockEntity turtle){
-            if(turtle.getAccess().getFuelLevel() < turtle.getAccess().getFuelLimit()){
-                turtle.getAccess().addFuel((storage.extractEnergy(Config.extractRate.get(),false) * Config.conversionRate.get()));
-            }
-        }
-        else if(getLevel().getBlockEntity(getBlockPos().north()) instanceof TurtleBlockEntity turtle){
-            if(turtle.getAccess().getFuelLevel() < turtle.getAccess().getFuelLimit()){
-                turtle.getAccess().addFuel((storage.extractEnergy(Config.extractRate.get(),false) * Config.conversionRate.get()));
-            }
-        }
-        else if(getLevel().getBlockEntity(getBlockPos().south()) instanceof TurtleBlockEntity turtle){
-            if(turtle.getAccess().getFuelLevel() < turtle.getAccess().getFuelLimit()){
-                turtle.getAccess().addFuel((storage.extractEnergy(Config.extractRate.get(),false) * Config.conversionRate.get()));
+
+        }for (Direction dir: Direction.values()) {
+            if(level.getBlockEntity(getBlockPos().relative(dir)) instanceof TurtleBlockEntity turtle)
+            {
+                if(turtle.getAccess().getFuelLevel() < turtle.getAccess().getFuelLimit()){
+                    turtle.getAccess().addFuel((storage.extractEnergy(Config.extractRate.get(),false) * Config.conversionRate.get()));
+                }
             }
         }
     }

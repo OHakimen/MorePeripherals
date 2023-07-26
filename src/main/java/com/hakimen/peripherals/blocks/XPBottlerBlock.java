@@ -1,6 +1,5 @@
 package com.hakimen.peripherals.blocks;
 
-import com.hakimen.peripherals.blocks.tile_entities.XPBottlerEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;

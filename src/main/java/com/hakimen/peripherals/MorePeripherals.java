@@ -1,6 +1,6 @@
 package com.hakimen.peripherals;
 
-import com.hakimen.peripherals.blocks.FacadedBlockEntity;
+import com.hakimen.peripherals.blocks.tile_entities.FacadedBlockEntity;
 import com.hakimen.peripherals.client.ber.AdvancedDiskRaidRenderer;
 import com.hakimen.peripherals.client.ber.DiskRaidRenderer;
 import com.hakimen.peripherals.client.ber.MagneticCardManipulatorRenderer;

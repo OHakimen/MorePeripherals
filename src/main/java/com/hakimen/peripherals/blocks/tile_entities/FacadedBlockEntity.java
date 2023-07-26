@@ -1,4 +1,4 @@
-package com.hakimen.peripherals.blocks;
+package com.hakimen.peripherals.blocks.tile_entities;
 
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;

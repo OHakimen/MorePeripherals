@@ -1,6 +1,6 @@
 package com.hakimen.peripherals.client.model;
 
-import com.hakimen.peripherals.blocks.FacadedBlockEntity;
+import com.hakimen.peripherals.blocks.tile_entities.FacadedBlockEntity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.model.BakedQuad;

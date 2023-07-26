@@ -25,7 +25,6 @@ public class BeehiveInterfaceBlock extends Block implements EntityBlock {
         return new BeehiveInterfaceEntity(pos,state);
     }
 
-
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> p_153214_) {
