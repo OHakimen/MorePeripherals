@@ -22,7 +22,7 @@ public class SpawnerInterfaceEntity extends BlockEntity {
     public void tick(){
         int spawners = 0;
         for (Direction dir: Direction.values()) {
-            if(level.getBlockState(getBlockPos().relative(dir)).is(Blocks.BEEHIVE))
+            if(level.getBlockState(getBlockPos().relative(dir)).is(Blocks.SPAWNER))
             {
                 spawner = level.getBlockState(getBlockPos().relative(dir));
                 entity = (SpawnerBlockEntity) level.getBlockEntity(getBlockPos().relative(dir));

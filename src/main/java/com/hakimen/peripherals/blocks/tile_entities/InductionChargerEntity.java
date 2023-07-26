@@ -38,9 +38,7 @@ public class InductionChargerEntity extends BlockEntity {
     }
 
     public void tick(){
-        if(getLevel().getBlockEntity(getBlockPos().above()) instanceof TurtleBlockEntity turtle){
-
-        }for (Direction dir: Direction.values()) {
+        for (Direction dir: Direction.values()) {
             if(level.getBlockEntity(getBlockPos().relative(dir)) instanceof TurtleBlockEntity turtle)
             {
                 if(turtle.getAccess().getFuelLevel() < turtle.getAccess().getFuelLimit()){
