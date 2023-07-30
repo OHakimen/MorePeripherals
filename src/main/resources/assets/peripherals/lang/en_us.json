@@ -86,5 +86,6 @@
   "upgrade.minecraft.wooden_shovel.adjective": "Digging",
 
   "upgrade.peripherals.magnet.adjective": "Magnetic",
-  "upgrade.peripherals.solar.adjective": "Solar"
+  "upgrade.peripherals.solar.adjective": "Solar",
+  "upgrade.peripherals.ender_bag.adjective": "Ender Bag"
 }

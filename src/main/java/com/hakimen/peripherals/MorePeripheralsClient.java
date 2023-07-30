@@ -1,6 +1,7 @@
 package com.hakimen.peripherals;
 
 import com.hakimen.peripherals.client.screen.*;
+import com.hakimen.peripherals.client.turtle.EnderBagModeller;
 import com.hakimen.peripherals.client.turtle.SolarTurtleModeller;
 import com.hakimen.peripherals.registry.ComputerCraftRegister;
 import com.hakimen.peripherals.registry.ContainerRegister;
@@ -14,6 +15,7 @@ public class MorePeripheralsClient {
     public static void clientInit(FMLClientSetupEvent event){
 
         ComputerCraftAPIClient.registerTurtleUpgradeModeller(ComputerCraftRegister.magnet.get(), TurtleUpgradeModeller.flatItem());
+        ComputerCraftAPIClient.registerTurtleUpgradeModeller(ComputerCraftRegister.enderBag.get(), new EnderBagModeller());
         ComputerCraftAPIClient.registerTurtleUpgradeModeller(ComputerCraftRegister.solar.get(), new SolarTurtleModeller());
 
         event.enqueueWork(() -> {

@@ -1,3 +1,40 @@
+1.20.1-1.12
+---
+
+## Added
+
+### Player Card
+
+The player card allows the player to store a self-reference
+to be used on the player interface or the ender chest interface
+
+### Player Interface
+
+The player interface allows a computer to access a player inventory
+and also make the player do some actions, like looking at a coordinate,
+and consuming a food item
+
+All inventory operations are supported but the interface can't
+be used as an inventory target
+
+### Ender Chest Interface
+
+The ender chest interface allows manipulation of a player's 
+ender chest inventory
+
+All inventory operations are supported but the interface can't
+be used as an inventory target
+
+### Ender Bag
+A utility item that allows players to access theirs ender chest through 
+the inventory
+
+Turtles can equip the bag to access the turtle owner's ender chest
+
+## Fixed
+
+- Peripherals wouldn't drop themselves 
+
 1.20.1-1.11
 ---
 
