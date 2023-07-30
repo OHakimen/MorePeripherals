@@ -15,6 +15,8 @@
   "block.peripherals.advanced_disk_raid" : "Advanced Disk Raid",
   "block.peripherals.induction_charger" : "Induction Charger",
   "block.peripherals.magnetic_card_manipulator" : "Magnetic Card Manipulator",
+  "block.peripherals.ender_chest_interface": "Ender Chest Interface",
+  "block.peripherals.player_interface": "Player Interface",
 
   "item.peripherals.spawner_card": "Spawner Card",
 
@@ -36,10 +38,20 @@
   "item.peripherals.keyboard.out_of_range": "Out of range",
   "item.peripherals.keyboard.close": "Press ESC to exit",
 
+  "item.peripherals.player_card": "Player Card",
+  "item.peripherals.player_card.bound": "Bound to %s",
+
+
+
+  "item.peripherals.ender_bag": "Ender Bag",
+  "item.peripherals.ender_bag.desc": "Accesses personal ender chest",
+
   "item.peripherals.desc.empty":"Empty",
 
   "gui.peripherals.grinder.name": "Grinder",
   "gui.peripherals.diskraid.name": "Drive Raid",
+  "gui.peripherals.ender_chest_interface.name": "Ender Chest Interface",
+  "gui.peripherals.player_interface.name": "Player Interface",
   "gui.peripherals.advanceddiskraid.name": "Advanced Drive Raid",
   "gui.peripherals.magnetic_card_manipulator.name": "Magnetic Card Manipulator",
 

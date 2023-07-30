@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "@.@",
+    "sxs",
+    "@o@"
+  ],
+  "key": {
+    "@": {
+      "item": "minecraft:leather"
+    },
+    "x": {
+      "item": "minecraft:ender_eye"
+    },
+    "s": {
+      "item": "minecraft:string"
+    },
+    ".": {
+      "item": "minecraft:gold_ingot"
+    },
+    "o": {
+      "item": "minecraft:obsidian"
+    }
+  },
+  "result": {
+    "item": "peripherals:ender_bag"
+  }
+}

@@ -16,8 +16,10 @@ public class ContainerRegister {
     public static final RegistryObject<MenuType<DiskRaidContainer>> diskRaidContainer = CONTAINERS.register("disk_raid", ()-> IForgeMenuType.create(((windowId, inv, data) -> new DiskRaidContainer(windowId,data.readBlockPos(),inv,inv.player))));
     public static final RegistryObject<MenuType<AdvancedDiskRaidContainer>> advancedDiskRaidContainer = CONTAINERS.register("advanced_disk_raid", ()-> IForgeMenuType.create(((windowId, inv, data) -> new AdvancedDiskRaidContainer(windowId,data.readBlockPos(),inv,inv.player))));
     public static final RegistryObject<MenuType<MagneticCardManipulatorContainer>> magneticCardManipulatorContainer = CONTAINERS.register("magnetic_card_manipulator", ()-> IForgeMenuType.create(((windowId, inv, data) -> new MagneticCardManipulatorContainer(windowId,data.readBlockPos(),inv,inv.player))));
-
     public static final RegistryObject<MenuType<KeyboardContainer>> keyboardContainer = CONTAINERS.register("keyboard", ()-> IForgeMenuType.create(((windowId, inv, data) -> new KeyboardContainer(windowId))));
+    public static final RegistryObject<MenuType<EnderChestInterfaceContainer>> enderChestInterfaceContainer = CONTAINERS.register("ender_chest_interface", ()-> IForgeMenuType.create(((windowId, inv, data) -> new EnderChestInterfaceContainer(windowId,data.readBlockPos(),inv,inv.player))));
+
+    public static final RegistryObject<MenuType<PlayerInterfaceContainer>> playerInterfaceContainer = CONTAINERS.register("player_interface", ()-> IForgeMenuType.create(((windowId, inv, data) -> new PlayerInterfaceContainer(windowId,data.readBlockPos(),inv,inv.player))));
 
     public static void register(IEventBus bus){
         CONTAINERS.register(bus);

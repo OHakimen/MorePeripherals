@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "peripherals:block/player_interface"
+    },
+    "facing=south": {
+      "model": "peripherals:block/player_interface",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "peripherals:block/player_interface",
+      "y": 270
+    },
+    "facing=east": {
+      "model": "peripherals:block/player_interface",
+      "y": 90
+    }
+  }
+}

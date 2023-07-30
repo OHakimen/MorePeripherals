@@ -23,7 +23,6 @@ public class ComputerCraftRegister {
     }
 
     public static void registerPeripheralProvider(){
-
         ForgeComputerCraftAPI.registerPeripheralProvider(new AnvilPeripheral());
         ForgeComputerCraftAPI.registerPeripheralProvider(new CrafterPeripheral());
         ForgeComputerCraftAPI.registerPeripheralProvider(new EnchantingTablePeripheral());
@@ -39,5 +38,7 @@ public class ComputerCraftRegister {
         ForgeComputerCraftAPI.registerPeripheralProvider(new DiskRaidPeripheral());
         ForgeComputerCraftAPI.registerPeripheralProvider(new BeehiveInterfacePeripheral());
         ForgeComputerCraftAPI.registerPeripheralProvider(new AdvancedDiskRaidPeripheral());
+        ForgeComputerCraftAPI.registerPeripheralProvider(new EnderChestInterfacePeripheral());
+        ForgeComputerCraftAPI.registerPeripheralProvider(new PlayerInterfacePeripheral());
     }
 }

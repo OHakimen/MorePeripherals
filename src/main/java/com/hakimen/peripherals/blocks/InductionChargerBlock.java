@@ -19,7 +19,7 @@ import org.jetbrains.annotations.Nullable;
 public class InductionChargerBlock extends Block implements EntityBlock {
 
     public InductionChargerBlock() {
-        super(Properties.copy(Blocks.STONE).strength(2f,2f).sound(SoundType.STONE));
+        super(Properties.copy(Blocks.DIRT).strength(2f,2f).sound(SoundType.STONE));
     }
 
     @Nullable

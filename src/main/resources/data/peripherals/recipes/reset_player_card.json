@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [{
+    "item": "peripherals:player_card"
+  }],
+  "result": {
+    "item": "peripherals:player_card"
+  }
+}

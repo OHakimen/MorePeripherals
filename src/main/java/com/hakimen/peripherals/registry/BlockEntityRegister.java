@@ -37,7 +37,14 @@ public class BlockEntityRegister {
             () -> BlockEntityType.Builder.of(BeehiveInterfaceEntity::new,BlockRegister.beehiveInterface.get()).build(null));
 
     public static final RegistryObject<BlockEntityType<SpawnerInterfaceEntity>> spawnerInterfaceEntity = BLOCK_ENTITY.register("spawner_interface_entity",
-            () -> BlockEntityType.Builder.of(SpawnerInterfaceEntity::new,BlockRegister.spawnerInterfaceBlock.get()).build(null));
+            () -> BlockEntityType.Builder.of(SpawnerInterfaceEntity::new,BlockRegister.spawnerInterface.get()).build(null));
+
+    public static final RegistryObject<BlockEntityType<EnderChestInterfaceEntity>> enderChestInterface = BLOCK_ENTITY.register("ender_chest_interface_entity",
+            () -> BlockEntityType.Builder.of(EnderChestInterfaceEntity::new,BlockRegister.enderChestInterface.get()).build(null));
+
+    public static final RegistryObject<BlockEntityType<PlayerInterfaceEntity>> playerInterface = BLOCK_ENTITY.register("player_interface_entity",
+            () -> BlockEntityType.Builder.of(PlayerInterfaceEntity::new,BlockRegister.playerInterface.get()).build(null));
+
 
     public static void register(IEventBus bus){
         BLOCK_ENTITY.register(bus);

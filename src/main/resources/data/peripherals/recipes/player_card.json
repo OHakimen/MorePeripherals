@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "@d@",
+    "@x@",
+    "..."
+  ],
+  "key": {
+    "@": {
+      "item": "minecraft:iron_ingot"
+    },
+    "x": {
+      "item": "minecraft:ender_eye"
+    },
+    "d": {
+      "item": "computercraft:disk"
+    },
+    ".": {
+      "item": "minecraft:gold_nugget"
+    }
+  },
+  "result": {
+    "item": "peripherals:player_card"
+  }
+}

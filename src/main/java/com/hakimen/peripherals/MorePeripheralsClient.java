@@ -22,7 +22,8 @@ public class MorePeripheralsClient {
             MenuScreens.register(ContainerRegister.advancedDiskRaidContainer.get(), AdvancedDiskRaidScreen::new);
             MenuScreens.register(ContainerRegister.magneticCardManipulatorContainer.get(), MagneticCardManipulatorScreen::new);
             MenuScreens.register(ContainerRegister.keyboardContainer.get(), KeyboardScreen::new);
-
+            MenuScreens.register(ContainerRegister.enderChestInterfaceContainer.get(), EnderChestInterfaceScreen::new);
+            MenuScreens.register(ContainerRegister.playerInterfaceContainer.get(), PlayerInterfaceScreen::new);
         });
 
     }

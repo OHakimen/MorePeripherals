@@ -10,6 +10,7 @@ import dan200.computercraft.impl.MediaProviders;
 import dan200.computercraft.shared.media.items.DiskItem;
 import dan200.computercraft.shared.pocket.items.PocketComputerItem;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
@@ -158,11 +159,11 @@ public class DiskRaidEntity extends BlockEntity {
     }
 
     @Override
-    public @NotNull <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap) {
+    public @NotNull <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, Direction dir) {
         if (cap == ForgeCapabilities.ITEM_HANDLER) {
             return (LazyOptional<T>) handler;
         }
-        return super.getCapability(cap);
+        return super.getCapability(cap,dir);
     }
 
 

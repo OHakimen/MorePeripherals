@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "peripherals:block/ender_chest_interface"
+    },
+    "facing=south": {
+      "model": "peripherals:block/ender_chest_interface",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "peripherals:block/ender_chest_interface",
+      "y": 270
+    },
+    "facing=east": {
+      "model": "peripherals:block/ender_chest_interface",
+      "y": 90
+    }
+  }
+}

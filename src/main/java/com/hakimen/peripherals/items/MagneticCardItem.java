@@ -15,14 +15,16 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 public class MagneticCardItem extends Item implements IDyedItem {
+    static final String DATA = "data";
+    static final String SENSIBLE = "sensible";
     public MagneticCardItem(Properties props) {
         super(props);
     }
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> components, TooltipFlag flag) {
-        var data = stack.getOrCreateTag().get("data") != null ? Component.literal(stack.getTag().getString("data")) : Component.translatable("item.peripherals.desc.empty");
-        var isSensible = (stack.getOrCreateTag().get("sensible") != null && stack.getTag().getBoolean("sensible"));
+        var data = stack.getOrCreateTag().get(DATA) != null ? Component.literal(stack.getTag().getString(DATA)) : Component.translatable("item.peripherals.desc.empty");
+        var isSensible = (stack.getOrCreateTag().get(SENSIBLE) != null && stack.getTag().getBoolean(SENSIBLE));
         if(!isSensible){
             components.add(data.setStyle(Style.EMPTY.withColor(0x838383)));
         }else{
@@ -34,7 +36,7 @@ public class MagneticCardItem extends Item implements IDyedItem {
     @Override
     public InteractionResult useOn(UseOnContext context) {
         if(context.getLevel().getBlockEntity(context.getClickedPos()) instanceof MagneticCardManiputalorEntity manip){
-            var data = context.getItemInHand().getOrCreateTag().get("data") != null ? context.getItemInHand().getTag().get("data") : "";
+            var data = context.getItemInHand().getOrCreateTag().get(DATA) != null ? context.getItemInHand().getTag().get(DATA) : "";
             for (IComputerAccess c:manip.computers) {
                 if(data != ""){
                     data = data.toString().substring(1,data.toString().length()-1);

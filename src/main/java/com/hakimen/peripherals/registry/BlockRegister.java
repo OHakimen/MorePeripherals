@@ -34,9 +34,6 @@ public class BlockRegister {
     public static final RegistryObject<Item> xpBottlerItem = ItemRegister.ITEMS.register("xp_bottler",()->{
         return new BlockItem(xpBottler.get(),new Item.Properties());
     });
-
-
-
     public static final RegistryObject<GrinderBlock> grinder = BLOCKS.register("grinder",
             GrinderBlock::new);
 
@@ -75,10 +72,21 @@ public class BlockRegister {
     public static final RegistryObject<Item> beehiveInterfaceItem = ItemRegister.ITEMS.register("beehive_interface",()->{
         return new BlockItem(beehiveInterface.get(), new Item.Properties());
     });
-    public static final RegistryObject<SpawnerInterfaceBlock> spawnerInterfaceBlock = BLOCKS.register("spawner_interface",
+    public static final RegistryObject<SpawnerInterfaceBlock> spawnerInterface = BLOCKS.register("spawner_interface",
             SpawnerInterfaceBlock::new);
     public static final RegistryObject<Item> spawnerInterfaceBlockItem = ItemRegister.ITEMS.register("spawner_interface",()->{
-        return new BlockItem(spawnerInterfaceBlock.get(),new Item.Properties());
+        return new BlockItem(spawnerInterface.get(),new Item.Properties());
+    });
+
+    public static final RegistryObject<EnderChestInterfaceBlock> enderChestInterface = BLOCKS.register("ender_chest_interface",
+            EnderChestInterfaceBlock::new);
+    public static final RegistryObject<Item> enderChestInterfaceItem = ItemRegister.ITEMS.register("ender_chest_interface",()->{
+        return new BlockItem(enderChestInterface.get(),new Item.Properties());
+    });
+    public static final RegistryObject<PlayerInterfaceBlock> playerInterface = BLOCKS.register("player_interface",
+            PlayerInterfaceBlock::new);
+    public static final RegistryObject<Item> playerInterfaceItem = ItemRegister.ITEMS.register("player_interface",()->{
+        return new BlockItem(playerInterface.get(),new Item.Properties());
     });
 
     public static void register(IEventBus bus){

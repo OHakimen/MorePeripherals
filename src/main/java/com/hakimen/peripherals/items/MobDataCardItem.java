@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Random;
 
 public class MobDataCardItem extends Item {
+    static final String MOB = "mob";
     public MobDataCardItem(Properties props) {
         super(props.stacksTo(1));
     }
@@ -26,7 +27,7 @@ public class MobDataCardItem extends Item {
             Random r = new Random();
             if (r.nextFloat() < Config.mobDataCaptureChance.get()) {
                 stack.setHoverName(null);
-                stack.getOrCreateTag().putString("mob", livingEntity.getEncodeId());
+                stack.getOrCreateTag().putString(MOB, livingEntity.getEncodeId());
                 stack.setHoverName(Component.translatable("item.peripherals.spawner_card").append(" ("+livingEntity.getEncodeId()+")"));
                 return false;
             }
@@ -40,8 +41,8 @@ public class MobDataCardItem extends Item {
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> components, TooltipFlag flag) {
         stack.getOrCreateTag();
         if (stack.getTag() != null){
-            components.add((stack.getTag().get("mob") != null ?
-                    Component.literal(stack.getTag().getString("mob")).setStyle(Style.EMPTY.withColor(0x838383))
+            components.add((stack.getTag().get(MOB) != null ?
+                    Component.literal(stack.getTag().getString(MOB)).setStyle(Style.EMPTY.withColor(0x838383))
                     : Component.translatable("item.peripherals.desc.empty").setStyle(Style.EMPTY.withColor(0x838383))));
         }
         super.appendHoverText(stack, level, components, flag);

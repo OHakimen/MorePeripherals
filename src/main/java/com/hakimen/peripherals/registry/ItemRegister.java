@@ -34,6 +34,14 @@ public class ItemRegister {
         return new KeyboardItem(new Item.Properties().stacksTo(1));
     });
 
+    public static final RegistryObject<PlayerCardItem> playerCard = ItemRegister.ITEMS.register("player_card",()->{
+        return new PlayerCardItem(new Item.Properties().stacksTo(1));
+    });
+
+    public static final RegistryObject<EnderBagItem> enderBag = ItemRegister.ITEMS.register("ender_bag",()->{
+        return new EnderBagItem(new Item.Properties().stacksTo(1));
+    });
+
     public static final RegistryObject<CreativeModeTab> tab = ItemRegister.TABS.register("main",()-> CreativeModeTab.builder()
             .icon(() -> new ItemStack(BlockRegister.tradingInterfaceItem.get()))
             .title(Component.translatable("itemGroup.peripherals"))

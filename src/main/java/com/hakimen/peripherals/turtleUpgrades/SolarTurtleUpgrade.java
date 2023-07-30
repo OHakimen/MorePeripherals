@@ -56,7 +56,7 @@ public class SolarTurtleUpgrade implements ITurtleUpgrade {
             boolean isSunny = !turtle.getLevel().isRaining() && !turtle.getLevel().isThundering() && !turtle.getLevel().isNight();
             tag.putBoolean("collecting", true);
             if(isSunny && isOpenToSky){
-                if(System.currentTimeMillis() - (1/(20L * Config.solarChargeRate.get()) * 1000) >= lastTime) {
+                if(System.currentTimeMillis() - 1000 * Config.solarChargeRate.get()  >= lastTime) {
                     turtle.addFuel(1);
                     lastTime = System.currentTimeMillis();
                 }

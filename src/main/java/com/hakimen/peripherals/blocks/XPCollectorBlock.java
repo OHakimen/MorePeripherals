@@ -25,7 +25,7 @@ import org.jetbrains.annotations.Nullable;
 public class XPCollectorBlock extends Block implements EntityBlock {
 
     public XPCollectorBlock() {
-        super(Properties.copy(Blocks.STONE).strength(2f,2f).sound(SoundType.STONE));
+        super(Properties.copy(Blocks.DIRT).strength(2f,2f).sound(SoundType.STONE));
     }
 
 

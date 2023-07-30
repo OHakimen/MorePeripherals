@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#x#",
+    ".@.",
+    "#.#"
+  ],
+  "key": {
+    "#": {
+      "tag": "forge:stone"
+    },
+    "@": {
+      "item": "minecraft:redstone"
+    },
+    "x": {
+      "item": "peripherals:player_card"
+    },
+    ".": {
+      "item": "minecraft:ender_eye"
+    }
+  },
+  "result": {
+    "item": "peripherals:player_interface"
+  }
+}

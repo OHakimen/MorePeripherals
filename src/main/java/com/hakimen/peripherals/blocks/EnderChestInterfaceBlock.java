@@ -1,7 +1,7 @@
 package com.hakimen.peripherals.blocks;
 
-import com.hakimen.peripherals.blocks.tile_entities.AdvancedDiskRaidEntity;
-import com.hakimen.peripherals.client.containers.AdvancedDiskRaidContainer;
+import com.hakimen.peripherals.blocks.tile_entities.EnderChestInterfaceEntity;
+import com.hakimen.peripherals.client.containers.EnderChestInterfaceContainer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
@@ -17,8 +17,6 @@ import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityTicker;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -30,19 +28,26 @@ import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.Nonnull;
 
-public class AdvancedDiskRaidBlock extends Block implements EntityBlock {
+public class EnderChestInterfaceBlock extends Block implements EntityBlock {
 
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
-
-    public AdvancedDiskRaidBlock() {
+    public EnderChestInterfaceBlock() {
         super(Properties.copy(Blocks.DIRT).strength(2f,2f).sound(SoundType.STONE));
         registerDefaultState( getStateDefinition().any()
                 .setValue( FACING, Direction.NORTH ));
     }
+
     @Override
     protected void createBlockStateDefinition( StateDefinition.Builder<Block, BlockState> properties )
     {
         properties.add( FACING );
+    }
+
+    @javax.annotation.Nullable
+    @Override
+    public BlockState getStateForPlacement( BlockPlaceContext placement )
+    {
+        return defaultBlockState().setValue( FACING, placement.getHorizontalDirection().getOpposite() );
     }
 
     @Nonnull
@@ -60,33 +65,26 @@ public class AdvancedDiskRaidBlock extends Block implements EntityBlock {
         return state.setValue( FACING, rot.rotate( state.getValue( FACING ) ) );
     }
 
-    @javax.annotation.Nullable
-    @Override
-    public BlockState getStateForPlacement( BlockPlaceContext placement )
-    {
-        return defaultBlockState().setValue( FACING, placement.getHorizontalDirection().getOpposite() );
-    }
-
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return new AdvancedDiskRaidEntity(pos,state);
+        return new EnderChestInterfaceEntity(pos,state);
     }
-    @SuppressWarnings("deprecation")
+
     @Override
-    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult trace) {
+    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
         if (!level.isClientSide) {
             BlockEntity tileEntity = level.getBlockEntity(pos);
-            if (tileEntity instanceof AdvancedDiskRaidEntity) {
+            if (tileEntity instanceof EnderChestInterfaceEntity) {
                 MenuProvider containerProvider = new MenuProvider() {
                     @Override
                     public Component getDisplayName() {
-                        return Component.translatable("gui.peripherals.advanceddiskraid.name");
+                        return Component.translatable("gui.peripherals.ender_chest_interface.name");
                     }
 
                     @Override
                     public AbstractContainerMenu createMenu(int windowId, Inventory playerInventory, Player playerEntity) {
-                        return new AdvancedDiskRaidContainer(windowId, pos, playerInventory, playerEntity);
+                        return new EnderChestInterfaceContainer(windowId, pos, playerInventory, playerEntity);
                     }
                 };
                 NetworkHooks.openScreen((ServerPlayer) player, containerProvider, tileEntity.getBlockPos());
@@ -94,30 +92,15 @@ public class AdvancedDiskRaidBlock extends Block implements EntityBlock {
                 throw new IllegalStateException("Our named container provider is missing!");
             }
         }
-        return InteractionResult.SUCCESS;
-    }
 
+        return super.use(state, level, pos, player, hand, hitResult);
+    }
     @Override
     public boolean onDestroyedByPlayer(BlockState state, Level level, BlockPos pos, Player player, boolean willHarvest, FluidState fluid) {
         var blockEntity = level.getBlockEntity(pos);
-        if(blockEntity instanceof AdvancedDiskRaidEntity raid){
-            for (int i = 0; i < 10; i++) {
-                level.addFreshEntity(new ItemEntity(level,pos.getX(),pos.getY(),pos.getZ(),raid.inventory.getStackInSlot(i)));
-            }
+        if(blockEntity instanceof EnderChestInterfaceEntity entity){
+            level.addFreshEntity(new ItemEntity(level,pos.getX(),pos.getY(),pos.getZ(),entity.inventory.getStackInSlot(0)));
         }
         return super.onDestroyedByPlayer(state, level, pos, player, willHarvest, fluid);
     }
-
-    @Nullable
-    @Override
-    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> p_153214_) {
-        if (level.isClientSide()) {
-            return null;
-        }
-        return (lvl, pos, blockState, t) -> {
-            if (t instanceof AdvancedDiskRaidEntity tile) {
-                tile.tick();
-            }
-        };}
-
 }

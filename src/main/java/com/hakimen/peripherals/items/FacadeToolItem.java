@@ -20,6 +20,8 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 public class FacadeToolItem extends Item {
+
+    static final String BLOCK = "block";
     public FacadeToolItem(Properties properties) {
         super(properties);
     }
@@ -35,7 +37,7 @@ public class FacadeToolItem extends Item {
             }
             return InteractionResult.sidedSuccess(level.isClientSide);
         } else if(Block.isShapeFullBlock(block.getShape(level, pos)) && context.isSecondaryUseActive()) {
-            context.getItemInHand().getOrCreateTag().put("block", NbtUtils.writeBlockState(block));
+            context.getItemInHand().getOrCreateTag().put(BLOCK, NbtUtils.writeBlockState(block));
             return InteractionResult.sidedSuccess(level.isClientSide);
         }
         return super.useOn(context);
@@ -43,7 +45,7 @@ public class FacadeToolItem extends Item {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> components, TooltipFlag flag) {
-        var data =  (stack.getOrCreateTag().get("block") != null ? Component.literal(NBTUtils.readBlockState(stack.getTag().getCompound("block")).toString().replaceAll("Block\\{","").replaceAll("\\}"," ")): Component.translatable("item.peripherals.desc.empty"));
+        var data = (stack.getOrCreateTag().get(BLOCK) != null ? Component.literal(NBTUtils.readBlockState(stack.getTag().getCompound(BLOCK)).toString().replaceAll("Block\\{","").replaceAll("\\}"," ")): Component.translatable("item.peripherals.desc.empty"));
         components.add(data.setStyle(Style.EMPTY.withColor(0x838383)));
         if(data.getString().equals(Component.translatable("item.peripherals.desc.empty").getString())){
             components.add(Component.translatable("item.peripherals.facade_tool.desc").setStyle(Style.EMPTY.withColor(0xa3a3a3)));
@@ -55,8 +57,8 @@ public class FacadeToolItem extends Item {
 
     private static BlockState getFacade(ItemStack stack) {
         var tag = stack.getTag();
-        return tag != null && tag.contains("block", Tag.TAG_COMPOUND)
-            ? NBTUtils.readBlockState(tag.getCompound("block"))
+        return tag != null && tag.contains(BLOCK, Tag.TAG_COMPOUND)
+            ? NBTUtils.readBlockState(tag.getCompound(BLOCK))
             : Blocks.AIR.defaultBlockState();
     }
 
