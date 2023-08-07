@@ -46,7 +46,8 @@ public class LoomInterfacePeripheral implements IPeripheral, IPeripheralProvider
         IPeripheral inputPeripheral = computer.getAvailablePeripheral(from);
         if (inputPeripheral == null) return MethodResult.of(false,"the input " + from + " was not found");
         var input = extractHandler(inputPeripheral.getTarget());
-
+        slotBanner--;
+        slotDye--;
         if(slotBanner < 0 || slotBanner > input.getSlots()) return MethodResult.of(false,"banner slot out of range");
         if(slotDye < 0 || slotDye > input.getSlots()) return MethodResult.of(false,"dye slot out of range");
 
@@ -62,8 +63,9 @@ public class LoomInterfacePeripheral implements IPeripheral, IPeripheralProvider
         if (dye.getCount() < banner.getCount()) {
            return MethodResult.of(false,"not enough dye");
         }
+        pattern--;
         if(pattern > BANNER_PATTERN.stream().toList().size() || pattern < 0) {
-            return MethodResult.of(false,"invalid pattern");
+            return MethodResult.of(false,"invalid pattern, value was "+ (pattern+1) + " expected a value between 1 and "+ BANNER_PATTERN.stream().toList().size());
         }
         var patternTag = new CompoundTag();
         patternTag.putString("Pattern", BANNER_PATTERN.stream().toList().get(pattern).getHashname());
@@ -94,6 +96,7 @@ public class LoomInterfacePeripheral implements IPeripheral, IPeripheralProvider
         IPeripheral inputPeripheral = computer.getAvailablePeripheral(from);
         if (inputPeripheral == null) return MethodResult.of(false,"the input " + from + " was not found");
         var input = extractHandler(inputPeripheral.getTarget());
+        slot--;
         if(slot < 0 || slot > input.getSlots()) return MethodResult.of(false,"slot out of range");
         var banner = input.getStackInSlot(slot);
         if(!(banner.getItem() instanceof BannerItem)){

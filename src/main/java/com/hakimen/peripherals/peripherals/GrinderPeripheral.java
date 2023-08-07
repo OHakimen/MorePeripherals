@@ -67,10 +67,10 @@ public class GrinderPeripheral implements IPeripheral, IPeripheralProvider {
 
     @LuaFunction(mainThread = true)
     public final MethodResult hasSword(){
-        return MethodResult.of(true,tileEntity.inventory.getStackInSlot(0).getItem() instanceof SwordItem);
+        return MethodResult.of(tileEntity.inventory.getStackInSlot(0).getItem() instanceof SwordItem);
     }
     @LuaFunction(mainThread = true)
-    public final MethodResult pushSword(IComputerAccess computer,String from, int slot) {
+    public final MethodResult pullSword(IComputerAccess computer,String from, int slot) {
         IPeripheral input = computer.getAvailablePeripheral(from);
         if (input == null)
             return MethodResult.of(false,"the input " + from + " was not found");
@@ -91,7 +91,7 @@ public class GrinderPeripheral implements IPeripheral, IPeripheralProvider {
         }
     }
     @LuaFunction(mainThread = true)
-    public final MethodResult pullSword(IComputerAccess computer,String to) {
+    public final MethodResult pushSword(IComputerAccess computer,String to) {
         IPeripheral input = computer.getAvailablePeripheral(to);
         if (input == null)
             return MethodResult.of(false,"the output " + to + " was not found");
