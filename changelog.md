@@ -1,3 +1,8 @@
+1.20.1-1.12.1
+### Fixed
+
+Some functions didn't work as they should
+
 1.20.1-1.12
 ---
 

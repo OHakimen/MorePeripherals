@@ -22,7 +22,7 @@ apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'org.spongepowered.mixin'
 
 group = 'MorePeripherals'
-version = '1.12'
+version = '1.12.1'
 
 java {
     archivesBaseName = 'MorePeripherals'
