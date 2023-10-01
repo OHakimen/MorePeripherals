@@ -67,7 +67,7 @@ public class GrinderPeripheral implements IPeripheral, IPeripheralProvider {
 
     @LuaFunction(mainThread = true)
     public final MethodResult hasSword(){
-        return MethodResult.of(true,tileEntity.inventory.getStackInSlot(0).getItem() instanceof SwordItem);
+        return MethodResult.of(tileEntity.inventory.getStackInSlot(0).getItem() instanceof SwordItem);
     }
     @LuaFunction(mainThread = true)
     public final MethodResult pushSword(IComputerAccess computer,String from, int slot) {

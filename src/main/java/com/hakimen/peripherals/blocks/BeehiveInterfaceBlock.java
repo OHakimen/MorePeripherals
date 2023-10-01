@@ -4,19 +4,19 @@ import com.hakimen.peripherals.blocks.tile_entities.BeehiveInterfaceEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.Material;
 import org.jetbrains.annotations.Nullable;
 
 public class BeehiveInterfaceBlock extends Block implements EntityBlock {
 
     public BeehiveInterfaceBlock() {
-        super(Properties.copy(Blocks.STONE).strength(2f,2f).sound(SoundType.STONE));
+        super(Properties.of(Material.STONE).strength(2f,2f).sound(SoundType.STONE));
     }
 
     @Nullable
