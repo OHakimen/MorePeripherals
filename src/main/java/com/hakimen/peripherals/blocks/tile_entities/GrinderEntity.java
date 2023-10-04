@@ -1,6 +1,7 @@
 package com.hakimen.peripherals.blocks.tile_entities;
 
 import com.hakimen.peripherals.registry.BlockEntityRegister;
+import dan200.computercraft.api.peripheral.IComputerAccess;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
@@ -15,6 +16,8 @@ import net.minecraftforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class GrinderEntity extends BlockEntity {
@@ -23,7 +26,7 @@ public class GrinderEntity extends BlockEntity {
 
     private final LazyOptional<IItemHandler> handler = LazyOptional.of(() -> inventory);
 
-
+    public List<IComputerAccess> allComputers = new ArrayList<IComputerAccess>();
     public GrinderEntity(BlockPos pos, BlockState state) {
         super(BlockEntityRegister.grinderEntity.get(), pos, state);
     }
@@ -32,7 +35,6 @@ public class GrinderEntity extends BlockEntity {
     @Override
     public void load(CompoundTag tag) {
         this.inventory.deserializeNBT(tag);
-
         super.load(tag);
     }
 

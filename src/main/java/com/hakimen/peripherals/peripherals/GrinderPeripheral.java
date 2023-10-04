@@ -36,11 +36,20 @@ public class GrinderPeripheral implements IPeripheral, IPeripheralProvider {
     private GrinderEntity tileEntity;
     private FakePlayer fakePlayer;
 
-
     @NotNull
     @Override
     public String getType() {
         return "grinder";
+    }
+
+    @Override
+    public void attach(@NotNull IComputerAccess computer) {
+        IPeripheral.super.attach(computer);
+    }
+
+    @Override
+    public void detach(@NotNull IComputerAccess computer) {
+        tileEntity.allComputers.remove(computer);
     }
 
     @Override
@@ -50,6 +59,9 @@ public class GrinderPeripheral implements IPeripheral, IPeripheralProvider {
 
     @LuaFunction(mainThread = true)
     public final void attack(){
+        if(fakePlayer == null){
+            fakePlayer = new FakePlayer((ServerLevel) tileEntity.getLevel(),new GameProfile(UUID.randomUUID(),"Grinder"));
+        }
         List<Entity> entities = tileEntity.getLevel().getEntities(null,new AABB(tileEntity.getBlockPos().below().north().east(2),
                 tileEntity.getBlockPos().above(2).south(2).west(2)));
         for (Entity entity:entities){
@@ -71,6 +83,7 @@ public class GrinderPeripheral implements IPeripheral, IPeripheralProvider {
     }
     @LuaFunction(mainThread = true)
     public final MethodResult pushSword(IComputerAccess computer,String from, int slot) {
+        slot = slot - 1;
         IPeripheral input = computer.getAvailablePeripheral(from);
         if (input == null)
             return MethodResult.of(false,"the input " + from + " was not found");
@@ -129,11 +142,10 @@ public class GrinderPeripheral implements IPeripheral, IPeripheralProvider {
     }
 
     @Override
-    public LazyOptional<IPeripheral> getPeripheral(Level world, BlockPos pos, Direction side) {
+    public @NotNull LazyOptional<IPeripheral> getPeripheral(Level world, BlockPos pos, Direction side) {
         if(world.getBlockState(pos).getBlock().equals(BlockRegister.grinder.get())){
             var peripheral = new GrinderPeripheral();
             peripheral.tileEntity = (GrinderEntity) world.getBlockEntity(pos);
-            peripheral.fakePlayer = new FakePlayer((ServerLevel) world,new GameProfile(UUID.randomUUID(),"Grinder"));
             return LazyOptional.of(() -> peripheral);
         }
         return LazyOptional.empty();
