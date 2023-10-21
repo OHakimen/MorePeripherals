@@ -24,6 +24,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 public class CrafterPeripheral implements IPeripheral, IPeripheralProvider {
@@ -50,17 +51,23 @@ public class CrafterPeripheral implements IPeripheral, IPeripheralProvider {
 
         IPeripheral to = computer.getAvailablePeripheral(toName);
         if (to == null)
-            return MethodResult.of(false,"the input " + toName + " was not found");
+            return MethodResult.of(false,"the output " + toName + " was not found");
         IItemHandler toHandler = extractHandler(to.getTarget());
 
 
         CrafterContainer container = new CrafterContainer();
         ArrayList<ItemStack> remainders = new ArrayList<>();
+        HashMap<Integer, Integer> slotsCounts = new HashMap<>();
         for (int i = 0; i < craftingParameters.keySet().size(); i++) {
             Object value = craftingParameters.keySet().toArray()[i];
             if (value instanceof Number number && craftingParameters.get(value) instanceof Number slot) {
                 if (slot.intValue() != 0) {
                     ItemStack stack = fromHandler.getStackInSlot(slot.intValue() - 1);
+                    if(slotsCounts.containsKey(slot.intValue())){
+                        slotsCounts.put(slot.intValue(), slotsCounts.get(slot.intValue()) + 1);
+                    }else{
+                        slotsCounts.put(slot.intValue(), 1);
+                    }
                     if(stack.getItem().hasCraftingRemainingItem()){
                         remainders.add(stack.getItem().getCraftingRemainingItem().getDefaultInstance());
                     }
@@ -69,6 +76,14 @@ public class CrafterPeripheral implements IPeripheral, IPeripheralProvider {
 
             }
         }
+        for (int i = 0; i < slotsCounts.keySet().size(); i++) {
+            var k = slotsCounts.keySet().stream().toList().get(i);
+            var v = slotsCounts.values().stream().toList().get(i);
+            if(fromHandler.getStackInSlot(k-1).getCount() < v){
+                return MethodResult.of(false,"Not enough resources on slot %d to craft".formatted(k));
+            }
+        }
+
         var placed = false;
         boolean canPlaceAllRemainders = true;
 
