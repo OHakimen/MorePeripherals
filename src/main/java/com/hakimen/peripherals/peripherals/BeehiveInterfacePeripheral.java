@@ -181,7 +181,9 @@ public class BeehiveInterfacePeripheral implements IPeripheral, IPeripheralProvi
             var item = inputHandler.getStackInSlot(slot).copy();
             inputHandler.extractItem(slot,1,false);
             item.setDamageValue(item.getDamageValue()+1);
-            inputHandler.insertItem(slot,item,false);
+            if(item.getDamageValue() < item.getMaxDamage()){
+                inputHandler.insertItem(slot,item,false);
+            }
             for (int i = 0; i < outputHandler.getSlots(); i++) {
                 ItemStack outputStack = outputHandler.getStackInSlot(i);
                 if(outputStack.isEmpty() || outputStack.getItem() == Items.HONEYCOMB && outputStack.getCount() < outputStack.getMaxStackSize()){
