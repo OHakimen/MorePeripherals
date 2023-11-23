@@ -1,4 +1,15 @@
+1.20.1-1.12.2
+---
+### Fixed
+
+Crafter could craft items without considering the item count (ex.: crafting a chest using only 1 plank)
+
+Shears wouldn't break down once durability reached 0 on the beehive interface
+
+XPBottler would delete empty bottles if there was no space on the target inventory
+
 1.20.1-1.12.1
+---
 ### Fixed
 
 Some functions didn't work as they should

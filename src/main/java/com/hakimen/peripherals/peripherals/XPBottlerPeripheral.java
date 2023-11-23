@@ -57,6 +57,19 @@ public class XPBottlerPeripheral implements IPeripheral, IPeripheralProvider {
         if(bottles == 0){
             return MethodResult.of(false,"not enough experience in collector");
         }
+
+        boolean hasSpace = false;
+        for (int i = 0; i < output.getSlots(); i++) {
+            if((output.getStackInSlot(i).getCount() < output.getSlotLimit(i) && output.getStackInSlot(i).getItem().equals(Items.EXPERIENCE_BOTTLE.getDefaultInstance().getItem())) || output.getStackInSlot(i).isEmpty()){
+                hasSpace = true;
+                break;
+            }
+        }
+
+        if(!hasSpace){
+            return MethodResult.of(false,"target inventory doesn't have enough space");
+        }
+
         for (int bottle = 0; bottle < bottles ; bottle++) {
             var hasBottle = false;
             for (int i = 0; i < input.getSlots(); i++) {
@@ -68,7 +81,7 @@ public class XPBottlerPeripheral implements IPeripheral, IPeripheralProvider {
             }
             if(hasBottle){
                 for (int i = 0; i < output.getSlots(); i++) {
-                    if((output.getStackInSlot(i).getCount() < output.getSlotLimit(i) && output.getStackInSlot(i).equals(Items.EXPERIENCE_BOTTLE.getDefaultInstance())) || output.getStackInSlot(i).isEmpty()){
+                    if((output.getStackInSlot(i).getCount() < output.getSlotLimit(i) && output.getStackInSlot(i).getItem().equals(Items.EXPERIENCE_BOTTLE.getDefaultInstance().getItem())) || output.getStackInSlot(i).isEmpty()){
                         output.insertItem(i,Items.EXPERIENCE_BOTTLE.getDefaultInstance(),false);
                         collector.tileEntity.xpPoints-=8;
                         collector.tileEntity.setChanged();
