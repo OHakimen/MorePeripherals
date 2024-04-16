@@ -22,7 +22,7 @@ apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'org.spongepowered.mixin'
 
 group = 'MorePeripherals'
-version = '1.12.2'
+version = '1.13.0'
 
 java {
     archivesBaseName = 'MorePeripherals'
@@ -66,6 +66,11 @@ minecraft {
     // Default run configurations.
     // These can be tweaked, removed, or duplicated as needed.
     runs {
+        configureEach {
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${buildDir}/createSrgToMcp/output.srg"
+        }
+
         client {
             workingDirectory project.file('run')
 
@@ -184,12 +189,12 @@ repositories {
     //     dir 'libs'
     // }
     //CC:Tweaked
-    maven {
-        url "https://squiddev.cc/maven/"
-        content {
-            includeGroup("cc.tweaked")
-            includeModule("org.squiddev", "Cobalt")
-            includeModule("fuzs.forgeconfigapiport", "forgeconfigapiport-fabric")
+    repositories {
+        maven {
+            url "https://squiddev.cc/maven/"
+            content {
+                includeGroup("cc.tweaked")
+            }
         }
     }
     maven {
@@ -205,7 +210,7 @@ dependencies {
     // Specify the version of Minecraft to use. If this is any group other than 'net.minecraft' it is assumed
     // that the dep is a ForgeGradle 'patcher' dependency, and its patches will be applied.
     // The userdev artifact is a special name and will get all sorts of transformations applied to it.
-    minecraft 'net.minecraftforge:forge:1.20.1-47.0.1'
+    minecraft 'net.minecraftforge:forge:1.20.1-47.2.23'
     // Real mod deobf dependency examples - these get remapped to your current mappings
     // compileOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}:api") // Adds JEI API as a compile dependency
     // runtimeOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}") // Adds the full JEI mod as a runtime dependency
@@ -217,8 +222,13 @@ dependencies {
     // For more info...
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
-    compileOnly (fg.deobf("cc.tweaked:cc-tweaked-1.20.1-forge-api:1.105.0"))
-    implementation (fg.deobf("cc.tweaked:cc-tweaked-1.20.1-forge:1.105.0"))
+
+
+    compileOnly ("cc.tweaked:cc-tweaked-1.20.1-core-api:1.110.2")
+    compileOnly (fg.deobf("cc.tweaked:cc-tweaked-1.20.1-forge-api:1.110.2"))
+    implementation (fg.deobf("cc.tweaked:cc-tweaked-1.20.1-forge:1.110.2"))
+
+
 
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 }

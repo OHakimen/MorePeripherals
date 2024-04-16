@@ -8,6 +8,8 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
+import java.util.Scanner;
+
 public class BlockEntityRegister {
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITY = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES,
             MorePeripherals.mod_id);
@@ -44,6 +46,9 @@ public class BlockEntityRegister {
 
     public static final RegistryObject<BlockEntityType<PlayerInterfaceEntity>> playerInterface = BLOCK_ENTITY.register("player_interface_entity",
             () -> BlockEntityType.Builder.of(PlayerInterfaceEntity::new,BlockRegister.playerInterface.get()).build(null));
+
+    public static final RegistryObject<BlockEntityType<ScannerEntity>> scanner = BLOCK_ENTITY.register("scanner_entity",
+            () -> BlockEntityType.Builder.of(ScannerEntity::new,BlockRegister.scanner.get()).build(null));
 
 
     public static void register(IEventBus bus){

@@ -4,6 +4,7 @@ import com.hakimen.peripherals.blocks.tile_entities.FacadedBlockEntity;
 import com.hakimen.peripherals.client.ber.AdvancedDiskRaidRenderer;
 import com.hakimen.peripherals.client.ber.DiskRaidRenderer;
 import com.hakimen.peripherals.client.ber.MagneticCardManipulatorRenderer;
+import com.hakimen.peripherals.client.ber.ScannerRenderer;
 import com.hakimen.peripherals.client.model.CableBakedModel;
 import com.hakimen.peripherals.config.Config;
 import com.hakimen.peripherals.registry.*;
@@ -66,6 +67,7 @@ public class MorePeripherals {
 
         @SubscribeEvent
         public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
+            event.registerBlockEntityRenderer(BlockEntityRegister.scanner.get(), ScannerRenderer::new);
             event.registerBlockEntityRenderer(BlockEntityRegister.diskRaidEntity.get(), DiskRaidRenderer::new);
             event.registerBlockEntityRenderer(BlockEntityRegister.advancedDiskRaidEntity.get(), AdvancedDiskRaidRenderer::new);
             event.registerBlockEntityRenderer(BlockEntityRegister.magneticCardManipulator.get(), MagneticCardManipulatorRenderer::new);

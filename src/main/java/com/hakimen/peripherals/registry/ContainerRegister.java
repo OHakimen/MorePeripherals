@@ -9,6 +9,8 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
+import java.util.Scanner;
+
 public class ContainerRegister {
     public static final DeferredRegister<MenuType<?>> CONTAINERS = DeferredRegister.create(ForgeRegistries.MENU_TYPES, MorePeripherals.mod_id);
 
@@ -18,8 +20,9 @@ public class ContainerRegister {
     public static final RegistryObject<MenuType<MagneticCardManipulatorContainer>> magneticCardManipulatorContainer = CONTAINERS.register("magnetic_card_manipulator", ()-> IForgeMenuType.create(((windowId, inv, data) -> new MagneticCardManipulatorContainer(windowId,data.readBlockPos(),inv,inv.player))));
     public static final RegistryObject<MenuType<KeyboardContainer>> keyboardContainer = CONTAINERS.register("keyboard", ()-> IForgeMenuType.create(((windowId, inv, data) -> new KeyboardContainer(windowId))));
     public static final RegistryObject<MenuType<EnderChestInterfaceContainer>> enderChestInterfaceContainer = CONTAINERS.register("ender_chest_interface", ()-> IForgeMenuType.create(((windowId, inv, data) -> new EnderChestInterfaceContainer(windowId,data.readBlockPos(),inv,inv.player))));
-
     public static final RegistryObject<MenuType<PlayerInterfaceContainer>> playerInterfaceContainer = CONTAINERS.register("player_interface", ()-> IForgeMenuType.create(((windowId, inv, data) -> new PlayerInterfaceContainer(windowId,data.readBlockPos(),inv,inv.player))));
+    public static final RegistryObject<MenuType<ScannerContainer>> scannerContainer = CONTAINERS.register("scanner", ()-> IForgeMenuType.create(((windowId, inv, data) -> new ScannerContainer(windowId,data.readBlockPos(),inv,inv.player))));
+
 
     public static void register(IEventBus bus){
         CONTAINERS.register(bus);

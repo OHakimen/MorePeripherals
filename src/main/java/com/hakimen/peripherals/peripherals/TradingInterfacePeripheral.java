@@ -7,6 +7,8 @@ import dan200.computercraft.api.lua.MethodResult;
 import dan200.computercraft.api.peripheral.IComputerAccess;
 import dan200.computercraft.api.peripheral.IPeripheral;
 import dan200.computercraft.api.peripheral.IPeripheralProvider;
+import dan200.computercraft.impl.Peripherals;
+import dan200.computercraft.shared.peripheral.generic.methods.InventoryMethods;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.Container;
@@ -92,13 +94,14 @@ public class TradingInterfacePeripheral implements IPeripheral, IPeripheralProvi
             offerList.add(map);
         });
         return MethodResult.of(true,offerList);
+
     }
 
     @LuaFunction(mainThread = true)
     public final MethodResult trade(IComputerAccess computer,String from,String to,int trade)  {
         if(tileEntity.villager == null)
             return MethodResult.of(false,"villager not in range");
-        if(trade-1 < 0 || trade-1 > tileEntity.villager.getOffers().stream().toList().size())
+        if(trade-1 < 0 || trade-1 > tileEntity.villager.getOffers().stream().toList().size()-1)
             return MethodResult.of(false,"trade index out of range");
         MerchantOffer offer = tileEntity.villager.getOffers().stream().toList().get(trade-1);
 

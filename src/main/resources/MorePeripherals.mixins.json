@@ -1,16 +1,16 @@
 {
-    "required": true,
-    "minVersion": "0.8",
-    "package": "com.hakimen.peripherals.mixin",
-    "compatibilityLevel": "JAVA_8",
-    "refmap": "moreperipherals.refmap.json",
-    "mixins": [
-        "CableBlockMixin",
-        "CableFacadeMixin"
-    ],
-    "client": [
-    ],
-    "injectors": {
-        "defaultRequire": 1
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.hakimen.peripherals.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "refmap": "moreperipherals.refmap.json",
+  "mixins": [
+    "CableBlockMixin",
+    "CableFacadeMixin"
+  ],
+  "client": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
   }
 }

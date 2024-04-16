@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "peripherals:block/scanner"
+    },
+    "facing=south": {
+      "model": "peripherals:block/scanner",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "peripherals:block/scanner",
+      "y": 270
+    },
+    "facing=east": {
+      "model": "peripherals:block/scanner",
+      "y": 90
+    }
+  }
+}

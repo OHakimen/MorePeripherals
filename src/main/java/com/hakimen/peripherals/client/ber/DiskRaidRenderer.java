@@ -21,7 +21,7 @@ public class DiskRaidRenderer implements BlockEntityRenderer<DiskRaidEntity> {
 
 
     @Override
-    public void render(DiskRaidEntity entity, float partialTicks, PoseStack stack, MultiBufferSource buffer, int overlay, int packedLight) {
+    public void render(DiskRaidEntity entity, float partialTicks, PoseStack stack, MultiBufferSource buffer, int packedLight, int overlay) {
         ItemRenderer itemRenderer = Minecraft.getInstance().getItemRenderer();
         var slots = new ItemStack[]{
                 entity.inventory.getStackInSlot(0),
@@ -71,7 +71,7 @@ public class DiskRaidRenderer implements BlockEntityRenderer<DiskRaidEntity> {
                     Minecraft.getInstance().level,
                     packedLight,
                     overlay,
-                    1);
+                    0);
             stack.popPose();
             z = 0;
             x = 0;

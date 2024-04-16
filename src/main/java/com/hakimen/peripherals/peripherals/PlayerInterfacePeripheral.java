@@ -15,6 +15,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.Container;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -23,6 +24,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.levelgen.WorldDimensions;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
@@ -66,13 +68,13 @@ public class PlayerInterfacePeripheral implements IPeripheral, IPeripheralProvid
     }
     public Player getPlayer() {
         UUID ownerUUID = entity.inventory.getStackInSlot(0).getOrCreateTag().getUUID("Bind");
-        Player player = entity.getLevel().getPlayerByUUID(ownerUUID);
+        Player player = entity.getLevel().getServer().getPlayerList().getPlayer(ownerUUID);
         return player;
     }
 
     public Inventory getInventory() {
         UUID ownerUUID = entity.inventory.getStackInSlot(0).getOrCreateTag().getUUID("Bind");
-        Player player = entity.getLevel().getPlayerByUUID(ownerUUID);
+        Player player = entity.getLevel().getServer().getPlayerList().getPlayer(ownerUUID);
         return player != null ? player.getInventory() : null;
     }
 
@@ -120,6 +122,9 @@ public class PlayerInterfacePeripheral implements IPeripheral, IPeripheralProvid
         }
 
         data.put("effects",effects);
+
+        data.put("dimension", player.level().dimension().location().toString());
+
 
         return MethodResult.of(data);
     }

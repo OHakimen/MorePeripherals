@@ -22,7 +22,7 @@ public class MagneticCardManipulatorRenderer implements BlockEntityRenderer<Magn
 
 
     @Override
-    public void render(MagneticCardManiputalorEntity entity, float partialTicks, PoseStack stack, MultiBufferSource buffer, int overlay, int packedLight) {
+    public void render(MagneticCardManiputalorEntity entity, float partialTicks, PoseStack stack, MultiBufferSource buffer, int packedLight, int overlay) {
         ItemRenderer itemRenderer = Minecraft.getInstance().getItemRenderer();
 
         stack.pushPose();

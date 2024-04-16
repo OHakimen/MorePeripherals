@@ -21,7 +21,7 @@ public class AdvancedDiskRaidRenderer implements BlockEntityRenderer<AdvancedDis
 
 
     @Override
-    public void render(AdvancedDiskRaidEntity entity, float partialTicks, PoseStack stack, MultiBufferSource buffer, int overlay, int packedLight) {
+    public void render(AdvancedDiskRaidEntity entity, float partialTicks, PoseStack stack, MultiBufferSource buffer,int packedLight, int overlay) {
         ItemRenderer itemRenderer = Minecraft.getInstance().getItemRenderer();
         var slots = new ItemStack[][]{
                 {

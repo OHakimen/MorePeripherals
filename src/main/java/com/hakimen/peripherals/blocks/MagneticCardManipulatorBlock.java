@@ -35,7 +35,7 @@ public class MagneticCardManipulatorBlock extends Block implements EntityBlock {
     public static final DirectionProperty FACING = BlockStateProperties.FACING;
 
     public MagneticCardManipulatorBlock() {
-        super(Properties.copy(Blocks.DIRT).strength(2f, 2f).sound(SoundType.STONE));
+        super(Properties.copy(Blocks.GLASS).strength(2f, 2f).sound(SoundType.STONE));
         registerDefaultState( getStateDefinition().any()
                 .setValue( FACING, Direction.UP ));
     }

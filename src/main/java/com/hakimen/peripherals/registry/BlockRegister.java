@@ -89,6 +89,12 @@ public class BlockRegister {
         return new BlockItem(playerInterface.get(),new Item.Properties());
     });
 
+    public static final RegistryObject<ScannerBlock> scanner = BLOCKS.register("scanner",
+            ScannerBlock::new);
+    public static final RegistryObject<Item> scannerItem = ItemRegister.ITEMS.register("scanner",()->{
+        return new BlockItem(scanner.get(),new Item.Properties());
+    });
+
     public static void register(IEventBus bus){
         BLOCKS.register(bus);
     }

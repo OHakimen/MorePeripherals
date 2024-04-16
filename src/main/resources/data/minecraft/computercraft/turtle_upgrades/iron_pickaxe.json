@@ -1,5 +1,0 @@
-{
-  "type": "computercraft:tool",
-  "item": "minecraft:iron_pickaxe",
-  "breakable" : "peripherals:iron_pick"
-}

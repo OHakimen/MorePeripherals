@@ -43,5 +43,7 @@ public class ComputerCraftRegister {
         ForgeComputerCraftAPI.registerPeripheralProvider(new AdvancedDiskRaidPeripheral());
         ForgeComputerCraftAPI.registerPeripheralProvider(new EnderChestInterfacePeripheral());
         ForgeComputerCraftAPI.registerPeripheralProvider(new PlayerInterfacePeripheral());
+
+        ForgeComputerCraftAPI.registerPeripheralProvider(new ScannerPeripheral());
     }
 }

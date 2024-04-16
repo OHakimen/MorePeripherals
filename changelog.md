@@ -1,3 +1,24 @@
+1.20.1-1.13.0
+---
+### Added
+
+#### Scanner
+
+New peripheral that can read the data off of printed books, written books, and book and quills
+
+### Changes
+
+Player interface now can know in what dimension a player is
+
+### Removed
+
+Removed the extended pickaxes from the possible tools for a turtle
+
+### Fixed
+Trading interface throwing ArrayIndexOutOfBounds while trying to access the last trade
+
+
+
 1.20.1-1.12.2
 ---
 ### Fixed
@@ -17,7 +38,7 @@ Some functions didn't work as they should
 1.20.1-1.12
 ---
 
-## Added
+### Added
 
 ### Player Card
 
@@ -47,14 +68,14 @@ the inventory
 
 Turtles can equip the bag to access the turtle owner's ender chest
 
-## Fixed
+### Fixed
 
 - Peripherals wouldn't drop themselves 
 
 1.20.1-1.11
 ---
 
-## Added
+### Added
 
 ### Keyboards !
 
@@ -65,11 +86,11 @@ it can be configurated up to 128 blocks
 Players can still move the camera around and interact with monitors
 and other blocks
 
-## Changes
+### Changes
 
 Magnetic cards are now dyeable 
 
-## Fixed
+### Fixed
 
 - Random peripheral detach from the Magnetic Card Manipulator
 - Anvil interface now returns an error if the slot that it will be
@@ -79,17 +100,17 @@ renamed doesn't have an item
 1.20.1-1.10.1
 ---
 
-## Fixed
+### Fixed
 
 Cable facades are now rendered as part of the cable model 
 
 1.20.1-1.10
 ---
 
-## Added
+### Added
 
 Cable facades, computercraft networking cables can now be hidden
 
-## Fixed
+### Fixed
 
 Trading interfaces couldn't do trades

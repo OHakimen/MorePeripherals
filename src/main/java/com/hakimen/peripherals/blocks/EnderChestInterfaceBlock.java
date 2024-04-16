@@ -93,7 +93,7 @@ public class EnderChestInterfaceBlock extends Block implements EntityBlock {
             }
         }
 
-        return super.use(state, level, pos, player, hand, hitResult);
+        return InteractionResult.SUCCESS;
     }
     @Override
     public boolean onDestroyedByPlayer(BlockState state, Level level, BlockPos pos, Player player, boolean willHarvest, FluidState fluid) {

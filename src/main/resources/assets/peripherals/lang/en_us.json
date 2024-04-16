@@ -17,6 +17,7 @@
   "block.peripherals.magnetic_card_manipulator" : "Magnetic Card Manipulator",
   "block.peripherals.ender_chest_interface": "Ender Chest Interface",
   "block.peripherals.player_interface": "Player Interface",
+  "block.peripherals.scanner": "Scanner",
 
   "item.peripherals.spawner_card": "Spawner Card",
 
@@ -41,8 +42,6 @@
   "item.peripherals.player_card": "Player Card",
   "item.peripherals.player_card.bound": "Bound to %s",
 
-
-
   "item.peripherals.ender_bag": "Ender Bag",
   "item.peripherals.ender_bag.desc": "Accesses personal ender chest",
 
@@ -54,6 +53,7 @@
   "gui.peripherals.player_interface.name": "Player Interface",
   "gui.peripherals.advanceddiskraid.name": "Advanced Drive Raid",
   "gui.peripherals.magnetic_card_manipulator.name": "Magnetic Card Manipulator",
+  "gui.peripherals.scanner.name": "Scanner",
 
   "upgrade.minecraft.netherite_axe.adjective": "Felling",
   "upgrade.minecraft.netherite_pickaxe.adjective": "Mining",
